@@ -12,5 +12,14 @@
     <depends>com.redhat.devtools.lsp4ij</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="RON"
+                language="RON"
+                extensions="ron"
+                implementationClass="com.github.unclepomedev.ronassist.lang.RonFileType"/>
+
+        <lang.parserDefinition
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.parser.RonParserDefinition"/>
     </extensions>
 </idea-plugin>

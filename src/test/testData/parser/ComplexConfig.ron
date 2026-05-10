@@ -1,0 +1,21 @@
+// Main Game Configuration
+AppConfig(
+    window: WindowSettings(
+        width: 1920,
+        height: 1080,
+        fullscreen: true,
+    ),
+    /*
+       Localization settings
+       Supported: en, ja
+    */
+    localization: {
+        "ui.button.start": "Game Start",
+        "ui.button.exit": "Quit",
+        "dialogue.act1": [
+            "Hello, traveler.",
+            "Welcome to the village.",
+        ],
+    },
+    flags: [0x01, 0x02, 0x04, 0x08],
+)
