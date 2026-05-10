@@ -3,3 +3,6 @@ lp:
     set -e
     rm -rf src/main/gen
     ./gradlew generateLexer generateParser
+
+c:
+    ./gradlew check
