@@ -11,28 +11,50 @@ import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 class RonPostFormatProcessor : PostFormatProcessor {
 
     /**
-     * Post-processes the specified PSI element after standard formatting. Currently performs no modifications.
+     * Post-processes the PSI element after formatting, ensuring the file ends with a
+     * single POSIX-compliant trailing newline.
      */
     override fun processElement(source: PsiElement, settings: CodeStyleSettings): PsiElement {
+        if (source is PsiFile && source.fileType == RON_FILE_TYPE) {
+            ensurePosixNewline(source)
+        }
         return source
     }
 
     /**
-     * Post-processes the formatted text range, ensuring that RON files end with a trailing newline at EOF.
+     * Post-processes the formatted text range, enforcing a trailing newline if the
+     * formatted range reaches the end of the file.
      */
     override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
-        if (source.fileType != RON_FILE_TYPE) return rangeToReformat
-
-        val document = source.viewProvider.document ?: return rangeToReformat
-        val text = document.text
-        val eofOffset = document.textLength
-
-        if (text.isNotEmpty() && !text.endsWith("\n") && rangeToReformat.endOffset >= eofOffset) {
-            document.insertString(eofOffset, "\n")
-            PsiDocumentManager.getInstance(source.project).commitDocument(document)
-            return TextRange(rangeToReformat.startOffset, rangeToReformat.endOffset + 1)
+        if (source.fileType == RON_FILE_TYPE && rangeToReformat.endOffset >= source.textLength) {
+            ensurePosixNewline(source)
         }
-
         return rangeToReformat
+    }
+
+    /**
+     * Cleans up trailing whitespaces at the end of the document and guarantees
+     * that it ends with exactly one newline character.
+     */
+    private fun ensurePosixNewline(file: PsiFile) {
+        val project = file.project
+        val documentManager = PsiDocumentManager.getInstance(project)
+        val document = documentManager.getDocument(file) ?: return
+
+        val chars = document.charsSequence
+        var lastNonWsIndex = chars.length - 1
+
+        while (lastNonWsIndex >= 0 && chars[lastNonWsIndex].isWhitespace()) {
+            lastNonWsIndex--
+        }
+        if (lastNonWsIndex == -1) return
+
+        val replaceStart = lastNonWsIndex + 1
+        val trailingWhitespace = chars.subSequence(replaceStart, chars.length).toString()
+
+        if (trailingWhitespace == "\n") return
+
+        document.replaceString(replaceStart, chars.length, "\n")
+        documentManager.commitDocument(document)
     }
 }

@@ -29,8 +29,8 @@ class RonBlock(
     }
 
     /**
-     * Calculates the block's indentation, applying standard indents inside maps, lists,
-     * and structs while keeping enclosing brackets unindented.
+     * Calculates the block's indentation, applying normal indents inside maps, lists,
+     * and structs while keeping enclosing brackets and identifiers unindented.
      */
     override fun getIndent(): Indent? {
         val parentType = myNode.treeParent?.elementType
@@ -39,7 +39,8 @@ class RonBlock(
         if (parentType == RonTypes.MAP || parentType == RonTypes.LIST || parentType == RonTypes.STRUCT_OR_TUPLE) {
             if (type == RonTypes.LBRACE || type == RonTypes.RBRACE ||
                 type == RonTypes.LBRACK || type == RonTypes.RBRACK ||
-                type == RonTypes.LPAREN || type == RonTypes.RPAREN
+                type == RonTypes.LPAREN || type == RonTypes.RPAREN ||
+                type == RonTypes.IDENTIFIER
             ) {
                 return Indent.getNoneIndent()
             }
@@ -49,10 +50,25 @@ class RonBlock(
     }
 
     /**
-     * Determines the required spacing between two child blocks based on the predefined spacing rules.
+     * Defines indentation attributes for newly inserted child blocks, ensuring standard
+     * indents when adding items inside maps, lists, or structs.
+     */
+    override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
+        val type = myNode.elementType
+        if (type == RonTypes.MAP || type == RonTypes.LIST || type == RonTypes.STRUCT_OR_TUPLE) {
+            return ChildAttributes(Indent.getNormalIndent(), null)
+        }
+        return ChildAttributes(Indent.getNoneIndent(), null)
+    }
+
+    /**
+     * Determines spacing between child blocks using predefined rules, falling back
+     * to a default line-break-preserving spacing if no specific rule applies.
      */
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
-        return spacingBuilder.getSpacing(this, child1, child2)
+        val spacing = spacingBuilder.getSpacing(this, child1, child2)
+        if (spacing != null) return spacing
+        return Spacing.createSpacing(0, Int.MAX_VALUE, 0, true, 1)
     }
 
     /**
