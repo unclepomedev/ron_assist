@@ -62,13 +62,11 @@ class RonBlock(
     }
 
     /**
-     * Determines spacing between child blocks using predefined rules, falling back
-     * to a default line-break-preserving spacing if no specific rule applies.
+     * Determines the required spacing between two child blocks based solely on the
+     * predefined spacing rules, returning null if no rule applies.
      */
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
-        val spacing = spacingBuilder.getSpacing(this, child1, child2)
-        if (spacing != null) return spacing
-        return Spacing.createSpacing(0, Int.MAX_VALUE, 0, true, 1)
+        return spacingBuilder.getSpacing(this, child1, child2)
     }
 
     /**

@@ -12,9 +12,6 @@ class RonFormattingModelBuilder : FormattingModelBuilder {
      */
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         val settings = formattingContext.codeStyleSettings
-        val commonSettings = settings.getCommonSettings(RonLanguage.INSTANCE)
-
-        commonSettings.KEEP_BLANK_LINES_IN_CODE = 1
 
         val spacingBuilder = createSpacingBuilder(settings)
         val block = RonBlock(formattingContext.node, null, null, spacingBuilder)
