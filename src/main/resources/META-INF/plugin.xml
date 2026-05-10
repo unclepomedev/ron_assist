@@ -31,5 +31,8 @@
                 implementation="com.github.unclepomedev.ronassist.formatting.RonPostFormatProcessor"/>
         <langCodeStyleSettingsProvider
                 implementation="com.github.unclepomedev.ronassist.formatting.RonLanguageCodeStyleSettingsProvider"/>
+        <lang.commenter
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.editor.RonCommenter"/>
     </extensions>
 </idea-plugin>
