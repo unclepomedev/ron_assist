@@ -9,7 +9,7 @@ abstract class RonFormatterTestCaseBase : BasePlatformTestCase() {
     override fun getTestDataPath(): String = "src/test/testData/formatter"
 
     protected fun doTest() {
-        val testName = getTestName(true)
+        val testName = getTestName(false)
         myFixture.configureByFile("$testName/before.ron")
         WriteCommandAction.runWriteCommandAction(project) {
             CodeStyleManager.getInstance(project).reformat(myFixture.file)
