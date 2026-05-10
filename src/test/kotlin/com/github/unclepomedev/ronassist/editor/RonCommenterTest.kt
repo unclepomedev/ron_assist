@@ -30,11 +30,11 @@ class RonCommenterTest : BasePlatformTestCase() {
     }
 
     fun testMultiLineLineComment() {
-        doTest()
+        doTest(IdeActions.ACTION_COMMENT_LINE)
     }
 
     fun testBlockCommentMultiLine() {
-        doTest()
+        doTest(IdeActions.ACTION_COMMENT_BLOCK)
     }
 
     fun testEmptyLineComment() {
@@ -44,10 +44,10 @@ class RonCommenterTest : BasePlatformTestCase() {
     }
 
     override fun getTestDataPath() = "src/test/testData/commenter"
-    private fun doTest() {
+    private fun doTest(actionId: String) {
         val textName = getTestName(false)
         myFixture.configureByFile("$textName/before.ron")
-        myFixture.performEditorAction(IdeActions.ACTION_COMMENT_LINE)
-        myFixture.configureByFile("$textName/after.ron")
+        myFixture.performEditorAction(actionId)
+        myFixture.checkResultByFile("$textName/after.ron")
     }
 }
