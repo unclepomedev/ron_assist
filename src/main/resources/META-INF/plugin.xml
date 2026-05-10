@@ -21,5 +21,8 @@
         <lang.parserDefinition
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.parser.RonParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.highlighting.RonSyntaxHighlighterFactory"/>
     </extensions>
 </idea-plugin>

@@ -6,3 +6,6 @@ lp:
 
 c:
     ./gradlew check
+
+r:
+    ./gradlew runIde
