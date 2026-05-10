@@ -20,7 +20,8 @@
       ],
       "groupName": "github actions",
       "automerge": false,
-      "automergeType": "pr"
+      "automergeType": "pr",
+      "pinDigests": true
     },
     {
       "description": "IntelliJ Platform version",
