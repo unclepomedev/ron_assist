@@ -9,10 +9,17 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.codeStyle.PostFormatProcessor
 
 class RonPostFormatProcessor : PostFormatProcessor {
+
+    /**
+     * Post-processes the specified PSI element after standard formatting. Currently performs no modifications.
+     */
     override fun processElement(source: PsiElement, settings: CodeStyleSettings): PsiElement {
         return source
     }
 
+    /**
+     * Post-processes the formatted text range, ensuring that RON files end with a trailing newline at EOF.
+     */
     override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
         if (source.fileType != RON_FILE_TYPE) return rangeToReformat
 

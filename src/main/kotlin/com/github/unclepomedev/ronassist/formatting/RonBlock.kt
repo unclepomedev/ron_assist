@@ -13,6 +13,9 @@ class RonBlock(
     private val spacingBuilder: SpacingBuilder
 ) : AbstractBlock(node, wrap, alignment) {
 
+    /**
+     * Builds child formatting blocks for the current AST node, filtering out whitespaces and empty nodes.
+     */
     override fun buildChildren(): List<Block> {
         val blocks = mutableListOf<Block>()
         var child = myNode.firstChildNode
@@ -25,6 +28,10 @@ class RonBlock(
         return blocks
     }
 
+    /**
+     * Calculates the block's indentation, applying standard indents inside maps, lists,
+     * and structs while keeping enclosing brackets unindented.
+     */
     override fun getIndent(): Indent? {
         val parentType = myNode.treeParent?.elementType
         val type = myNode.elementType
@@ -41,9 +48,15 @@ class RonBlock(
         return Indent.getNoneIndent()
     }
 
+    /**
+     * Determines the required spacing between two child blocks based on the predefined spacing rules.
+     */
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
         return spacingBuilder.getSpacing(this, child1, child2)
     }
 
+    /**
+     * Returns true if the block has no child nodes, marking it as a leaf in the formatting tree.
+     */
     override fun isLeaf(): Boolean = myNode.firstChildNode == null
 }

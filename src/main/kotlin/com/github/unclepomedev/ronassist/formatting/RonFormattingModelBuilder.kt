@@ -6,6 +6,10 @@ import com.intellij.formatting.*
 import com.intellij.psi.codeStyle.CodeStyleSettings
 
 class RonFormattingModelBuilder : FormattingModelBuilder {
+
+    /**
+     * Creates the core formatting model for a RON file, initializing spacing rules and block hierarchies.
+     */
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         val settings = formattingContext.codeStyleSettings
         val commonSettings = settings.getCommonSettings(RonLanguage.INSTANCE)
