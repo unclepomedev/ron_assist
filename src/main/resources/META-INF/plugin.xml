@@ -16,7 +16,6 @@
                 name="RON"
                 language="RON"
                 extensions="ron"
-                fieldName="INSTANCE"
                 implementationClass="com.github.unclepomedev.ronassist.lang.RonFileType"/>
 
         <lang.parserDefinition

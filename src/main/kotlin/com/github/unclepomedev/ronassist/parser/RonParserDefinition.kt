@@ -13,13 +13,15 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
+val RON_FILE_NODE_TYPE = IFileElementType(com.github.unclepomedev.ronassist.lang.RonLanguage.INSTANCE)
+
 class RonParserDefinition : ParserDefinition {
 
     override fun createLexer(project: Project?): Lexer = RonLexerAdapter()
 
     override fun createParser(project: Project?): PsiParser = RonParser()
 
-    override fun getFileNodeType(): IFileElementType = FILE
+    override fun getFileNodeType(): IFileElementType = RON_FILE_NODE_TYPE
 
     override fun getCommentTokens(): TokenSet = TokenSet.create(RonTypes.LINE_COMMENT, RonTypes.BLOCK_COMMENT)
 
@@ -31,8 +33,4 @@ class RonParserDefinition : ParserDefinition {
 
     override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements =
         ParserDefinition.SpaceRequirements.MAY
-
-    companion object {
-        val FILE = IFileElementType(com.github.unclepomedev.ronassist.lang.RonLanguage.INSTANCE)
-    }
 }
