@@ -24,5 +24,12 @@
         <lang.syntaxHighlighterFactory
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.highlighting.RonSyntaxHighlighterFactory"/>
+        <lang.formatter
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.formatting.RonFormattingModelBuilder"/>
+        <postFormatProcessor
+                implementation="com.github.unclepomedev.ronassist.formatting.RonPostFormatProcessor"/>
+        <langCodeStyleSettingsProvider
+                implementation="com.github.unclepomedev.ronassist.formatting.RonLanguageCodeStyleSettingsProvider"/>
     </extensions>
 </idea-plugin>

@@ -1,0 +1,10 @@
+AppConfig(
+    window: WindowSettings(
+        width: 1920,
+        height: 1080,
+    ),
+    localization: {
+        "ja": "こんにちは",
+        "en": "Hello",
+    }
+)

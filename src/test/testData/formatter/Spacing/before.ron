@@ -1,0 +1,5 @@
+(
+    name :"Test"   ,
+    value:100,
+    flags: [ 1,2 , 3 ]
+)
