@@ -1,4 +1,0 @@
-Config(
-    version: 1,
-    paths: ["/bin", "/usr/bin"],
-)

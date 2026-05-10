@@ -7,7 +7,7 @@ class RonLexerTest : LexerTestCase() {
     override fun createLexer(): Lexer = RonLexerAdapter()
     override fun getDirPath(): String = "src/test/testData/lexer"
 
-    fun testHelloWorld() {
+    fun testBasicKeywords() {
         doTest(
             "Struct( field: 42i32 )",
             "RonTokenType.IDENTIFIER ('Struct')\n" +

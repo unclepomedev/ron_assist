@@ -1,0 +1,15 @@
+(
+    empty_list: [],
+    num_list: [1, 2, 3],
+    list_with_trailing: ["a", "b",],
+
+    empty_map: {},
+    simple_map: {
+        "key1": 100,
+        "key2": 200
+    },
+    map_with_trailing: {
+        1: true,
+        2: false,
+    },
+)

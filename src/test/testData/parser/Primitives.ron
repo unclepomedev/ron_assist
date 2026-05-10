@@ -1,0 +1,14 @@
+(
+    bool_true: true,
+    bool_false: false,
+    option_some: Some(42),
+    option_none: None,
+    float_std: 3.14,
+    float_suffix: 3.14f32,
+    int_std: -100,
+    int_hex: 0xDEADBEEF,
+    int_suffix: 42u8,
+    string_std: "Hello, World\n",
+    string_raw: r#"Raw "String" Test"#,
+    char_val: 'A',
+)
