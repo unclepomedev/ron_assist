@@ -47,7 +47,6 @@ value ::= option
         | list
         | map
         | struct_or_tuple
-        | unit
         | IDENTIFIER
 
 boolean ::= TRUE | FALSE
@@ -55,7 +54,6 @@ option ::= SOME LPAREN value RPAREN | NONE
 numeric ::= FLOAT | INTEGER
 string_val ::= STRING | RAW_STRING
 char_val ::= CHAR
-unit ::= LPAREN RPAREN
 
 list ::= LBRACK value_list? RBRACK
 private value_list ::= value (COMMA value)* COMMA?
