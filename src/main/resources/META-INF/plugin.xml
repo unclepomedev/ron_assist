@@ -34,5 +34,15 @@
         <lang.commenter
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.editor.RonCommenter"/>
+        <lang.foldingBuilder
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.editor.folding.RonFoldingBuilder"/>
+
+        <applicationService
+                serviceImplementation="com.github.unclepomedev.ronassist.editor.folding.RonFoldingSettings"/>
+
+        <codeFoldingOptionsProvider
+                instance="com.github.unclepomedev.ronassist.editor.folding.RonCodeFoldingOptionsProvider"/>
+
     </extensions>
 </idea-plugin>
