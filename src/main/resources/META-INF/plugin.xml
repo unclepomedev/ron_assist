@@ -29,6 +29,9 @@
         <lang.psiStructureViewFactory
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.editor.structureview.RonStructureViewFactory"/>
+        <breadcrumbsInfoProvider
+                implementation="com.github.unclepomedev.ronassist.editor.breadcrumbs.RonBreadcrumbsProvider"/>
+
         <lang.formatter
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.formatting.RonFormattingModelBuilder"/>
