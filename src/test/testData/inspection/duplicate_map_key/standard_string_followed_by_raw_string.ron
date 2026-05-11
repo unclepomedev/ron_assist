@@ -1,0 +1,4 @@
+{
+    "value": 1,
+    <warning descr="Duplicate map key">r#"value"#</warning>: 2,
+}

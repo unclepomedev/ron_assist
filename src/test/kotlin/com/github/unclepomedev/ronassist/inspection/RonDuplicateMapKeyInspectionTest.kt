@@ -21,6 +21,9 @@ class RonDuplicateMapKeyInspectionTest : BasePlatformTestCase() {
     fun testSingleEntry() = doTest()
     fun testStructKeyDuplicate() = doTest()
     fun testStructKeyDifferentContent() = doTest()
+    fun testStringAndRawString() = doTest()
+    fun testStandardStringFollowedByRawString() = doTest()
+    fun testStringAndNumberAreDistinct() = doTest()
 
     private fun doTest() {
         val name = getTestName(true)

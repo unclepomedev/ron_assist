@@ -1,0 +1,4 @@
+{
+    "key": 1,
+    <warning descr="Duplicate map key">r"key"</warning>: 2,
+}

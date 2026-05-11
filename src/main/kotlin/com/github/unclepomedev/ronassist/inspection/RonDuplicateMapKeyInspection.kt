@@ -1,6 +1,8 @@
 package com.github.unclepomedev.ronassist.inspection
 
 import com.github.unclepomedev.ronassist.psi.RonMap
+import com.github.unclepomedev.ronassist.psi.RonStringVal
+import com.github.unclepomedev.ronassist.psi.RonValue
 import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemHighlightType
@@ -16,9 +18,8 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
     ): PsiElementVisitor = object : PsiElementVisitor() {
 
         /**
-         * Inspects each RonMap in the file and reports map entries whose key
-         * has already been seen in the same map, leaving the first occurrence
-         * untouched.
+         * Inspects each RonMap in the file and reports map entries whose key has
+         * already been seen in the same map, leaving the first occurrence untouched.
          */
         override fun visitElement(element: PsiElement) {
             if (element !is RonMap) return
@@ -26,8 +27,8 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
             val seen = HashSet<String>()
             for (entry in RonPsiImplUtil.getEntries(element)) {
                 val key = RonPsiImplUtil.getKey(entry) ?: continue
-                val keyText = key.text
-                if (!seen.add(keyText)) {
+                val canonical = canonicalKey(key)
+                if (!seen.add(canonical)) {
                     holder.registerProblem(
                         key,
                         RonInspectionBundle.message("inspection.map.duplicate.key.problem"),
@@ -36,5 +37,34 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
                 }
             }
         }
+    }
+
+    /**
+     * Computes a canonical key string so that equivalent literals collapse to
+     * the same form. Currently normalizes standard and raw strings; escape
+     * sequences and numeric bases are intentionally not normalized.
+     */
+    private fun canonicalKey(key: RonValue): String {
+        return when (val child = key.firstChild) {
+            is RonStringVal -> "str:${stripStringQuotes(child.text)}"
+            else -> "raw:${key.text}"
+        }
+    }
+
+    /** Strips surrounding quotes and any raw-string `r`/`#` markers. */
+    private fun stripStringQuotes(text: String): String {
+        // raw string forms: r"..."   or   r##"..."##
+        if (text.startsWith("r")) {
+            val firstQuote = text.indexOf('"')
+            val lastQuote = text.lastIndexOf('"')
+            if (firstQuote in 1 until lastQuote) {
+                return text.substring(firstQuote + 1, lastQuote)
+            }
+        }
+        // standard string: "..."
+        if (text.length >= 2 && text.first() == '"' && text.last() == '"') {
+            return text.substring(1, text.length - 1)
+        }
+        return text  // fallback
     }
 }
