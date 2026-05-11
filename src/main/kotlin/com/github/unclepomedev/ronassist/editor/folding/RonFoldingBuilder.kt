@@ -30,10 +30,11 @@ class RonFoldingBuilder : CustomFoldingBuilder(), DumbAware {
             when {
                 element is RonMap ||
                         element is RonList ||
-                        element is RonStructOrTuple -> addFoldIfMultiline(element, descriptors)
+                        element is RonStructOrTuple ->
+                    addFoldIfMultiline(element, document, descriptors)
 
                 element.node.elementType == RonTypes.BLOCK_COMMENT ->
-                    addFoldIfMultiline(element, descriptors)
+                    addFoldIfMultiline(element, document, descriptors)
             }
             true
         }
@@ -41,15 +42,18 @@ class RonFoldingBuilder : CustomFoldingBuilder(), DumbAware {
 
     /**
      * Registers a fold descriptor only when the element spans multiple lines,
-     * keeping single-line constructs unfolded to avoid UI noise.
+     * using cheap document line-number comparison to avoid scanning element text.
      */
     private fun addFoldIfMultiline(
         element: PsiElement,
+        document: Document,
         descriptors: MutableList<FoldingDescriptor>
     ) {
         val range = element.textRange
         if (range.length <= 2) return
-        if (!element.textContains('\n')) return
+        val startLine = document.getLineNumber(range.startOffset)
+        val endLine = document.getLineNumber(range.endOffset)
+        if (endLine <= startLine) return
         descriptors.add(FoldingDescriptor(element.node, range))
     }
 

@@ -38,9 +38,6 @@
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.editor.folding.RonFoldingBuilder"/>
 
-        <applicationService
-                serviceImplementation="com.github.unclepomedev.ronassist.editor.folding.RonFoldingSettings"/>
-
         <codeFoldingOptionsProvider
                 instance="com.github.unclepomedev.ronassist.editor.folding.RonCodeFoldingOptionsProvider"/>
 

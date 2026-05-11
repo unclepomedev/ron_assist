@@ -10,13 +10,40 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
 
     override fun getTestDataPath() = "src/test/testData/folding"
 
+    private data class SettingsSnapshot(
+        val collapseMaps: Boolean,
+        val collapseLists: Boolean,
+        val collapseStructs: Boolean,
+        val collapseBlockComments: Boolean,
+    )
+
+    private lateinit var savedSettings: SettingsSnapshot
+
     override fun setUp() {
         super.setUp()
-        RonFoldingSettings.instance.apply {
-            collapseMaps = false
-            collapseLists = false
-            collapseStructs = false
-            collapseBlockComments = false
+        val s = RonFoldingSettings.instance
+        savedSettings = SettingsSnapshot(
+            s.collapseMaps,
+            s.collapseLists,
+            s.collapseStructs,
+            s.collapseBlockComments,
+        )
+        // Start each test from a known neutral state.
+        s.collapseMaps = false
+        s.collapseLists = false
+        s.collapseStructs = false
+        s.collapseBlockComments = false
+    }
+
+    override fun tearDown() {
+        try {
+            val s = RonFoldingSettings.instance
+            s.collapseMaps = savedSettings.collapseMaps
+            s.collapseLists = savedSettings.collapseLists
+            s.collapseStructs = savedSettings.collapseStructs
+            s.collapseBlockComments = savedSettings.collapseBlockComments
+        } finally {
+            super.tearDown()
         }
     }
 
@@ -38,21 +65,23 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
         RonFoldingSettings.instance.collapseMaps = true
         assertCollapsedByDefault<RonMap>(
             """
-            {
-                "key1": "value1",
-                "key2": "value2",
-            }
-        """.trimIndent(), expected = true
+                {
+                    "key1": "value1",
+                    "key2": "value2",
+                }
+            """.trimIndent(),
+            expected = true,
         )
     }
 
     fun testCollapsedByDefaultMapsOff() {
         assertCollapsedByDefault<RonMap>(
             """
-            {
-                "key1": "value1",
-            }
-        """.trimIndent(), expected = false
+                {
+                    "key": "value",
+                }
+            """.trimIndent(),
+            expected = false,
         )
     }
 
@@ -60,11 +89,12 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
         RonFoldingSettings.instance.collapseLists = true
         assertCollapsedByDefault<RonList>(
             """
-            [
-                1,
-                2,
-            ]
-        """.trimIndent(), expected = true
+                [
+                    1,
+                    2,
+                ]
+            """.trimIndent(),
+            expected = true,
         )
     }
 
@@ -72,11 +102,24 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
         RonFoldingSettings.instance.collapseStructs = true
         assertCollapsedByDefault<RonStructOrTuple>(
             """
-            Player(
-                name: "Reimu",
-            )
-        """.trimIndent(), expected = true
+                Player(
+                    name: "Reimu",
+                )
+            """.trimIndent(),
+            expected = true,
         )
+    }
+
+    /**
+     * Verifies that mutations from prior tests do not leak into this one,
+     * ensuring setUp/tearDown correctly restore singleton state.
+     */
+    fun testSettingsResetBetweenTests() {
+        val s = RonFoldingSettings.instance
+        assertFalse("collapseMaps should be false at test start", s.collapseMaps)
+        assertFalse("collapseLists should be false at test start", s.collapseLists)
+        assertFalse("collapseStructs should be false at test start", s.collapseStructs)
+        assertFalse("collapseBlockComments should be false at test start", s.collapseBlockComments)
     }
 
     private fun doFoldingTest() {
@@ -86,7 +129,7 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
 
     private inline fun <reified T : PsiElement> assertCollapsedByDefault(
         content: String,
-        expected: Boolean
+        expected: Boolean,
     ) {
         myFixture.configureByText("test.ron", content)
         val builder = RonFoldingBuilder()
@@ -96,7 +139,7 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
         assertEquals(
             "${T::class.simpleName} collapsedByDefault mismatch",
             expected,
-            builder.isCollapsedByDefault(descriptor.element)
+            builder.isCollapsedByDefault(descriptor.element),
         )
     }
 
