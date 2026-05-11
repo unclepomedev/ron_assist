@@ -1,0 +1,13 @@
+<fold text='{3}'>{
+    "list": <fold text='[2]'>[
+        1,
+        2,
+    ]</fold>,
+    "struct": <fold text='Config(...)'>Config(
+        enabled: true,
+        timeout: 30,
+    )</fold>,
+    "nested_map": <fold text='{1}'>{
+        "inner": "value",
+    }</fold>,
+}</fold>

@@ -1,0 +1,8 @@
+<fold text='(...)'>(
+    empty_map: <fold text='{0}'>{
+    }</fold>,
+    empty_list: <fold text='[0]'>[
+    ]</fold>,
+    empty_struct: <fold text='(...)'>(
+    )</fold>,
+)</fold>

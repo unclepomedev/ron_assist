@@ -1,0 +1,5 @@
+<fold text='/* ... */'>/*
+ * This is a multi-line
+ * block comment.
+ */</fold>
+(value: 42)
