@@ -1,0 +1,10 @@
+Game(
+    title: "Touhou",
+    players: [
+        Player(name: "Reimu"),
+        Player(name: "Marisa"),
+    ],
+    config: {
+        "volume": 80,
+    },
+)
