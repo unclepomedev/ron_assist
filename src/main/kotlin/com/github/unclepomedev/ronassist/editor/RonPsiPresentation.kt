@@ -110,4 +110,35 @@ object RonPsiPresentation {
         if (sb.isNotEmpty() && sb.last() == ' ') sb.deleteCharAt(sb.length - 1)
         return sb.toString()
     }
+
+    /**
+     * Returns a tooltip string suitable for hover-over UI such as breadcrumbs.
+     * Returns null when no useful detail can be shown beyond the primary label.
+     */
+    fun tooltipFor(element: PsiElement): String? = when (element) {
+        is RonMapEntry -> {
+            val preview = RonPsiImplUtil.getValue(element)?.let { previewValue(it) }
+                ?: return null
+            "${primaryLabel(element)} = $preview"
+        }
+        is RonStructEntry -> {
+            val preview = RonPsiImplUtil.getValue(element)?.let { previewValue(it) }
+                ?: return null
+            "${primaryLabel(element)} = $preview"
+        }
+        is RonStructOrTuple -> {
+            val name = RonPsiImplUtil.getNameIdentifier(element)?.text ?: return null
+            val fieldCount = RonPsiImplUtil.getStructEntries(element).size
+            val tupleCount = RonPsiImplUtil.getTupleValues(element).size
+            when {
+                fieldCount > 0 -> "$name with $fieldCount ${pluralize("field", fieldCount)}"
+                tupleCount > 0 -> "$name with $tupleCount ${pluralize("value", tupleCount)}"
+                else -> "$name (empty)"
+            }
+        }
+        else -> null
+    }
+
+    private fun pluralize(word: String, count: Int): String =
+        if (count == 1) word else "${word}s"
 }
