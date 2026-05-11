@@ -16,11 +16,13 @@ class RonBreadcrumbsProvider : BreadcrumbsProvider {
 
     /**
      * Surfaces entries and named structs/tuples as breadcrumb segments while
-     * skipping anonymous containers, whose summaries add noise without
-     * conveying semantic information about the user's location.
+     * skipping anonymous containers and incomplete entries whose key/name has
+     * not yet been written. Incomplete entries would otherwise display
+     * placeholder labels such as "<key>" or "<entry>".
      */
     override fun acceptElement(element: PsiElement): Boolean = when (element) {
-        is RonMapEntry, is RonStructEntry -> true
+        is RonMapEntry -> RonPsiImplUtil.getKey(element) != null
+        is RonStructEntry -> RonPsiImplUtil.getNameIdentifier(element) != null
         is RonStructOrTuple -> RonPsiImplUtil.getNameIdentifier(element) != null
         else -> false
     }

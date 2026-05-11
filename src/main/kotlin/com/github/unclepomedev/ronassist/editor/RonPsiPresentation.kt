@@ -118,13 +118,13 @@ object RonPsiPresentation {
     fun tooltipFor(element: PsiElement): String? = when (element) {
         is RonMapEntry -> {
             val preview = RonPsiImplUtil.getValue(element)?.let { previewValue(it) }
-            if (preview != null) "${primaryLabel(element)} = $preview"
-            else primaryLabel(element)
+                ?: return null
+            "${primaryLabel(element)} = $preview"
         }
         is RonStructEntry -> {
             val preview = RonPsiImplUtil.getValue(element)?.let { previewValue(it) }
-            if (preview != null) "${primaryLabel(element)} = $preview"
-            else primaryLabel(element)
+                ?: return null
+            "${primaryLabel(element)} = $preview"
         }
         is RonStructOrTuple -> {
             val name = RonPsiImplUtil.getNameIdentifier(element)?.text ?: return null
