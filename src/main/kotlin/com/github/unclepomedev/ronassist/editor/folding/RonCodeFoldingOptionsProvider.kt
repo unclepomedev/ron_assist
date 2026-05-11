@@ -1,17 +1,37 @@
 package com.github.unclepomedev.ronassist.editor.folding
 
 import com.intellij.application.options.editor.CodeFoldingOptionsProvider
-import com.intellij.openapi.options.BeanConfigurable
+import com.intellij.openapi.options.BoundConfigurable
+import com.intellij.openapi.options.SearchableConfigurable
+import com.intellij.ui.dsl.builder.bindSelected
+import com.intellij.ui.dsl.builder.panel
 
 class RonCodeFoldingOptionsProvider :
-    BeanConfigurable<RonFoldingSettings>(RonFoldingSettings.instance, "RON"),
-    CodeFoldingOptionsProvider {
+    BoundConfigurable("RON"),
+    CodeFoldingOptionsProvider,
+    SearchableConfigurable {
 
-    init {
+    override fun getId(): String = "editor.preferences.folding.ron"
+
+    override fun createPanel() = panel {
         val settings = RonFoldingSettings.instance
-        checkBox("Maps", settings::collapseMaps::get, settings::collapseMaps::set)
-        checkBox("Lists", settings::collapseLists::get, settings::collapseLists::set)
-        checkBox("Structs and tuples", settings::collapseStructs::get, settings::collapseStructs::set)
-        checkBox("Block comments", settings::collapseBlockComments::get, settings::collapseBlockComments::set)
+        group("RON") {
+            row {
+                checkBox("Maps")
+                    .bindSelected(settings::collapseMaps)
+            }
+            row {
+                checkBox("Lists")
+                    .bindSelected(settings::collapseLists)
+            }
+            row {
+                checkBox("Structs and tuples")
+                    .bindSelected(settings::collapseStructs)
+            }
+            row {
+                checkBox("Block comments")
+                    .bindSelected(settings::collapseBlockComments)
+            }
+        }
     }
 }
