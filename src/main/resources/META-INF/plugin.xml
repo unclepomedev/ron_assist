@@ -24,6 +24,8 @@
         <lang.syntaxHighlighterFactory
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.highlighting.RonSyntaxHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="com.github.unclepomedev.ronassist.highlighting.RonColorSettingsPage"/>
         <lang.formatter
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.formatting.RonFormattingModelBuilder"/>
