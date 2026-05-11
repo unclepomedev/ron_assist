@@ -1,5 +1,13 @@
 <html>
 <body>
-TODO: Write here
+Reports keys that appear more than once in the same map.
+<p>
+    RON syntactically allows duplicate map keys, but downstream deserializers
+    (such as <code>serde</code>) may silently drop earlier values or raise errors
+    depending on configuration. Duplicates are almost always unintentional.
+</p>
+<p>
+    Only the second and subsequent occurrences are highlighted.
+</p>
 </body>
 </html>

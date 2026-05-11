@@ -1,0 +1,4 @@
+(
+    name: "Reimu",
+    <warning descr="Duplicate struct field">name</warning>: "Marisa",
+)

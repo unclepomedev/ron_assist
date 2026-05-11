@@ -1,0 +1,9 @@
+Game(
+    settings: {
+        "key": 1,
+        <warning descr="Duplicate map key">"key"</warning>: 2,
+    },
+    <warning descr="Duplicate struct field">settings</warning>: {
+        "different": 3,
+    },
+)
