@@ -27,4 +27,7 @@ class RonBreadcrumbsProvider : BreadcrumbsProvider {
 
     override fun getElementInfo(element: PsiElement): String =
         RonPsiPresentation.primaryLabel(element)
+
+    override fun getElementTooltip(element: PsiElement): String? =
+        RonPsiPresentation.tooltipFor(element)
 }

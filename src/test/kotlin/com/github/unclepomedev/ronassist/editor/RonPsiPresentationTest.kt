@@ -3,6 +3,7 @@ package com.github.unclepomedev.ronassist.editor
 import com.github.unclepomedev.ronassist.parser.RonFile
 import com.github.unclepomedev.ronassist.psi.RonMapEntry
 import com.github.unclepomedev.ronassist.psi.RonStructEntry
+import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
@@ -90,6 +91,38 @@ line3"#}""",
 line" """,
         expected = "r\"multi line\"",
     )
+
+    fun testTooltipMapEntry() {
+        myFixture.configureByText("test.ron", """{"key": "value"}""")
+        val file = myFixture.file as RonFile
+        val entry = PsiTreeUtil.findChildOfType(file, RonMapEntry::class.java)
+            ?: error("entry not found")
+        assertEquals("\"key\" = \"value\"", RonPsiPresentation.tooltipFor(entry))
+    }
+
+    fun testTooltipNamedStructWithFields() {
+        myFixture.configureByText("test.ron", """Player(name: "Reimu", hp: 100)""")
+        val file = myFixture.file as RonFile
+        val struct = PsiTreeUtil.findChildOfType(file, RonStructOrTuple::class.java)
+            ?: error("struct not found")
+        assertEquals("Player with 2 fields", RonPsiPresentation.tooltipFor(struct))
+    }
+
+    fun testTooltipSingleFieldStruct() {
+        myFixture.configureByText("test.ron", """Single(only: 1)""")
+        val file = myFixture.file as RonFile
+        val struct = PsiTreeUtil.findChildOfType(file, RonStructOrTuple::class.java)
+            ?: error("struct not found")
+        assertEquals("Single with 1 field", RonPsiPresentation.tooltipFor(struct))
+    }
+
+    fun testTooltipAnonymousTupleReturnsNull() {
+        myFixture.configureByText("test.ron", """(1, 2, 3)""")
+        val file = myFixture.file as RonFile
+        val struct = PsiTreeUtil.findChildOfType(file, RonStructOrTuple::class.java)
+            ?: error("struct not found")
+        assertNull(RonPsiPresentation.tooltipFor(struct))
+    }
 
     private fun assertPreview(
         content: String,
