@@ -1,0 +1,12 @@
+-RON File
+ -Game(...)
+  title
+  -players
+   -[2]
+    -Player(...)
+     name
+    -Player(...)
+     name
+  -config
+   -{1}
+    "volume"
