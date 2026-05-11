@@ -13,12 +13,12 @@ import com.intellij.psi.TokenType;
 %unicode
 %function advance
 %type IElementType
-%eof{  return;
+%eof{
 %eof}
 
 WHITE_SPACE=[\ \t\n\r\f]+
 LINE_COMMENT="//"[^\r\n]*
-BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*\*"/"
+BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*\*+"/"
 
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 STRING=\"([^\"\\]|\\.)*\"
