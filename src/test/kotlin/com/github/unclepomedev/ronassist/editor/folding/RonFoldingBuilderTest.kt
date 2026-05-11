@@ -59,8 +59,18 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
     fun testMixedContent() = doFoldingTest()
     fun testErrorRecovery() = doFoldingTest()
 
-    // Because testFoldingWithCollapseStatus behaves unexpectedly,
-    // verifications below are performed via API instead of using a file.
+    /**
+     * Verifies default-collapsed behavior by inspecting the FoldingBuilder directly.
+     *
+     * We use the builder API instead of myFixture.testFoldingWithCollapseStatus because
+     * the latter is broken on IntelliJ Platform 2026.1 — collapsedByDefault state is not
+     * reflected in test FoldRegions despite being respected at runtime (verified via
+     * runIde). See https://youtrack.jetbrains.com/issue/IJPL-237669.
+     *
+     * When the platform bug is fixed, this helper can be replaced with
+     * myFixture.testFoldingWithCollapseStatus + gold files for consistency with other
+     * folding tests.
+     */
     fun testCollapsedByDefaultMaps() {
         RonFoldingSettings.instance.collapseMaps = true
         assertCollapsedByDefault<RonMap>(
