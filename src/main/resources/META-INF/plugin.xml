@@ -49,5 +49,24 @@
         <codeFoldingOptionsProvider
                 instance="com.github.unclepomedev.ronassist.editor.folding.RonCodeFoldingOptionsProvider"/>
 
+        <localInspection
+                language="RON"
+                groupPath="RON"
+                groupKey="inspection.settings.group.name"
+                bundle="messages.RonInspectionBundle"
+                key="inspection.map.duplicate.key.display.name"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="com.github.unclepomedev.ronassist.inspection.RonDuplicateMapKeyInspection"/>
+
+        <localInspection
+                language="RON"
+                groupPath="RON"
+                groupKey="inspection.settings.group.name"
+                bundle="messages.RonInspectionBundle"
+                key="inspection.struct.duplicate.field.display.name"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="com.github.unclepomedev.ronassist.inspection.RonDuplicateStructFieldInspection"/>
     </extensions>
 </idea-plugin>
