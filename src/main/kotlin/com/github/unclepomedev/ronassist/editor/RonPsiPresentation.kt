@@ -77,9 +77,17 @@ object RonPsiPresentation {
     }
 
     /**
-     * Collapses whitespace runs (including newlines) into single spaces while
-     * building a bounded preview, avoiding full-string regex work on long
-     * inputs such as multi-line RAW_STRING values.
+     * Builds a compact one-line preview by collapsing internal whitespace runs
+     * (including newlines) into single spaces and truncating to
+     * LITERAL_PREVIEW_LIMIT characters.
+     *
+     * Leading and trailing whitespace are stripped. This is appropriate for
+     * label-style previews where surrounding whitespace carries no information,
+     * but callers that need to preserve leading whitespace should use a
+     * different formatter.
+     *
+     * The traversal is bounded by the preview limit, so very long inputs (such
+     * as multi-line RAW_STRING values) are processed in O(limit) time.
      */
     private fun oneLinePreview(text: String): String {
         if (text.isEmpty()) return text
@@ -99,7 +107,6 @@ object RonPsiPresentation {
             }
             if (sb.length >= LITERAL_PREVIEW_LIMIT) break
         }
-        // strip a trailing space that may have been appended just before the limit
         if (sb.isNotEmpty() && sb.last() == ' ') sb.deleteCharAt(sb.length - 1)
         return sb.toString()
     }
