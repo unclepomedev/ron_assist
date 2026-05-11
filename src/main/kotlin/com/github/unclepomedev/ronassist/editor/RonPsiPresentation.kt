@@ -35,7 +35,7 @@ object RonPsiPresentation {
         }
         is RonMapEntry -> renderMapKey(element)
         is RonStructEntry -> RonPsiImplUtil.getNameIdentifier(element)?.text ?: "<entry>"
-        else -> element.text.take(LITERAL_PREVIEW_LIMIT)
+        else -> oneLinePreview(element.text)
     }
 
     /**
@@ -59,20 +59,27 @@ object RonPsiPresentation {
      * structural summary; primitives keep their literal form (truncated).
      */
     fun previewValue(value: RonValue): String {
-        val child = value.firstChild ?: return value.text.take(LITERAL_PREVIEW_LIMIT)
+        val child = value.firstChild ?: return oneLinePreview(value.text)
         return when (child) {
-            is RonStringVal -> child.text.take(LITERAL_PREVIEW_LIMIT)
+            is RonStringVal -> oneLinePreview(child.text)
             is RonCharVal -> child.text
             is RonNumeric -> child.text
             is RonBoolean -> child.text
-            is RonOption -> child.text.take(LITERAL_PREVIEW_LIMIT)
+            is RonOption -> oneLinePreview(child.text)
             is RonMap -> "{${RonPsiImplUtil.getEntries(child).size}}"
             is RonList -> "[${RonPsiImplUtil.getValues(child).size}]"
             is RonStructOrTuple -> {
                 val name = RonPsiImplUtil.getNameIdentifier(child)?.text
                 if (name != null) "$name(...)" else "(...)"
             }
-            else -> child.text.take(LITERAL_PREVIEW_LIMIT)
+            else -> oneLinePreview(child.text)
         }
     }
+
+    /**
+     * Collapses any whitespace runs (including newlines) into a single space
+     * and truncates to the preview limit.
+     */
+    private fun oneLinePreview(text: String): String =
+        text.replace(Regex("\\s+"), " ").trim().take(LITERAL_PREVIEW_LIMIT)
 }

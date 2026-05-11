@@ -77,6 +77,20 @@ class RonPsiPresentationTest : BasePlatformTestCase() {
         expected = "[4]",
     )
 
+    fun testPreviewRawStringWithNewlines() = assertPreview(
+        """{"key": r#"line1
+line2
+line3"#}""",
+        primaryExpected = "\"key\"",
+        previewExpected = "= r#\"line1 line2 line3\"#",
+    )
+
+    fun testPrimaryLabelWithNewlines() = assertRootLabel(
+        """r"multi
+line" """,
+        expected = "r\"multi line\"",
+    )
+
     private fun assertPreview(
         content: String,
         primaryExpected: String,
@@ -100,7 +114,8 @@ class RonPsiPresentationTest : BasePlatformTestCase() {
         myFixture.configureByText("test.ron", content)
         val file = myFixture.file as RonFile
         val entry = PsiTreeUtil.findChildrenOfType(file, RonStructEntry::class.java)
-            .first { RonPsiPresentation.primaryLabel(it) == entryName }
+            .firstOrNull { RonPsiPresentation.primaryLabel(it) == entryName }
+            ?: error("RonStructEntry with name '$entryName' not found in: $content")
         assertEquals(primaryExpected, RonPsiPresentation.primaryLabel(entry))
         assertEquals(previewExpected, RonPsiPresentation.locationPreview(entry))
     }

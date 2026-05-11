@@ -19,6 +19,7 @@ import com.intellij.pom.Navigatable
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import java.util.Locale
 import javax.swing.Icon
 
 class RonStructureViewElement(
@@ -44,7 +45,7 @@ class RonStructureViewElement(
      */
     override fun getAlphaSortKey(): String {
         val label = RonPsiPresentation.primaryLabel(element)
-        return label.trim('"').lowercase()
+        return label.removeSurrounding("\"").lowercase(Locale.ROOT)
     }
 
     override fun getPresentation(): ItemPresentation {
