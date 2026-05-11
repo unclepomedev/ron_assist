@@ -3,8 +3,11 @@ package com.github.unclepomedev.ronassist.editor.structureview
 import com.github.unclepomedev.ronassist.parser.RonFile
 import com.github.unclepomedev.ronassist.psi.RonList
 import com.github.unclepomedev.ronassist.psi.RonMap
+import com.github.unclepomedev.ronassist.psi.RonMapEntry
+import com.github.unclepomedev.ronassist.psi.RonStructEntry
 import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
 import com.github.unclepomedev.ronassist.psi.RonValue
+import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
@@ -38,14 +41,17 @@ class RonStructureViewElement(
         .toTypedArray()
 
     /**
-     * Returns the displayable children of this node, currently limited to the
-     * root container under a RonFile.
+     * Returns the displayable children of this node. Currently expands the file
+     * root and one level of map/struct entries; nested containers are not yet
+     * traversed.
      */
     private fun collectChildren(element: PsiElement): List<PsiElement> = when (element) {
         is RonFile -> {
             val root = PsiTreeUtil.getChildOfType(element, RonValue::class.java)
             if (root != null) listOfNotNull(unwrapContainer(root)) else emptyList()
         }
+        is RonMap -> RonPsiImplUtil.getEntries(element)
+        is RonStructOrTuple -> RonPsiImplUtil.getStructEntries(element)
         else -> emptyList()
     }
 
@@ -66,6 +72,13 @@ class RonStructureViewElement(
         is RonMap -> "{...}"
         is RonList -> "[...]"
         is RonStructOrTuple -> "(...)"
+        is RonMapEntry -> {
+            val key = RonPsiImplUtil.getKey(element)
+            key?.text?.take(40) ?: "<key>"
+        }
+        is RonStructEntry -> {
+            RonPsiImplUtil.getNameIdentifier(element)?.text ?: "<entry>"
+        }
         else -> element.text.take(40)
     }
 }
