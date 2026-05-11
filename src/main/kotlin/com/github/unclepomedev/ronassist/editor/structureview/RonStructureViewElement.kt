@@ -41,9 +41,8 @@ class RonStructureViewElement(
         .toTypedArray()
 
     /**
-     * Returns the displayable children of this node. Currently expands the file
-     * root and one level of map/struct entries; nested containers are not yet
-     * traversed.
+     * Returns the displayable children of a node, recursing into nested
+     * containers while skipping primitive values that have no further structure.
      */
     private fun collectChildren(element: PsiElement): List<PsiElement> = when (element) {
         is RonFile -> {
@@ -51,13 +50,21 @@ class RonStructureViewElement(
             if (root != null) listOfNotNull(unwrapContainer(root)) else emptyList()
         }
         is RonMap -> RonPsiImplUtil.getEntries(element)
-        is RonStructOrTuple -> RonPsiImplUtil.getStructEntries(element)
+        is RonStructOrTuple -> {
+            val structEntries = RonPsiImplUtil.getStructEntries(element)
+            structEntries.ifEmpty {
+                RonPsiImplUtil.getTupleValues(element).mapNotNull { unwrapContainer(it) }
+            }
+        }
+        is RonList -> RonPsiImplUtil.getValues(element).mapNotNull { unwrapContainer(it) }
+        is RonMapEntry -> listOfNotNull(RonPsiImplUtil.getValue(element)?.let { unwrapContainer(it) })
+        is RonStructEntry -> listOfNotNull(RonPsiImplUtil.getValue(element)?.let { unwrapContainer(it) })
         else -> emptyList()
     }
 
     /**
      * Returns the concrete container (map/list/struct) inside a RonValue,
-     * or null when the value is a primitive.
+     * or null when the value is a primitive that has no further structure.
      */
     private fun unwrapContainer(value: RonValue): PsiElement? {
         return when (val child = value.firstChild) {
