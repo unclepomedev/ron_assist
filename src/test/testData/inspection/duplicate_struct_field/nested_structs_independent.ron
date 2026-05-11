@@ -1,0 +1,7 @@
+Outer(
+    config: Inner(
+        x: 1,
+        <warning descr="Duplicate struct field">x</warning>: 2,
+    ),
+    <warning descr="Duplicate struct field">config</warning>: "duplicated outer",
+)

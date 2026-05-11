@@ -1,0 +1,4 @@
+{
+    Foo(1): "first",
+    Foo(2): "second",
+}

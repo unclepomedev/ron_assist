@@ -1,0 +1,5 @@
+{
+    "name": "Reimu",
+    "score": 100,
+    <warning descr="Duplicate map key">"name"</warning>: "Marisa",
+}

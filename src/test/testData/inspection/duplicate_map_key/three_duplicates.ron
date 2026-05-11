@@ -1,0 +1,5 @@
+{
+    "a": 1,
+    <warning descr="Duplicate map key">"a"</warning>: 2,
+    <warning descr="Duplicate map key">"a"</warning>: 3,
+}

@@ -1,0 +1,13 @@
+<html>
+<body>
+Reports fields that appear more than once in the same struct.
+<p>
+    Rust structs cannot contain duplicate fields, so the corresponding RON value
+    will not deserialize into the intended type. Anonymous tuples are not checked
+    because they have no named fields.
+</p>
+<p>
+    Only the second and subsequent occurrences are highlighted.
+</p>
+</body>
+</html>

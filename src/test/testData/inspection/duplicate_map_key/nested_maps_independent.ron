@@ -1,0 +1,7 @@
+{
+    "outer": {
+        "key": 1,
+        <warning descr="Duplicate map key">"key"</warning>: 2,
+    },
+    "key": 3,
+}

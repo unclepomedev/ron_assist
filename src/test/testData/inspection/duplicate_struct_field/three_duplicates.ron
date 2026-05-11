@@ -1,0 +1,5 @@
+Config(
+    width: 800,
+    <warning descr="Duplicate struct field">width</warning>: 1024,
+    <warning descr="Duplicate struct field">width</warning>: 1920,
+)
