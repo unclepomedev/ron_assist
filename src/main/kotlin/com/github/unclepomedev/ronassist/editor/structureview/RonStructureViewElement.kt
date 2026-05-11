@@ -12,6 +12,7 @@ import com.github.unclepomedev.ronassist.psi.RonValue
 import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
+import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.ItemPresentation
 import com.intellij.pom.Navigatable
@@ -22,7 +23,7 @@ import javax.swing.Icon
 
 class RonStructureViewElement(
     private val element: PsiElement,
-) : StructureViewTreeElement, Navigatable {
+) : StructureViewTreeElement, SortableTreeElement, Navigatable {
 
     override fun getValue(): Any = element
 
@@ -35,6 +36,16 @@ class RonStructureViewElement(
 
     override fun canNavigateToSource(): Boolean =
         (element as? NavigatablePsiElement)?.canNavigateToSource() == true
+
+    /**
+     * Returns the key used by the alphabetical sorter. We strip surrounding
+     * quotes from string map keys so that "alpha" sorts naturally next to a
+     * bare identifier alpha rather than under the quote character.
+     */
+    override fun getAlphaSortKey(): String {
+        val label = RonPsiPresentation.primaryLabel(element)
+        return label.trim('"').lowercase()
+    }
 
     override fun getPresentation(): ItemPresentation {
         val label = if (element is RonFile) element.toString()
