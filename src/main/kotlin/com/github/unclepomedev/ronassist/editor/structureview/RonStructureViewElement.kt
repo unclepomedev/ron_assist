@@ -1,5 +1,7 @@
 package com.github.unclepomedev.ronassist.editor.structureview
 
+import com.github.unclepomedev.ronassist.editor.RonPsiPresentation
+import com.github.unclepomedev.ronassist.icons.RonIcons
 import com.github.unclepomedev.ronassist.parser.RonFile
 import com.github.unclepomedev.ronassist.psi.RonList
 import com.github.unclepomedev.ronassist.psi.RonMap
@@ -16,6 +18,7 @@ import com.intellij.pom.Navigatable
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import javax.swing.Icon
 
 class RonStructureViewElement(
     private val element: PsiElement,
@@ -33,8 +36,12 @@ class RonStructureViewElement(
     override fun canNavigateToSource(): Boolean =
         (element as? NavigatablePsiElement)?.canNavigateToSource() == true
 
-    override fun getPresentation(): ItemPresentation =
-        PresentationData(labelFor(element), null, null, null)
+    override fun getPresentation(): ItemPresentation {
+        val label = if (element is RonFile) element.toString()
+        else RonPsiPresentation.primaryLabel(element)
+        val location = RonPsiPresentation.locationPreview(element)
+        return PresentationData(label, location, iconFor(element), null)
+    }
 
     override fun getChildren(): Array<TreeElement> = collectChildren(element)
         .map { RonStructureViewElement(it) }
@@ -73,19 +80,12 @@ class RonStructureViewElement(
         }
     }
 
-    /** Temporary label generator; will be replaced by a shared helper in phase 5. */
-    private fun labelFor(element: PsiElement): String = when (element) {
-        is RonFile -> element.toString()
-        is RonMap -> "{...}"
-        is RonList -> "[...]"
-        is RonStructOrTuple -> "(...)"
-        is RonMapEntry -> {
-            val key = RonPsiImplUtil.getKey(element)
-            key?.text?.take(40) ?: "<key>"
-        }
-        is RonStructEntry -> {
-            RonPsiImplUtil.getNameIdentifier(element)?.text ?: "<entry>"
-        }
-        else -> element.text.take(40)
+    private fun iconFor(element: PsiElement): Icon? = when (element) {
+        is RonFile -> RonIcons.FILE
+        is RonMap -> RonIcons.MAP
+        is RonList -> RonIcons.LIST
+        is RonStructOrTuple -> RonIcons.STRUCT
+        is RonMapEntry, is RonStructEntry -> RonIcons.PROPERTY
+        else -> null
     }
 }
