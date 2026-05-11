@@ -1,0 +1,10 @@
+<fold text='/* ... */'>/*
+ Top-level documentation
+ across multiple lines.
+*/</fold>
+<fold text='Root(...)'>Root(
+    items: <fold text='[2]'>[
+        "a",
+        "b",
+    ]</fold>,
+)</fold>
