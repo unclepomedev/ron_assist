@@ -77,9 +77,30 @@ object RonPsiPresentation {
     }
 
     /**
-     * Collapses any whitespace runs (including newlines) into a single space
-     * and truncates to the preview limit.
+     * Collapses whitespace runs (including newlines) into single spaces while
+     * building a bounded preview, avoiding full-string regex work on long
+     * inputs such as multi-line RAW_STRING values.
      */
-    private fun oneLinePreview(text: String): String =
-        text.replace(Regex("\\s+"), " ").trim().take(LITERAL_PREVIEW_LIMIT)
+    private fun oneLinePreview(text: String): String {
+        if (text.isEmpty()) return text
+
+        val sb = StringBuilder(LITERAL_PREVIEW_LIMIT)
+        var lastWasSpace = true
+        for (i in text.indices) {
+            val c = text[i]
+            if (c.isWhitespace()) {
+                if (!lastWasSpace) {
+                    sb.append(' ')
+                    lastWasSpace = true
+                }
+            } else {
+                sb.append(c)
+                lastWasSpace = false
+            }
+            if (sb.length >= LITERAL_PREVIEW_LIMIT) break
+        }
+        // strip a trailing space that may have been appended just before the limit
+        if (sb.isNotEmpty() && sb.last() == ' ') sb.deleteCharAt(sb.length - 1)
+        return sb.toString()
+    }
 }
