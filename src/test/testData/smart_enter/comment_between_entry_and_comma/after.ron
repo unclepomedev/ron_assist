@@ -1,0 +1,5 @@
+Player(
+    name: "Reimu" /* a comment */,
+    <caret>
+    hp: 100,
+)
