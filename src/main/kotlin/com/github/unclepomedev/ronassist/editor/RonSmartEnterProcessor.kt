@@ -3,6 +3,7 @@ package com.github.unclepomedev.ronassist.editor
 import com.github.unclepomedev.ronassist.psi.RonMapEntry
 import com.github.unclepomedev.ronassist.psi.RonStructEntry
 import com.github.unclepomedev.ronassist.psi.RonTypes
+import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterProcessor
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -20,7 +21,7 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
         commit(editor)
 
         val entry = findEnclosingEntry(file, editor.caretModel.offset) ?: return false
-        if (containsError(entry)) return false
+        if (!isComplete(entry)) return false
 
         insertNewLineAfterEntry(project, editor, entry)
         indentAtCaret(project, editor, file)
@@ -65,13 +66,13 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
     private fun entryPrecedingComma(element: PsiElement?): PsiElement? {
         if (element?.node?.elementType != RonTypes.COMMA) return null
         var prev: PsiElement? = element.prevSibling
-        while (prev is PsiWhiteSpace) prev = prev.prevSibling
+        while (prev != null && prev.isSkippableSibling()) prev = prev.prevSibling
         return prev?.takeIf { it is RonStructEntry || it is RonMapEntry }
     }
 
     private fun trailingCommaOf(entry: PsiElement): PsiElement? {
         var next = entry.nextSibling
-        while (next is PsiWhiteSpace) next = next.nextSibling
+        while (next != null && next.isSkippableSibling()) next = next.nextSibling
         return next?.takeIf { it.node?.elementType == RonTypes.COMMA }
     }
 
@@ -81,6 +82,16 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
         return last?.textRange?.endOffset ?: entry.textRange.endOffset
     }
 
-    private fun containsError(entry: PsiElement): Boolean =
-        PsiTreeUtil.findChildOfType(entry, PsiErrorElement::class.java) != null
+    private fun isComplete(entry: PsiElement): Boolean = when (entry) {
+        is RonStructEntry ->
+            RonPsiImplUtil.getNameIdentifier(entry) != null && RonPsiImplUtil.getValue(entry) != null
+
+        is RonMapEntry ->
+            RonPsiImplUtil.getKey(entry) != null && RonPsiImplUtil.getValue(entry) != null
+
+        else -> false
+    }
+
+    private fun PsiElement.isSkippableSibling(): Boolean =
+        this is PsiWhiteSpace || this is PsiComment
 }

@@ -14,6 +14,9 @@ class RonSmartEnterProcessorTest : BasePlatformTestCase() {
     fun testCompletesNestedStruct() = doTest()
     fun testNoCompletesFromInsideString() = doTest()
     fun testNoCompletesNestedStruct() = doTest()
+    fun testCommentBetweenEntryAndComma() = doTest()
+    // Smart Enter should not insert ",\n" on an incomplete entry.
+    fun testIncompleteEntryIsSkipped() = doTest()
 
     private fun doTest() {
         val testName = getTestName(true)
