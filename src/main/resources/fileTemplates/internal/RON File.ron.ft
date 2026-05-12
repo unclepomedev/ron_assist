@@ -1,0 +1,6 @@
+#if (${NAME})
+${NAME}(
+)
+#else
+()
+#end
