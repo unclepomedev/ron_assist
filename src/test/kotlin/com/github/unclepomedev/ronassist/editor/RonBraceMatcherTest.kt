@@ -34,16 +34,34 @@ class RonBraceMatcherTest : BasePlatformTestCase() {
         myFixture.checkResult("(value: \"hello (<caret>world\")")
     }
 
+    fun testParenNotInsertedInsideRawString() {
+        myFixture.configureByText("test.ron", "(value: r\"hi <caret>there\")")
+        myFixture.type('(')
+        myFixture.checkResult("(value: r\"hi (<caret>there\")")
+    }
+
     fun testBraceNotInsertedInsideString() {
         myFixture.configureByText("test.ron", "(value: \"<caret>\")")
         myFixture.type('{')
         myFixture.checkResult("(value: \"{<caret>\")")
     }
 
+    fun testBraceNotInsertedInsideChar() {
+        myFixture.configureByText("test.ron", "(ch: '<caret>a')")
+        myFixture.type('{')
+        myFixture.checkResult("(ch: '{<caret>a')")
+    }
+
     fun testBracketNotInsertedInsideComment() {
         myFixture.configureByText("test.ron", "// comment <caret>\n(x: 1)")
         myFixture.type('[')
         myFixture.checkResult("// comment [<caret>\n(x: 1)")
+    }
+
+    fun testBracketNotInsertedInsideBlockComment() {
+        myFixture.configureByText("test.ron", "/* note <caret> */\n(x: 1)")
+        myFixture.type('[')
+        myFixture.checkResult("/* note [<caret> */\n(x: 1)")
     }
 
     fun testQuoteSkipsExistingRawStringClosingQuote() {
