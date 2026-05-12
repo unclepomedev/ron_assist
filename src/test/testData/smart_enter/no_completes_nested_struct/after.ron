@@ -1,0 +1,6 @@
+Outer(
+    inner: Inner(
+        x: 1,
+        <caret>
+    )
+)

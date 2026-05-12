@@ -55,6 +55,9 @@
         <lang.foldingBuilder
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.editor.folding.RonFoldingBuilder"/>
+        <lang.smartEnterProcessor
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.editor.RonSmartEnterProcessor"/>
 
         <codeFoldingOptionsProvider
                 instance="com.github.unclepomedev.ronassist.editor.folding.RonCodeFoldingOptionsProvider"/>
