@@ -19,7 +19,8 @@ class RonColorSettingsPage : ColorSettingsPage {
         AttributesDescriptor("String//Char", RonSyntaxHighlighter.CHAR),
         AttributesDescriptor("Comment//Line comment", RonSyntaxHighlighter.LINE_COMMENT),
         AttributesDescriptor("Comment//Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
-        AttributesDescriptor("Identifier", RonSyntaxHighlighter.IDENTIFIER),
+        AttributesDescriptor("Identifier//Other", RonSyntaxHighlighter.IDENTIFIER),
+        AttributesDescriptor("Identifier//Struct name", RonSyntaxHighlighter.STRUCT_NAME),
         AttributesDescriptor("Braces and operators//Braces", RonSyntaxHighlighter.BRACES),
         AttributesDescriptor("Braces and operators//Brackets", RonSyntaxHighlighter.BRACKETS),
         AttributesDescriptor("Braces and operators//Parentheses", RonSyntaxHighlighter.PARENTHESES),
@@ -36,7 +37,7 @@ class RonColorSettingsPage : ColorSettingsPage {
         /*
            Block comment
         */
-        Scene(
+        <structName>Scene</structName>(
             materials: {
                 "metal": (
                     reflectivity: 1.0,
@@ -65,7 +66,9 @@ class RonColorSettingsPage : ColorSettingsPage {
         )
     """.trimIndent()
 
-    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey>? = null
+    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> = mapOf(
+        "structName" to RonSyntaxHighlighter.STRUCT_NAME,
+    )
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> = descriptors
 

@@ -26,6 +26,9 @@
                 implementationClass="com.github.unclepomedev.ronassist.highlighting.RonSyntaxHighlighterFactory"/>
         <colorSettingsPage
                 implementation="com.github.unclepomedev.ronassist.highlighting.RonColorSettingsPage"/>
+        <annotator
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.highlighting.RonAnnotator"/>
         <lang.psiStructureViewFactory
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.editor.structureview.RonStructureViewFactory"/>
