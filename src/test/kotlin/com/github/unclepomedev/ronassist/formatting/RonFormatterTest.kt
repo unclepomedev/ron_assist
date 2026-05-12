@@ -5,4 +5,6 @@ class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testIndentation() = doTest()
     fun testBlankLinesCompression() = doTest()
     fun testPosixNewline() = doTest()
+    fun testSomeWithStruct() = doTest()
+    fun testNoneWithStruct() = doTest()
 }

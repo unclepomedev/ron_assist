@@ -1,0 +1,8 @@
+Player(
+    name: "Reimu",
+    skill: Some(
+        SpellCard(
+            id: 42,
+        )
+    ),
+)
