@@ -1,0 +1,108 @@
+<templateSet group="RON">
+
+    <template name="st"
+              value="$NAME$($END$)"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.st.description"
+              toReformat="false"
+              toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="Name" alwaysStopAt="true" />
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="tup"
+              value="($END$)"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.tup.description"
+              toReformat="false"
+              toShortenFQNames="false">
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="mp"
+              value="{$END$}"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.mp.description"
+              toReformat="false"
+              toShortenFQNames="false">
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="lst"
+              value="[$END$]"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.lst.description"
+              toReformat="false"
+              toShortenFQNames="false">
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="some"
+              value="Some($END$)"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.some.description"
+              toReformat="false"
+              toShortenFQNames="false">
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="kv"
+              value="&quot;$KEY$&quot;: $VALUE$,$END$"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.kv.description"
+              toReformat="false"
+              toShortenFQNames="false">
+        <variable name="KEY" expression="" defaultValue="key" alwaysStopAt="true" />
+        <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true" />
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="field"
+              value="$NAME$: $VALUE$,$END$"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.field.description"
+              toReformat="false"
+              toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="name" alwaysStopAt="true" />
+        <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true" />
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="stm"
+              value="$NAME$(&#10;    $END$&#10;)"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.stm.description"
+              toReformat="true"
+              toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="Name" alwaysStopAt="true" />
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+    <template name="mpm"
+              value="{&#10;    $END$&#10;}"
+              resource-bundle="messages.RonBundle"
+              key="livetemplate.ron.mpm.description"
+              toReformat="true"
+              toShortenFQNames="false">
+        <context>
+            <option name="RON" value="true" />
+        </context>
+    </template>
+
+</templateSet>

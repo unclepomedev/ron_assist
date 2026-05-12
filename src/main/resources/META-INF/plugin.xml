@@ -70,5 +70,10 @@
         <spellchecker.support
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.spellchecker.RonSpellcheckingStrategy"/>
+
+        <defaultLiveTemplates file="liveTemplates/ron.xml"/>
+        <liveTemplateContext
+                contextId="RON"
+                implementation="com.github.unclepomedev.ronassist.livetemplates.RonTemplateContextType"/>
     </extensions>
 </idea-plugin>
