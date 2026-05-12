@@ -1,0 +1,21 @@
+RON File
+  RonValueImpl(VALUE)
+    RonMapImpl(MAP)
+      PsiElement(RonTokenType.{)('{')
+      RonMapEntryImpl(MAP_ENTRY)
+        RonValueImpl(VALUE)
+          RonStringValImpl(STRING_VAL)
+            PsiElement(RonTokenType.STRING)('"name"')
+        PsiElement(RonTokenType.:)(':')
+        RonValueImpl(VALUE)
+          RonStringValImpl(STRING_VAL)
+            PsiElement(RonTokenType.STRING)('"Reimu"')
+      PsiElement(RonTokenType.,)(',')
+      RonMapEntryImpl(MAP_ENTRY)
+        RonValueImpl(VALUE)
+          RonStringValImpl(STRING_VAL)
+            PsiElement(RonTokenType.STRING)('"hp"')
+        PsiElement(RonTokenType.:)(':')
+      PsiErrorElement:<value> expected, got '}'
+        <empty list>
+      PsiElement(RonTokenType.})('}')

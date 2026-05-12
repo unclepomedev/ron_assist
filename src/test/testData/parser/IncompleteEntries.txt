@@ -4,7 +4,7 @@ RON File
   PsiElement(RonTokenType.:)(':')
   PsiElement(RonTokenType.INTEGER)('1')
   PsiElement(RonTokenType.,)(',')
-  PsiErrorElement:RonTokenType.) or RonTokenType.IDENTIFIER expected, got ':'
+  PsiErrorElement:RonTokenType.) expected, got ':'
     PsiElement(RonTokenType.:)(':')
   PsiElement(RonTokenType.STRING)('"missing key"')
   PsiElement(RonTokenType.,)(',')

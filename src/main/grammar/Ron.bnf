@@ -62,10 +62,20 @@ private value_list ::= value (COMMA value)* COMMA?
 
 map ::= LBRACE map_entry_list? RBRACE
 private map_entry_list ::= map_entry (COMMA map_entry)* COMMA?
-map_entry ::= value COLON value
+
+// pin=2 commits to MAP_ENTRY once value COLON is matched, so an incomplete
+// entry (missing value) still produces a PSI node. recoverWhile stops the
+// error from cascading into the next sibling entry.
+map_entry ::= value COLON value { pin=2 recoverWhile=map_entry_recover }
+private map_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK)
 
 struct_or_tuple ::= IDENTIFIER? LPAREN entries? RPAREN
 private entries ::= struct_entries | tuple_entries
 private struct_entries ::= struct_entry (COMMA struct_entry)* COMMA?
-struct_entry ::= IDENTIFIER COLON value
+
+// pin=2 commits to STRUCT_ENTRY once IDENTIFIER COLON is matched, so an
+// incomplete entry (missing value) still produces a PSI node. recoverWhile
+// stops the error from cascading into the next sibling entry.
+struct_entry ::= IDENTIFIER COLON value { pin=2 recoverWhile=struct_entry_recover }
+private struct_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK)
 private tuple_entries ::= value (COMMA value)* COMMA?

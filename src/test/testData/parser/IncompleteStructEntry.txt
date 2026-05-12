@@ -1,0 +1,18 @@
+RON File
+  RonValueImpl(VALUE)
+    RonStructOrTupleImpl(STRUCT_OR_TUPLE)
+      PsiElement(RonTokenType.IDENTIFIER)('Player')
+      PsiElement(RonTokenType.()('(')
+      RonStructEntryImpl(STRUCT_ENTRY)
+        PsiElement(RonTokenType.IDENTIFIER)('name')
+        PsiElement(RonTokenType.:)(':')
+        RonValueImpl(VALUE)
+          RonStringValImpl(STRING_VAL)
+            PsiElement(RonTokenType.STRING)('"Reimu"')
+      PsiElement(RonTokenType.,)(',')
+      RonStructEntryImpl(STRUCT_ENTRY)
+        PsiElement(RonTokenType.IDENTIFIER)('hp')
+        PsiElement(RonTokenType.:)(':')
+      PsiErrorElement:<value> expected, got ')'
+        <empty list>
+      PsiElement(RonTokenType.))(')')
