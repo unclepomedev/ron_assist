@@ -88,5 +88,13 @@
         <liveTemplateContext
                 contextId="RON"
                 implementation="com.github.unclepomedev.ronassist.livetemplates.RonTemplateContextType"/>
+        <internalFileTemplate name="RON File"/>
     </extensions>
+
+    <actions>
+        <action id="Ron.NewRonFile"
+                class="com.github.unclepomedev.ronassist.actions.CreateRonFileAction">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
+    </actions>
 </idea-plugin>
