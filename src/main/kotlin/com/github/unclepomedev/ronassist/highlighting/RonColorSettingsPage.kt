@@ -14,15 +14,19 @@ class RonColorSettingsPage : ColorSettingsPage {
     private val descriptors = arrayOf(
         AttributesDescriptor("Keyword", RonSyntaxHighlighter.KEYWORD),
         AttributesDescriptor("Number", RonSyntaxHighlighter.NUMBER),
-        AttributesDescriptor("String", RonSyntaxHighlighter.STRING),
-        AttributesDescriptor("Line comment", RonSyntaxHighlighter.LINE_COMMENT),
-        AttributesDescriptor("Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
-        AttributesDescriptor("Identifier", RonSyntaxHighlighter.IDENTIFIER),
-        AttributesDescriptor("Braces", RonSyntaxHighlighter.BRACES),
-        AttributesDescriptor("Brackets", RonSyntaxHighlighter.BRACKETS),
-        AttributesDescriptor("Parentheses", RonSyntaxHighlighter.PARENTHESES),
-        AttributesDescriptor("Comma", RonSyntaxHighlighter.COMMA),
-        AttributesDescriptor("Bad character", RonSyntaxHighlighter.BAD_CHARACTER)
+        AttributesDescriptor("String//Standard", RonSyntaxHighlighter.STRING),
+        AttributesDescriptor("String//Raw", RonSyntaxHighlighter.RAW_STRING),
+        AttributesDescriptor("String//Char", RonSyntaxHighlighter.CHAR),
+        AttributesDescriptor("Comment//Line comment", RonSyntaxHighlighter.LINE_COMMENT),
+        AttributesDescriptor("Comment//Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
+        AttributesDescriptor("Identifier//Other", RonSyntaxHighlighter.IDENTIFIER),
+        AttributesDescriptor("Identifier//Struct name", RonSyntaxHighlighter.STRUCT_NAME),
+        AttributesDescriptor("Identifier//Field name", RonSyntaxHighlighter.FIELD_NAME),
+        AttributesDescriptor("Braces and operators//Braces", RonSyntaxHighlighter.BRACES),
+        AttributesDescriptor("Braces and operators//Brackets", RonSyntaxHighlighter.BRACKETS),
+        AttributesDescriptor("Braces and operators//Parentheses", RonSyntaxHighlighter.PARENTHESES),
+        AttributesDescriptor("Braces and operators//Comma", RonSyntaxHighlighter.COMMA),
+        AttributesDescriptor("Bad character", RonSyntaxHighlighter.BAD_CHARACTER),
     )
 
     override fun getIcon(): Icon = RonIcons.FILE
@@ -31,37 +35,42 @@ class RonColorSettingsPage : ColorSettingsPage {
 
     override fun getDemoText(): String = """
         // Example RON file
-        /* 
+        /*
            Block comment
         */
-        Scene(
-            materials: {
+        <structName>Scene</structName>(
+            <fieldName>materials</fieldName>: {
                 "metal": (
-                    reflectivity: 1.0,
-                    roughness: 0.2,
+                    <fieldName>reflectivity</fieldName>: 1.0,
+                    <fieldName>roughness</fieldName>: 0.2,
+                    <fieldName>priority</fieldName>: 100u32,
                 ),
                 "plastic": (
-                    reflectivity: 0.5,
-                    roughness: 0.8,
+                    <fieldName>reflectivity</fieldName>: 0.5f64,
+                    <fieldName>roughness</fieldName>: 0.8,
                 ),
             },
-            entities: [
+            <fieldName>entities</fieldName>: [
                 (
-                    name: "hero",
-                    visible: true,
-                    health: Some(100),
-                    data: r#"Raw string example"#
+                    <fieldName>name</fieldName>: "hero",
+                    <fieldName>visible</fieldName>: true,
+                    <fieldName>health</fieldName>: Some(100),
+                    <fieldName>grade</fieldName>: 'A',
+                    <fieldName>data</fieldName>: r#"Raw string example"#,
                 ),
                 (
-                    name: "monster",
-                    visible: false,
-                    health: None,
+                    <fieldName>name</fieldName>: "monster",
+                    <fieldName>visible</fieldName>: false,
+                    <fieldName>health</fieldName>: None,
                 ),
-            ]
+            ],
         )
     """.trimIndent()
 
-    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey>? = null
+    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> = mapOf(
+        "structName" to RonSyntaxHighlighter.STRUCT_NAME,
+        "fieldName" to RonSyntaxHighlighter.FIELD_NAME,
+    )
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> = descriptors
 

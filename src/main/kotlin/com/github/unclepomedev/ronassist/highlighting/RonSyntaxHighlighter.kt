@@ -16,6 +16,8 @@ class RonSyntaxHighlighter : SyntaxHighlighterBase() {
         val KEYWORD = createTextAttributesKey("RON_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
         val NUMBER = createTextAttributesKey("RON_NUMBER", DefaultLanguageHighlighterColors.NUMBER)
         val STRING = createTextAttributesKey("RON_STRING", DefaultLanguageHighlighterColors.STRING)
+        val RAW_STRING = createTextAttributesKey("RON_RAW_STRING", DefaultLanguageHighlighterColors.STRING)
+        val CHAR = createTextAttributesKey("RON_CHAR", DefaultLanguageHighlighterColors.STRING)
         val LINE_COMMENT = createTextAttributesKey("RON_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
         val BLOCK_COMMENT = createTextAttributesKey("RON_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
         val IDENTIFIER = createTextAttributesKey("RON_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
@@ -24,10 +26,14 @@ class RonSyntaxHighlighter : SyntaxHighlighterBase() {
         val PARENTHESES = createTextAttributesKey("RON_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES)
         val COMMA = createTextAttributesKey("RON_COMMA", DefaultLanguageHighlighterColors.COMMA)
         val BAD_CHARACTER = createTextAttributesKey("RON_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+        val STRUCT_NAME = createTextAttributesKey("RON_STRUCT_NAME", DefaultLanguageHighlighterColors.CLASS_NAME)
+        val FIELD_NAME = createTextAttributesKey("RON_FIELD_NAME", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
 
         private val KEYWORD_KEYS = arrayOf(KEYWORD)
         private val NUMBER_KEYS = arrayOf(NUMBER)
         private val STRING_KEYS = arrayOf(STRING)
+        private val RAW_STRING_KEYS = arrayOf(RAW_STRING)
+        private val CHAR_KEYS = arrayOf(CHAR)
         private val LINE_COMMENT_KEYS = arrayOf(LINE_COMMENT)
         private val BLOCK_COMMENT_KEYS = arrayOf(BLOCK_COMMENT)
         private val IDENTIFIER_KEYS = arrayOf(IDENTIFIER)
@@ -45,7 +51,9 @@ class RonSyntaxHighlighter : SyntaxHighlighterBase() {
         return when (tokenType) {
             RonTypes.TRUE, RonTypes.FALSE, RonTypes.SOME, RonTypes.NONE -> KEYWORD_KEYS
             RonTypes.FLOAT, RonTypes.INTEGER -> NUMBER_KEYS
-            RonTypes.STRING, RonTypes.RAW_STRING, RonTypes.CHAR -> STRING_KEYS
+            RonTypes.STRING -> STRING_KEYS
+            RonTypes.RAW_STRING -> RAW_STRING_KEYS
+            RonTypes.CHAR -> CHAR_KEYS
             RonTypes.LINE_COMMENT -> LINE_COMMENT_KEYS
             RonTypes.BLOCK_COMMENT -> BLOCK_COMMENT_KEYS
             RonTypes.IDENTIFIER -> IDENTIFIER_KEYS
