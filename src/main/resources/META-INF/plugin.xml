@@ -58,7 +58,6 @@
                 enabledByDefault="true"
                 level="WARNING"
                 implementationClass="com.github.unclepomedev.ronassist.inspection.RonDuplicateMapKeyInspection"/>
-
         <localInspection
                 language="RON"
                 groupPath="RON"
@@ -68,5 +67,8 @@
                 enabledByDefault="true"
                 level="WARNING"
                 implementationClass="com.github.unclepomedev.ronassist.inspection.RonDuplicateStructFieldInspection"/>
+        <spellchecker.support
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.spellchecker.RonSpellcheckingStrategy"/>
     </extensions>
 </idea-plugin>
