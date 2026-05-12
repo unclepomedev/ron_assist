@@ -63,7 +63,7 @@ jobs:
           cache-read-only: true
 
       - name: Run Tests
-        run: ./gradlew check
+        run: ./gradlew check --stacktrace
 
       - name: Collect Tests Result
         if: ${{ failure() }}
