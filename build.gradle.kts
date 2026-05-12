@@ -36,7 +36,7 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         name = "RON Assist"
-        version = providers.gradleProperty("pluginVersion")
+        version = providers.gradleProperty("version")
         description = providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
             val start = "<!-- Plugin description -->"
             val end = "<!-- Plugin description end -->"
@@ -50,7 +50,7 @@ intellijPlatform {
         }
 
         val changelog = project.changelog
-        changeNotes = providers.gradleProperty("pluginVersion").map { pluginVersion ->
+        changeNotes = providers.gradleProperty("version").map { pluginVersion ->
             with(changelog) {
                 renderItem(
                     (getOrNull(pluginVersion) ?: getUnreleased())
