@@ -22,6 +22,7 @@ class RonAnnotator : Annotator {
 
         val attribute = attributeFor(element) ?: return
         holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+            .range(element)
             .textAttributes(attribute)
             .create()
     }
