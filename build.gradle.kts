@@ -26,6 +26,7 @@ dependencies {
     intellijPlatform {
         intellijIdea("2026.1")
         plugin("com.redhat.devtools.lsp4ij:0.19.3")
+        bundledModule("intellij.spellchecker")
         testFramework(TestFrameworkType.Platform)
     }
 }
