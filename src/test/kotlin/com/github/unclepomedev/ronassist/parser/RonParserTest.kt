@@ -10,4 +10,5 @@ class RonParserTest : RonParsingTestCaseBase() {
     fun testAllTokens() = doTest(true)
     fun testIncompleteStructEntry() = doTest(true)
     fun testIncompleteMapEntry() = doTest(true)
+    fun testIncompleteEntriesWithCommas() = doTest(true)
 }

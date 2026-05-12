@@ -12,4 +12,6 @@ class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testMultipleIncomplete() = doTest()
     fun testNestedIncomplete() = doTest()
     fun testMixedComplete() = doTest()
+    fun testMultipleIncompleteWithCommas() = doTest()
+    fun testMixedCompleteWithCommas() = doTest()
 }
