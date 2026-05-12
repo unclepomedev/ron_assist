@@ -7,4 +7,6 @@ class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testPosixNewline() = doTest()
     fun testSomeWithStruct() = doTest()
     fun testNoneWithStruct() = doTest()
+    fun testIncompleteStructEntry() = doTest()
+    fun testIncompleteMapEntry() = doTest()
 }
