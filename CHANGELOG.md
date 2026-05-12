@@ -3,5 +3,24 @@
 # ron_assist Changelog
 
 ## [Unreleased]
+
+## [0.1.0] - 2026-05-12
+
 ### Added
-- Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+
+* Brace matcher (with Enter handler, smart backspace, surround with)
+* Quote handler
+* Commenter (line and block comments)
+* Smart Enter processor (`Cmd+Shift+Enter` / `Ctrl+Shift+Enter`)
+* Live templates
+* Create File from Template
+* Syntax highlighting
+* Semantic highlighting (distinguishes struct names from field names)
+* Color settings page
+* Folding (PSI-based and `// region` markers, with per-type collapse settings)
+* Structure view
+* Breadcrumbs
+* Inspections (duplicate map keys, duplicate struct fields)
+* Spell checker
+* Formatter (indent and spacing rules)
+* Code style settings page

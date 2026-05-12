@@ -1,45 +1,62 @@
 # ron_assist
 
-![Build](https://github.com/unclepomedev/ron_assist/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
+<!-- Plugin description -->
+RON (Redshift Node Operator) assist plugin for JetBrains IDEs (RustRover, IntelliJ IDEA, PyCharm, etc.)
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [group](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml), [name](./src/main/resources/META-INF/plugin.xml), and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin [description](./src/main/resources/META-INF/plugin.xml) (see [Tips][docs:plugin-description]) and this README to describe what your plugin does.
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `MARKETPLACE_ID` in the above README badges. You can obtain it once the plugin is published to JetBrains Marketplace.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+## Features
 
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+### Editing
+* Brace matcher (with Enter handler, smart backspace, surround with)
+* Quote handler
+* Commenter (line and block comments)
+* Smart Enter processor (`Cmd+Shift+Enter` / `Ctrl+Shift+Enter`)
+* Live templates
+* Create File from Template
 
-## Installation
+### Highlighting & display
+* Syntax highlighting
+* Semantic highlighting (distinguishes struct names from field names)
+* Color settings page
+* Folding (PSI-based and `// region` markers, with per-type collapse settings)
+* Structure view
+* Breadcrumbs
 
-- Using the IDE built-in plugin system:
+### Code quality
+* Inspections (duplicate map keys, duplicate struct fields)
+* Spell checker
 
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "ron_assist"</kbd> >
-  <kbd>Install</kbd>
+### Formatting
+* Formatter (indent and spacing rules)
+* Code style settings page
 
-- Using JetBrains Marketplace:
+source code, quick usage and issue tracker: https://github.com/unclepomedev/ron_assist
 
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking the <kbd>Install to ...</kbd> button in case your IDE is running.
+<!-- Plugin description end -->
 
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from JetBrains Marketplace and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+## Quick Usage
 
-- Manually:
+Usage and shortcuts conform to standard JetBrains IDE behavior. A few items
+that benefit from explicit pointers:
 
-  Download the [latest release](https://github.com/unclepomedev/ron_assist/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+- **New RON File**: `File → New → RON File`, or right-click in the Project
+  view → `New → RON File`.
 
+- **Smart Enter** (`Cmd+Shift+Enter` / `Ctrl+Shift+Enter`): completes the
+  current entry with a trailing comma and moves to the next line, regardless
+  of cursor position within the entry.
 
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+- **Folding**: PSI nodes fold automatically. Use `// region <name>` and
+  `// endregion` to create custom collapsible sections.
 
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+- **Live Templates**: type a prefix and `Tab` to expand. Try `st` (named
+  struct), `mp` (map), `lst` (list), `kv` (map entry), `field` (struct entry).
+  Press `Cmd+J` / `Ctrl+J` to see all available templates in context.
+
+- **Inspections**: duplicate map keys and struct fields are flagged with
+  warnings. Standard and raw strings (`"foo"` and `r"foo"`) count as
+  equivalent for duplicate detection. Configure under
+  `Settings → Editor → Inspections → RON`.
+
+## LICENSE
+
+Apache-2.0 or MIT
