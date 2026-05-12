@@ -8,4 +8,6 @@ class RonParserTest : RonParsingTestCaseBase() {
     fun testDeeplyNested() = doTest(true)
     fun testIncompleteEntries() = doTest(true)
     fun testAllTokens() = doTest(true)
+    fun testIncompleteStructEntry() = doTest(true)
+    fun testIncompleteMapEntry() = doTest(true)
 }
