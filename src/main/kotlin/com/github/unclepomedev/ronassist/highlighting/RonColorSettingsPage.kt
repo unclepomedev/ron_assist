@@ -14,15 +14,17 @@ class RonColorSettingsPage : ColorSettingsPage {
     private val descriptors = arrayOf(
         AttributesDescriptor("Keyword", RonSyntaxHighlighter.KEYWORD),
         AttributesDescriptor("Number", RonSyntaxHighlighter.NUMBER),
-        AttributesDescriptor("String", RonSyntaxHighlighter.STRING),
-        AttributesDescriptor("Line comment", RonSyntaxHighlighter.LINE_COMMENT),
-        AttributesDescriptor("Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
+        AttributesDescriptor("String//Standard", RonSyntaxHighlighter.STRING),
+        AttributesDescriptor("String//Raw", RonSyntaxHighlighter.RAW_STRING),
+        AttributesDescriptor("String//Char", RonSyntaxHighlighter.CHAR),
+        AttributesDescriptor("Comment//Line comment", RonSyntaxHighlighter.LINE_COMMENT),
+        AttributesDescriptor("Comment//Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
         AttributesDescriptor("Identifier", RonSyntaxHighlighter.IDENTIFIER),
-        AttributesDescriptor("Braces", RonSyntaxHighlighter.BRACES),
-        AttributesDescriptor("Brackets", RonSyntaxHighlighter.BRACKETS),
-        AttributesDescriptor("Parentheses", RonSyntaxHighlighter.PARENTHESES),
-        AttributesDescriptor("Comma", RonSyntaxHighlighter.COMMA),
-        AttributesDescriptor("Bad character", RonSyntaxHighlighter.BAD_CHARACTER)
+        AttributesDescriptor("Braces and operators//Braces", RonSyntaxHighlighter.BRACES),
+        AttributesDescriptor("Braces and operators//Brackets", RonSyntaxHighlighter.BRACKETS),
+        AttributesDescriptor("Braces and operators//Parentheses", RonSyntaxHighlighter.PARENTHESES),
+        AttributesDescriptor("Braces and operators//Comma", RonSyntaxHighlighter.COMMA),
+        AttributesDescriptor("Bad character", RonSyntaxHighlighter.BAD_CHARACTER),
     )
 
     override fun getIcon(): Icon = RonIcons.FILE
@@ -31,7 +33,7 @@ class RonColorSettingsPage : ColorSettingsPage {
 
     override fun getDemoText(): String = """
         // Example RON file
-        /* 
+        /*
            Block comment
         */
         Scene(
@@ -39,9 +41,10 @@ class RonColorSettingsPage : ColorSettingsPage {
                 "metal": (
                     reflectivity: 1.0,
                     roughness: 0.2,
+                    priority: 100u32,
                 ),
                 "plastic": (
-                    reflectivity: 0.5,
+                    reflectivity: 0.5f64,
                     roughness: 0.8,
                 ),
             },
@@ -50,14 +53,15 @@ class RonColorSettingsPage : ColorSettingsPage {
                     name: "hero",
                     visible: true,
                     health: Some(100),
-                    data: r#"Raw string example"#
+                    grade: 'A',
+                    data: r#"Raw string example"#,
                 ),
                 (
                     name: "monster",
                     visible: false,
                     health: None,
                 ),
-            ]
+            ],
         )
     """.trimIndent()
 
