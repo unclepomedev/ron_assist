@@ -117,4 +117,18 @@ class RonLexerTest : LexerTestCase() {
             "BAD_CHARACTER ('@')",
         )
     }
+
+    fun testIncompleteHashedRawString() {
+        doTest(
+            "r#\"hello",
+            "RonTokenType.RAW_STRING ('r#\"hello')",
+        )
+    }
+
+    fun testIncompleteDoubleHashedRawString() {
+        doTest(
+            "r##\"hello",
+            "RonTokenType.RAW_STRING ('r##\"hello')",
+        )
+    }
 }

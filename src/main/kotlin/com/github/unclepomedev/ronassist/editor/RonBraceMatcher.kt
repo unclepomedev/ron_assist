@@ -21,17 +21,27 @@ class RonBraceMatcher : PairedBraceMatcher {
     override fun isPairedBracesAllowedBeforeType(
         lbraceType: IElementType,
         contextType: IElementType?,
-    ): Boolean = true
+    ): Boolean {
+        if (contextType == null) return true
+        return contextType !in DISALLOWED_CONTEXTS
+    }
 
     /** Pair lookups start from the brace token itself, so no offset adjustment. */
     override fun getCodeConstructStart(file: PsiFile, openingBraceOffset: Int): Int =
         openingBraceOffset
 
-    companion object {
-        private val PAIRS = arrayOf(
-            BracePair(RonTypes.LBRACE, RonTypes.RBRACE, true),
-            BracePair(RonTypes.LBRACK, RonTypes.RBRACK, true),
-            BracePair(RonTypes.LPAREN, RonTypes.RPAREN, true),
-        )
-    }
 }
+
+private val PAIRS = arrayOf(
+    BracePair(RonTypes.LBRACE, RonTypes.RBRACE, true),
+    BracePair(RonTypes.LBRACK, RonTypes.RBRACK, true),
+    BracePair(RonTypes.LPAREN, RonTypes.RPAREN, true),
+)
+
+private val DISALLOWED_CONTEXTS = setOf(
+    RonTypes.STRING,
+    RonTypes.RAW_STRING,
+    RonTypes.CHAR,
+    RonTypes.LINE_COMMENT,
+    RonTypes.BLOCK_COMMENT,
+)
