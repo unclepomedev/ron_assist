@@ -23,6 +23,7 @@ class RonAnnotatorTest : BasePlatformTestCase() {
     fun testNestedStructNamesHighlighted() {
         myFixture.configureByText("test.ron", "Outer(inner: Inner(x: 1))")
         val infos = highlightInfosWithKey(RonSyntaxHighlighter.STRUCT_NAME)
+        assertEquals(2, infos.size)
         assertEquals(setOf("Outer", "Inner"), infos.map { textOf(it) }.toSet())
     }
 
@@ -37,6 +38,7 @@ class RonAnnotatorTest : BasePlatformTestCase() {
         val structInfos = highlightInfosWithKey(RonSyntaxHighlighter.STRUCT_NAME)
         val fieldInfos = highlightInfosWithKey(RonSyntaxHighlighter.FIELD_NAME)
         assertEquals(0, structInfos.size)
+        assertEquals(1, fieldInfos.size)
         assertEquals(setOf("difficulty"), fieldInfos.map { textOf(it) }.toSet())
     }
 
