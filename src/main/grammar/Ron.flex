@@ -21,9 +21,13 @@ LINE_COMMENT="//"[^\r\n]*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*\*+"/"
 
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
-STRING=\"([^\"\\]|\\.)*\"
-RAW_STRING=r#+\"([^\"]|\"[^#])*\"#+ | r\"[^\"]*\"
-CHAR='([^'\\]|\\.)'
+
+// Intentionally permissive: closing delimiters are optional so the lexer produces a token while the user is still typing the literal.
+// Required by SimpleTokenSetQuoteHandler auto-pairing, brace-matcher context detection, and parser error recovery.
+// Validation of malformed literals belongs in inspections, not here.
+STRING=\"([^\"\\]|\\.)*\"?
+RAW_STRING=r#+\"([^\"]|\"[^#])*(\"#+)? | r\"[^\"]*\"?
+CHAR='([^'\\]|\\.)?'?
 
 FLOAT=-?[0-9]+\.[0-9]*(e[+-]?[0-9]+)?(f32|f64)?
 INTEGER=-?(0x[0-9a-fA-F]+|0b[01]+|0o[0-7]+|[0-9]+)(u8|u16|u32|u64|u128|i8|i16|i32|i64|i128|usize|isize)?

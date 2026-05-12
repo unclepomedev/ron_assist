@@ -1,0 +1,15 @@
+RON File
+  PsiElement(RonTokenType.()('(')
+  PsiElement(RonTokenType.IDENTIFIER)('valid')
+  PsiElement(RonTokenType.:)(':')
+  PsiElement(RonTokenType.INTEGER)('1')
+  PsiElement(RonTokenType.,)(',')
+  PsiErrorElement:RonTokenType.) or RonTokenType.IDENTIFIER expected, got ':'
+    PsiElement(RonTokenType.:)(':')
+  PsiElement(RonTokenType.STRING)('"missing key"')
+  PsiElement(RonTokenType.,)(',')
+  PsiElement(RonTokenType.IDENTIFIER)('incomplete_value')
+  PsiElement(RonTokenType.:)(':')
+  PsiElement(RonTokenType.,)(',')
+  PsiElement(RonTokenType.STRING)('"key_only"')
+  PsiElement(RonTokenType.))(')')

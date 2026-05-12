@@ -69,4 +69,66 @@ class RonLexerTest : LexerTestCase() {
                     "RonTokenType.INTEGER ('0b1010')"
         )
     }
+
+    fun testIncompleteString() {
+        doTest(
+            "\"hello",
+            "RonTokenType.STRING ('\"hello')",
+        )
+    }
+
+    fun testIncompleteChar() {
+        doTest(
+            "'a",
+            "RonTokenType.CHAR (''a')",
+        )
+    }
+
+    fun testJustOpeningQuote() {
+        doTest(
+            "\"",
+            "RonTokenType.STRING ('\"')",
+        )
+    }
+
+    fun testRawStringVariants() {
+        doTest(
+            "r\"simple\" r#\"hash\"# r##\"double_hash\"##",
+            """
+                RonTokenType.RAW_STRING ('r"simple"')
+                WHITE_SPACE (' ')
+                RonTokenType.RAW_STRING ('r#"hash"#')
+                WHITE_SPACE (' ')
+                RonTokenType.RAW_STRING ('r##"double_hash"##')
+            """.trimIndent()
+        )
+    }
+
+    fun testRawStringWithNewline() {
+        doTest(
+            "r#\"line1\nline2\"#",
+            "RonTokenType.RAW_STRING ('r#\"line1\\nline2\"#')"
+        )
+    }
+
+    fun testBadCharacter() {
+        doTest(
+            "@",
+            "BAD_CHARACTER ('@')",
+        )
+    }
+
+    fun testIncompleteHashedRawString() {
+        doTest(
+            "r#\"hello",
+            "RonTokenType.RAW_STRING ('r#\"hello')",
+        )
+    }
+
+    fun testIncompleteDoubleHashedRawString() {
+        doTest(
+            "r##\"hello",
+            "RonTokenType.RAW_STRING ('r##\"hello')",
+        )
+    }
 }
