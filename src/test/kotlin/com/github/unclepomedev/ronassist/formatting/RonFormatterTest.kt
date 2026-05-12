@@ -9,4 +9,7 @@ class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testNoneWithStruct() = doTest()
     fun testIncompleteStructEntry() = doTest()
     fun testIncompleteMapEntry() = doTest()
+    fun testMultipleIncomplete() = doTest()
+    fun testNestedIncomplete() = doTest()
+    fun testMixedComplete() = doTest()
 }

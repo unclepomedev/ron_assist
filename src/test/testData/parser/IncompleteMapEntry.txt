@@ -16,6 +16,6 @@ RON File
           RonStringValImpl(STRING_VAL)
             PsiElement(RonTokenType.STRING)('"hp"')
         PsiElement(RonTokenType.:)(':')
-        PsiErrorElement:<value> expected, got '}'
-          <empty list>
+      PsiErrorElement:<value> expected, got '}'
+        <empty list>
       PsiElement(RonTokenType.})('}')
