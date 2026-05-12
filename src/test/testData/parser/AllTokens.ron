@@ -1,0 +1,16 @@
+Game(
+    name: "Touhou",
+    description: r#"shoot 'em up"#,
+    initial: 'R',
+    version: 1.0,
+    build: 100u32,
+    enabled: true,
+    locked: false,
+    save: Some("backup.dat"),
+    next: None,
+    tags: ["danmaku", "bullet hell"],
+    keymap: {'z': "shoot", 'x': "bomb"},
+    // line comment
+    /* block
+       comment */
+)

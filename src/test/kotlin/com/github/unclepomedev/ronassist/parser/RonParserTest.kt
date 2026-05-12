@@ -5,4 +5,7 @@ class RonParserTest : RonParsingTestCaseBase() {
     fun testCollections() = doTest(true)
     fun testStructsAndTuples() = doTest(true)
     fun testComplexConfig() = doTest(true)
+    fun testDeeplyNested() = doTest(true)
+    fun testIncompleteEntries() = doTest(true)
+    fun testAllTokens() = doTest(true)
 }
