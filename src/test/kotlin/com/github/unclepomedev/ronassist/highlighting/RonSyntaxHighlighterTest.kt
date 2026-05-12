@@ -27,11 +27,27 @@ class RonSyntaxHighlighterTest {
     }
 
     @Test
-    fun testStringsAndChars() {
-        val expected = arrayOf(RonSyntaxHighlighter.STRING)
-        assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.STRING))
-        assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.RAW_STRING))
-        assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.CHAR))
+    fun testStrings() {
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.STRING),
+            highlighter.getTokenHighlights(RonTypes.STRING),
+        )
+    }
+
+    @Test
+    fun testRawStrings() {
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.RAW_STRING),
+            highlighter.getTokenHighlights(RonTypes.RAW_STRING),
+        )
+    }
+
+    @Test
+    fun testChars() {
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.CHAR),
+            highlighter.getTokenHighlights(RonTypes.CHAR),
+        )
     }
 
     @Test

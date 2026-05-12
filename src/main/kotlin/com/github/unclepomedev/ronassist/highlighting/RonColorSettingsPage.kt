@@ -21,6 +21,7 @@ class RonColorSettingsPage : ColorSettingsPage {
         AttributesDescriptor("Comment//Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
         AttributesDescriptor("Identifier//Other", RonSyntaxHighlighter.IDENTIFIER),
         AttributesDescriptor("Identifier//Struct name", RonSyntaxHighlighter.STRUCT_NAME),
+        AttributesDescriptor("Identifier//Field name", RonSyntaxHighlighter.FIELD_NAME),
         AttributesDescriptor("Braces and operators//Braces", RonSyntaxHighlighter.BRACES),
         AttributesDescriptor("Braces and operators//Brackets", RonSyntaxHighlighter.BRACKETS),
         AttributesDescriptor("Braces and operators//Parentheses", RonSyntaxHighlighter.PARENTHESES),
@@ -38,29 +39,29 @@ class RonColorSettingsPage : ColorSettingsPage {
            Block comment
         */
         <structName>Scene</structName>(
-            materials: {
+            <fieldName>materials</fieldName>: {
                 "metal": (
-                    reflectivity: 1.0,
-                    roughness: 0.2,
-                    priority: 100u32,
+                    <fieldName>reflectivity</fieldName>: 1.0,
+                    <fieldName>roughness</fieldName>: 0.2,
+                    <fieldName>priority</fieldName>: 100u32,
                 ),
                 "plastic": (
-                    reflectivity: 0.5f64,
-                    roughness: 0.8,
+                    <fieldName>reflectivity</fieldName>: 0.5f64,
+                    <fieldName>roughness</fieldName>: 0.8,
                 ),
             },
-            entities: [
+            <fieldName>entities</fieldName>: [
                 (
-                    name: "hero",
-                    visible: true,
-                    health: Some(100),
-                    grade: 'A',
-                    data: r#"Raw string example"#,
+                    <fieldName>name</fieldName>: "hero",
+                    <fieldName>visible</fieldName>: true,
+                    <fieldName>health</fieldName>: Some(100),
+                    <fieldName>grade</fieldName>: 'A',
+                    <fieldName>data</fieldName>: r#"Raw string example"#,
                 ),
                 (
-                    name: "monster",
-                    visible: false,
-                    health: None,
+                    <fieldName>name</fieldName>: "monster",
+                    <fieldName>visible</fieldName>: false,
+                    <fieldName>health</fieldName>: None,
                 ),
             ],
         )
@@ -68,6 +69,7 @@ class RonColorSettingsPage : ColorSettingsPage {
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> = mapOf(
         "structName" to RonSyntaxHighlighter.STRUCT_NAME,
+        "fieldName" to RonSyntaxHighlighter.FIELD_NAME,
     )
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> = descriptors

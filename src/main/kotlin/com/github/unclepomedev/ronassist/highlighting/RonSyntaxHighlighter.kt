@@ -27,6 +27,7 @@ class RonSyntaxHighlighter : SyntaxHighlighterBase() {
         val COMMA = createTextAttributesKey("RON_COMMA", DefaultLanguageHighlighterColors.COMMA)
         val BAD_CHARACTER = createTextAttributesKey("RON_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
         val STRUCT_NAME = createTextAttributesKey("RON_STRUCT_NAME", DefaultLanguageHighlighterColors.CLASS_NAME)
+        val FIELD_NAME = createTextAttributesKey("RON_FIELD_NAME", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
 
         private val KEYWORD_KEYS = arrayOf(KEYWORD)
         private val NUMBER_KEYS = arrayOf(NUMBER)
