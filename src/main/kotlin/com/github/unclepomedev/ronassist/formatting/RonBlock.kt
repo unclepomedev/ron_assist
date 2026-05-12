@@ -33,20 +33,10 @@ class RonBlock(
      * and structs while keeping enclosing brackets and identifiers unindented.
      */
     override fun getIndent(): Indent? {
-        val parentType = myNode.treeParent?.elementType
-        val type = myNode.elementType
-
-        if (parentType == RonTypes.MAP || parentType == RonTypes.LIST || parentType == RonTypes.STRUCT_OR_TUPLE) {
-            if (type == RonTypes.LBRACE || type == RonTypes.RBRACE ||
-                type == RonTypes.LBRACK || type == RonTypes.RBRACK ||
-                type == RonTypes.LPAREN || type == RonTypes.RPAREN ||
-                type == RonTypes.IDENTIFIER
-            ) {
-                return Indent.getNoneIndent()
-            }
-            return Indent.getNormalIndent()
-        }
-        return Indent.getNoneIndent()
+        val parentType = myNode.treeParent?.elementType ?: return Indent.getNoneIndent()
+        if (parentType !in INDENT_CONTAINERS) return Indent.getNoneIndent()
+        if (myNode.elementType in NO_INDENT_TOKENS) return Indent.getNoneIndent()
+        return Indent.getNormalIndent()
     }
 
     /**
@@ -54,11 +44,11 @@ class RonBlock(
      * indents when adding items inside maps, lists, or structs.
      */
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
-        val type = myNode.elementType
-        if (type == RonTypes.MAP || type == RonTypes.LIST || type == RonTypes.STRUCT_OR_TUPLE) {
-            return ChildAttributes(Indent.getNormalIndent(), null)
+        return if (myNode.elementType in INDENT_CONTAINERS) {
+            ChildAttributes(Indent.getNormalIndent(), null)
+        } else {
+            ChildAttributes(Indent.getNoneIndent(), null)
         }
-        return ChildAttributes(Indent.getNoneIndent(), null)
     }
 
     /**
@@ -73,4 +63,24 @@ class RonBlock(
      * Returns true if the block has no child nodes, marking it as a leaf in the formatting tree.
      */
     override fun isLeaf(): Boolean = myNode.firstChildNode == null
+
+    companion object {
+        /** AST element types whose direct children should be indented. */
+        private val INDENT_CONTAINERS = setOf(
+            RonTypes.MAP,
+            RonTypes.LIST,
+            RonTypes.STRUCT_OR_TUPLE,
+            RonTypes.OPTION,
+        )
+
+        /** Token types that should not be indented even when inside an indent container. */
+        private val NO_INDENT_TOKENS = setOf(
+            RonTypes.LBRACE, RonTypes.RBRACE,
+            RonTypes.LBRACK, RonTypes.RBRACK,
+            RonTypes.LPAREN, RonTypes.RPAREN,
+            RonTypes.IDENTIFIER,
+            RonTypes.SOME,
+            RonTypes.NONE,
+        )
+    }
 }
