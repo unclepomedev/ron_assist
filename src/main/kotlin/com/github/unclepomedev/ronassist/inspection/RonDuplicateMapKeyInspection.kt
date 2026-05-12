@@ -53,18 +53,7 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
 
     /** Strips surrounding quotes and any raw-string `r`/`#` markers. */
     private fun stripStringQuotes(text: String): String {
-        // raw string forms: r"..."   or   r##"..."##
-        if (text.startsWith("r")) {
-            val firstQuote = text.indexOf('"')
-            val lastQuote = text.lastIndexOf('"')
-            if (firstQuote in 1 until lastQuote) {
-                return text.substring(firstQuote + 1, lastQuote)
-            }
-        }
-        // standard string: "..."
-        if (text.length >= 2 && text.first() == '"' && text.last() == '"') {
-            return text.substring(1, text.length - 1)
-        }
-        return text  // fallback
+        val range = RonPsiImplUtil.stringContentRange(text) ?: return text
+        return range.substring(text)
     }
 }

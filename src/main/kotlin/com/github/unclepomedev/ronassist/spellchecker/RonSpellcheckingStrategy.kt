@@ -18,7 +18,7 @@ class RonSpellcheckingStrategy : SpellcheckingStrategy() {
      */
     override fun getTokenizer(element: PsiElement): Tokenizer<*> {
         if (element is PsiComment) return myCommentTokenizer
-        if (element is RonStringVal) return TEXT_TOKENIZER
+        if (element is RonStringVal) return RonStringTokenizer
         if (element.node?.elementType == RonTypes.IDENTIFIER) {
             val parent = element.parent
             if (parent is RonStructOrTuple || parent is RonStructEntry) {

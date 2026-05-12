@@ -1,6 +1,7 @@
 package com.github.unclepomedev.ronassist.psi.impl
 
 import com.github.unclepomedev.ronassist.psi.*
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 
@@ -41,4 +42,29 @@ object RonPsiImplUtil {
     /** Returns the value of a struct entry (the value after the colon). */
     fun getValue(entry: RonStructEntry): RonValue? =
         PsiTreeUtil.getChildOfType(entry, RonValue::class.java)
+
+    /**
+     * Returns the offsets (inside the element text) of the inner content of a
+     * string literal, excluding surrounding quotes and any raw-string
+     * `r`/`#` markers. Returns null when the text is not a recognizable
+     * string form.
+     */
+    fun stringContentRange(text: String): TextRange? {
+        if (text.isEmpty()) return null
+
+        if (text.startsWith("r")) {
+            val firstQuote = text.indexOf('"')
+            val lastQuote = text.lastIndexOf('"')
+            if (firstQuote in 1 until lastQuote) {
+                return TextRange(firstQuote + 1, lastQuote)
+            }
+            return null
+        }
+
+        if (text.length >= 2 && text.first() == '"' && text.last() == '"') {
+            return TextRange(1, text.length - 1)
+        }
+
+        return null
+    }
 }

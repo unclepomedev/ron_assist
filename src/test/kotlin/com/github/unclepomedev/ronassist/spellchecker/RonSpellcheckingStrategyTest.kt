@@ -60,6 +60,22 @@ class RonSpellcheckingStrategyTest : BasePlatformTestCase() {
         assertEquals(SpellcheckingStrategy.EMPTY_TOKENIZER, strategy.getTokenizer(keyword))
     }
 
+    fun testRawStringIsTokenized() {
+        myFixture.configureByText("test.ron", """{"key": r#"hello world"#}""")
+        val string = PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
+            ?: error("RonStringVal not found")
+        val tokenizer = strategy.getTokenizer(string)
+        assertIsNotEmptyTokenizer(tokenizer)
+        assertEquals(RonStringTokenizer, tokenizer)
+    }
+
+    fun testStandardStringIsTokenized() {
+        myFixture.configureByText("test.ron", """{"key": "hello world"}""")
+        val string = PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
+            ?: error("RonStringVal not found")
+        assertEquals(RonStringTokenizer, strategy.getTokenizer(string))
+    }
+
     private fun assertIsNotEmptyTokenizer(tokenizer: Tokenizer<*>) {
         assertNotSame(
             "Expected a non-empty tokenizer",
