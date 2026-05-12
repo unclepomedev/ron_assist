@@ -6,7 +6,7 @@
               key="livetemplate.ron.st.description"
               toReformat="false"
               toShortenFQNames="false">
-        <variable name="NAME" expression="" defaultValue="&quot;Name&quot;" alwaysStopAt="true" />
+        <variable name="NAME" expression="" defaultValue="Name" alwaysStopAt="true" />
         <context>
             <option name="RON" value="true" />
         </context>
@@ -62,7 +62,7 @@
               key="livetemplate.ron.kv.description"
               toReformat="false"
               toShortenFQNames="false">
-        <variable name="KEY" expression="" defaultValue="&quot;key&quot;" alwaysStopAt="true" />
+        <variable name="KEY" expression="" defaultValue="key" alwaysStopAt="true" />
         <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true" />
         <context>
             <option name="RON" value="true" />
@@ -75,7 +75,7 @@
               key="livetemplate.ron.field.description"
               toReformat="false"
               toShortenFQNames="false">
-        <variable name="NAME" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true" />
+        <variable name="NAME" expression="" defaultValue="name" alwaysStopAt="true" />
         <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true" />
         <context>
             <option name="RON" value="true" />
@@ -88,7 +88,7 @@
               key="livetemplate.ron.stm.description"
               toReformat="true"
               toShortenFQNames="false">
-        <variable name="NAME" expression="" defaultValue="&quot;Name&quot;" alwaysStopAt="true" />
+        <variable name="NAME" expression="" defaultValue="Name" alwaysStopAt="true" />
         <context>
             <option name="RON" value="true" />
         </context>
