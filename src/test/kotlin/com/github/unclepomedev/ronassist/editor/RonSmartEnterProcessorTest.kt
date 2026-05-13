@@ -17,6 +17,7 @@ class RonSmartEnterProcessorTest : BasePlatformTestCase() {
     fun testCommentBetweenEntryAndComma() = doTest()
     // Smart Enter should not insert ",\n" on an incomplete entry.
     fun testIncompleteEntryIsSkipped() = doTest()
+    fun testCompletesMapEntryMissingCommaBeforeNextEntry() = doTest()
 
     private fun doTest() {
         val testName = getTestName(true)
