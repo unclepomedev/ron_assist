@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-05-14
+
+* Improved formatter handling of incomplete struct and map entries without colon separators.
+
 ## [0.1.2] - 2026-05-13
 
 * Fix Smart Enter to correctly append missing commas and newlines.

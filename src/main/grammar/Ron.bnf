@@ -60,13 +60,15 @@ char_val ::= CHAR
 list ::= LBRACK value_list? RBRACK
 private value_list ::= value (COMMA? value)* COMMA?
 
+private value_first ::= IDENTIFIER | STRING | RAW_STRING | CHAR | FLOAT | INTEGER | TRUE | FALSE | SOME | NONE | LBRACK | LBRACE | LPAREN
+
 map ::= LBRACE map_entry_list? RBRACE
 private map_entry_list ::= map_entry (COMMA? map_entry)* COMMA?
 
 // pin=1 commits the node on the first key to preserve AST structure for the formatter.
 // Optional commas and recoverWhile prevent syntax errors from swallowing sibling entries.
 map_entry ::= value COLON value { pin=1 recoverWhile=map_entry_recover }
-private map_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK | IDENTIFIER | STRING | RAW_STRING)
+private map_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK | value_first)
 
 struct_or_tuple ::= IDENTIFIER? LPAREN entries? RPAREN
 private entries ::= struct_entries | tuple_entries

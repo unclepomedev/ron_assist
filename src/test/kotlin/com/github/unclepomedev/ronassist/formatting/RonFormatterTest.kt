@@ -19,4 +19,8 @@ class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testMixedCompleteNoColon() = doTest()
     fun testMultipleIncompleteWithCommas() = doTest()
     fun testMixedCompleteWithCommas() = doTest()
+    fun testNumericKeyRecovery() = doTest()
+    fun testBooleanKeyRecovery() = doTest()
+    fun testOptionKeyRecovery() = doTest()
+    fun testCollectionKeyRecovery() = doTest()
 }
