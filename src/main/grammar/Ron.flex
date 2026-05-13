@@ -24,10 +24,11 @@ IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 
 // Intentionally permissive: closing delimiters are optional so the lexer produces a token while the user is still typing the literal.
 // Required by SimpleTokenSetQuoteHandler auto-pairing, brace-matcher context detection, and parser error recovery.
+// STRING and CHAR are kept single-line to prevent the lexer from greedily merging with quotes on later lines.
 // Validation of malformed literals belongs in inspections, not here.
-STRING=\"([^\"\\]|\\.)*\"?
+STRING=\"([^\"\\\n\r]|\\.)*\"?
 RAW_STRING=r#+\"([^\"]|\"[^#])*(\"#+)? | r\"[^\"]*\"?
-CHAR='([^'\\]|\\.)?'?
+CHAR='([^'\\\n\r]|\\.)?'?
 
 FLOAT=-?[0-9]+\.[0-9]*(e[+-]?[0-9]+)?(f32|f64)?
 INTEGER=-?(0x[0-9a-fA-F]+|0b[01]+|0o[0-7]+|[0-9]+)(u8|u16|u32|u64|u128|i8|i16|i32|i64|i128|usize|isize)?
