@@ -131,4 +131,33 @@ class RonLexerTest : LexerTestCase() {
             "RonTokenType.RAW_STRING ('r##\"hello')",
         )
     }
+
+    fun testStringDoesNotSpanLines() {
+        doTest(
+            "\"foo\n\"bar\"",
+            "RonTokenType.STRING ('\"foo')\n" +
+                    "WHITE_SPACE ('\\n')\n" +
+                    "RonTokenType.STRING ('\"bar\"')",
+        )
+    }
+
+    fun testIncompleteStringStopsAtNewline() {
+        doTest(
+            "\"unclosed\n42",
+            "RonTokenType.STRING ('\"unclosed')\n" +
+                    "WHITE_SPACE ('\\n')\n" +
+                    "RonTokenType.INTEGER ('42')",
+        )
+    }
+
+    fun testCharDoesNotSpanLines() {
+        // The trailing single `'` is recognized as its own (empty/incomplete)
+        // CHAR token by the permissive lexer, which is intentional.
+        doTest(
+            "'a\n'",
+            "RonTokenType.CHAR (''a')\n" +
+                    "WHITE_SPACE ('\\n')\n" +
+                    "RonTokenType.CHAR (''')",
+        )
+    }
 }

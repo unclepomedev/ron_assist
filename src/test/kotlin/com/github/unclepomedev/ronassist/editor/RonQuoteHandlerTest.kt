@@ -27,4 +27,40 @@ class RonQuoteHandlerTest : BasePlatformTestCase() {
         myFixture.type('\b')  // Backspace
         myFixture.checkResult("(value: <caret>)")
     }
+
+    // TODO: When the number of test cases spanning multiple lines increases, move them to the gold file.
+
+    fun testQuoteCompletionBetweenExistingStrings() {
+        myFixture.configureByText("test.ron", """
+        {
+            "name": "Reimu",
+            <caret>
+            "score": 100,
+        }
+    """.trimIndent())
+        myFixture.type('"')
+        myFixture.checkResult("""
+        {
+            "name": "Reimu",
+            "<caret>"
+            "score": 100,
+        }
+    """.trimIndent())
+    }
+
+    fun testQuoteCompletionAfterIncompleteString() {
+        myFixture.configureByText("test.ron", """
+        (
+            value: "incomplete
+            <caret>
+        )
+    """.trimIndent())
+        myFixture.type('"')
+        myFixture.checkResult("""
+        (
+            value: "incomplete
+            "<caret>"
+        )
+    """.trimIndent())
+    }
 }
