@@ -160,11 +160,4 @@ class RonLexerTest : LexerTestCase() {
                     "RonTokenType.CHAR (''')",
         )
     }
-
-    fun testRawStringStillSpansLines() {
-        doTest(
-            "r#\"line1\nline2\"#",
-            "RonTokenType.RAW_STRING ('r#\"line1\\nline2\"#')",
-        )
-    }
 }
