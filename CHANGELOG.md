@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-05-13
+
+* Description Typo fix
+* Improved quote handling for string and character literals.
+
 ## [0.1.0] - 2026-05-12
 
 ### Added
