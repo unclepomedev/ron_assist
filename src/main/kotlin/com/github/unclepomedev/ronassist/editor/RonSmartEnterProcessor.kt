@@ -29,8 +29,19 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
     }
 
     private fun insertNewLineAfterEntry(project: Project, editor: Editor, entry: PsiElement) {
-        val existingComma = trailingCommaOf(entry)
-        val offset = existingComma?.textRange?.endOffset ?: endOffsetSkippingTrailingWhitespace(entry)
+        val valueElement = when (entry) {
+            is RonStructEntry -> RonPsiImplUtil.getValue(entry)
+            is RonMapEntry -> RonPsiImplUtil.getValue(entry)
+            else -> null
+        }
+
+        val hasError = PsiTreeUtil.findChildOfType(entry, PsiErrorElement::class.java) != null
+        val existingComma = if (hasError) null else trailingCommaOf(entry)
+
+        val offset = existingComma?.textRange?.endOffset
+            ?: valueElement?.textRange?.endOffset
+            ?: endOffsetSkippingTrailingWhitespace(entry)
+
         val text = if (existingComma != null) "\n" else ",\n"
 
         editor.document.insertString(offset, text)
@@ -82,16 +93,13 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
         return last?.textRange?.endOffset ?: entry.textRange.endOffset
     }
 
-    private fun isComplete(entry: PsiElement): Boolean = when (entry) {
-        is RonStructEntry ->
-            RonPsiImplUtil.getNameIdentifier(entry) != null && RonPsiImplUtil.getValue(entry) != null
-
-        is RonMapEntry ->
-            RonPsiImplUtil.getKey(entry) != null && RonPsiImplUtil.getValue(entry) != null
-
-        else -> false
+    private fun isComplete(entry: PsiElement): Boolean {
+        return when (entry) {
+            is RonStructEntry -> RonPsiImplUtil.getNameIdentifier(entry) != null && RonPsiImplUtil.getValue(entry) != null
+            is RonMapEntry -> RonPsiImplUtil.getKey(entry) != null && RonPsiImplUtil.getValue(entry) != null
+            else -> false
+        }
     }
 
-    private fun PsiElement.isSkippableSibling(): Boolean =
-        this is PsiWhiteSpace || this is PsiComment
+    private fun PsiElement.isSkippableSibling(): Boolean = this is PsiWhiteSpace || this is PsiComment
 }
