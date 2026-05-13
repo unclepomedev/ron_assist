@@ -1,6 +1,6 @@
 # ron_assist
 
-[![Version](https://plugins.jetbrains.com/plugin/31724-ron-assist)](https://plugins.jetbrains.com/plugin/31724-ron-assist)
+[![Version](https://img.shields.io/jetbrains/plugin/v/31724-ron-assist)](https://plugins.jetbrains.com/plugin/31724-ron-assist)
 
 
 <!-- Plugin description -->
