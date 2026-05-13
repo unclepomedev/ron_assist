@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-05-13
+
 * Fix Smart Enter to correctly append missing commas and newlines.
 
 ## [0.1.1] - 2026-05-13
