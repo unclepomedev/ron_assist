@@ -1,7 +1,7 @@
 # ron_assist
 
 <!-- Plugin description -->
-RON (Rusty Object Notation) assist plugin for JetBrains IDEs (RustRover, IntelliJ IDEA, PyCharm, etc.)
+RON (Rust Object Notation) assist plugin for JetBrains IDEs (RustRover, IntelliJ IDEA, PyCharm, etc.)
 
 ## Features
 
