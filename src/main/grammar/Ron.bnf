@@ -58,24 +58,23 @@ string_val ::= STRING | RAW_STRING
 char_val ::= CHAR
 
 list ::= LBRACK value_list? RBRACK
-private value_list ::= value (COMMA value)* COMMA?
+private value_list ::= value (COMMA? value)* COMMA?
 
 map ::= LBRACE map_entry_list? RBRACE
-private map_entry_list ::= map_entry (COMMA map_entry)* COMMA?
+private map_entry_list ::= map_entry (COMMA? map_entry)* COMMA?
 
-// pin=2 commits to MAP_ENTRY once value COLON is matched, so an incomplete
-// entry (missing value) still produces a PSI node. recoverWhile stops the
-// error from cascading into the next sibling entry.
-map_entry ::= value COLON value { pin=2 recoverWhile=map_entry_recover }
-private map_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK)
+// pin=1 commits the node on the first key to preserve AST structure for the formatter.
+// Optional commas and recoverWhile prevent syntax errors from swallowing sibling entries.
+map_entry ::= value COLON value { pin=1 recoverWhile=map_entry_recover }
+private map_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK | IDENTIFIER | STRING | RAW_STRING)
 
 struct_or_tuple ::= IDENTIFIER? LPAREN entries? RPAREN
 private entries ::= struct_entries | tuple_entries
-private struct_entries ::= struct_entry (COMMA struct_entry)* COMMA?
+private struct_entries ::= struct_entry_first (COMMA? struct_entry)* COMMA?
 
-// pin=2 commits to STRUCT_ENTRY once IDENTIFIER COLON is matched, so an
-// incomplete entry (missing value) still produces a PSI node. recoverWhile
-// stops the error from cascading into the next sibling entry.
-struct_entry ::= IDENTIFIER COLON value { pin=2 recoverWhile=struct_entry_recover }
-private struct_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK)
-private tuple_entries ::= value (COMMA value)* COMMA?
+// The first entry uses pin=2 to differentiate structs from tuples.
+// Subsequent entries use pin=1 to preserve AST structure even if colons or commas are missing.
+struct_entry_first ::= IDENTIFIER COLON value { elementType=struct_entry pin=2 recoverWhile=struct_entry_recover }
+struct_entry ::= IDENTIFIER COLON value { pin=1 recoverWhile=struct_entry_recover }
+private struct_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK | IDENTIFIER)
+private tuple_entries ::= value (COMMA? value)* COMMA?
