@@ -1,5 +1,8 @@
 # ron_assist
 
+[![Version](https://plugins.jetbrains.com/plugin/31724-ron-assist)](https://plugins.jetbrains.com/plugin/31724-ron-assist)
+
+
 <!-- Plugin description -->
 RON (Rust Object Notation) assist plugin for JetBrains IDEs (RustRover, IntelliJ IDEA, PyCharm, etc.)
 
