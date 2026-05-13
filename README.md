@@ -1,7 +1,7 @@
 # ron_assist
 
 <!-- Plugin description -->
-RON (Redshift Node Operator) assist plugin for JetBrains IDEs (RustRover, IntelliJ IDEA, PyCharm, etc.)
+RON (Rusty Object Notation) assist plugin for JetBrains IDEs (RustRover, IntelliJ IDEA, PyCharm, etc.)
 
 ## Features
 
