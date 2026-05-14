@@ -5,6 +5,7 @@ import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.TokenType
 import com.intellij.psi.formatter.common.AbstractBlock
+import com.intellij.psi.util.PsiTreeUtil
 
 class RonBlock(
     node: ASTNode,
@@ -17,6 +18,9 @@ class RonBlock(
      * Builds child formatting blocks for the current AST node, filtering out whitespaces and empty nodes.
      */
     override fun buildChildren(): List<Block> {
+        if (PsiTreeUtil.hasErrorElements(myNode.psi)) {
+            return emptyList()
+        }
         val blocks = mutableListOf<Block>()
         var child = myNode.firstChildNode
         while (child != null) {
