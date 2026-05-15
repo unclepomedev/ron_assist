@@ -104,6 +104,16 @@ class RonAnnotatorTest : BasePlatformTestCase() {
         myFixture.testHighlighting(false, false, false)
     }
 
+    fun testMissingCommaInTuple() {
+        myFixture.configureByText("test_tuple.ron", """
+            (
+                1
+                <error descr="Missing comma">2</error>
+            )
+        """.trimIndent())
+        myFixture.testHighlighting(false, false, false)
+    }
+
     private fun highlightInfosWithKey(key: TextAttributesKey): List<HighlightInfo> {
         return myFixture.doHighlighting().filter { it.forcedTextAttributesKey == key }
     }
