@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-05-15
+
+* Fix missing comma error detection in collections.
+
 ## [0.1.3] - 2026-05-14
 
 * Improved formatter handling of incomplete struct and map entries without colon separators.
