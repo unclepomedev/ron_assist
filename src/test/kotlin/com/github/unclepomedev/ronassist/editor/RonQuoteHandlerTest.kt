@@ -28,7 +28,7 @@ class RonQuoteHandlerTest : BasePlatformTestCase() {
         myFixture.checkResult("(value: <caret>)")
     }
 
-    // TODO: When the number of test cases spanning multiple lines increases, move them to the gold file.
+    // TODO: Move to gold files if multi-line test cases grow.
 
     fun testQuoteCompletionBetweenExistingStrings() {
         myFixture.configureByText("test.ron", """
