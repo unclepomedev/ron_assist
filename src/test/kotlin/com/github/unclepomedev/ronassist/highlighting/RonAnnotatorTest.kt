@@ -42,6 +42,78 @@ class RonAnnotatorTest : BasePlatformTestCase() {
         assertEquals(setOf("difficulty"), fieldInfos.map { textOf(it) }.toSet())
     }
 
+    // TODO: Move to gold files if multi-line test cases grow.
+
+    fun testMissingCommaInList() {
+        myFixture.configureByText(
+            "test.ron", """
+            [
+                1
+                <error descr="Missing comma">2</error>
+                <error descr="Missing comma">3</error>
+            ]
+        """.trimIndent()
+        )
+        myFixture.testHighlighting(false, false, false)
+    }
+
+    fun testMissingCommaInMap() {
+        myFixture.configureByText(
+            "test.ron", """
+            {
+                "a": 1
+                <error descr="Missing comma">"b": 2</error>
+            }
+        """.trimIndent()
+        )
+        myFixture.testHighlighting(false, false, false)
+    }
+
+    fun testMissingCommaInStruct() {
+        myFixture.configureByText(
+            "test.ron", """
+            Player(
+                hp: 100
+                <error descr="Missing comma">mp: 50</error>
+            )
+        """.trimIndent()
+        )
+        myFixture.testHighlighting(false, false, false)
+    }
+
+    fun testValidCommasNoErrors() {
+        myFixture.configureByText("test_list.ron", "[1, 2, 3]")
+        myFixture.testHighlighting(false, false, false)
+
+        myFixture.configureByText("test_map.ron", "{ \"a\": 1, \"b\": 2 }")
+        myFixture.testHighlighting(false, false, false)
+
+        myFixture.configureByText("test_struct.ron", "Player(hp: 100, mp: 50)")
+        myFixture.testHighlighting(false, false, false)
+    }
+
+    fun testTrailingCommaIsAllowed() {
+        myFixture.configureByText(
+            "test.ron", """
+            [
+                1,
+                2,
+            ]
+        """.trimIndent()
+        )
+        myFixture.testHighlighting(false, false, false)
+    }
+
+    fun testMissingCommaInTuple() {
+        myFixture.configureByText("test_tuple.ron", """
+            (
+                1
+                <error descr="Missing comma">2</error>
+            )
+        """.trimIndent())
+        myFixture.testHighlighting(false, false, false)
+    }
+
     private fun highlightInfosWithKey(key: TextAttributesKey): List<HighlightInfo> {
         return myFixture.doHighlighting().filter { it.forcedTextAttributesKey == key }
     }
