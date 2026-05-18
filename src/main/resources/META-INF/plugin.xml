@@ -4,7 +4,6 @@
     <vendor>unclepomedev</vendor>
 
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.redhat.devtools.lsp4ij</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType

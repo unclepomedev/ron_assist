@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-05-18
+
+* Removed LSP4IJ plugin dependency.
+
 ## [0.1.4] - 2026-05-15
 
 * Fix missing comma error detection in collections.
