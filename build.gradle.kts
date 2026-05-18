@@ -27,6 +27,7 @@ dependencies {
 
     intellijPlatform {
         intellijIdea("2026.1")
+        bundledPlugin("org.intellij.plugins.markdown")
         bundledModule("intellij.spellchecker")
         testFramework(TestFrameworkType.Platform)
     }
