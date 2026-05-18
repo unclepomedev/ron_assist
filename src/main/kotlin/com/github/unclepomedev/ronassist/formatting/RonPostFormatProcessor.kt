@@ -1,6 +1,7 @@
 package com.github.unclepomedev.ronassist.formatting
 
 import com.github.unclepomedev.ronassist.lang.RON_FILE_TYPE
+import com.intellij.lang.injection.InjectedLanguageManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
@@ -15,7 +16,10 @@ class RonPostFormatProcessor : PostFormatProcessor {
      * end with a single POSIX-compliant trailing newline.
      */
     override fun processElement(source: PsiElement, settings: CodeStyleSettings): PsiElement {
-        if (source is PsiFile && source.fileType == RON_FILE_TYPE) {
+        if (source is PsiFile
+            && source.fileType == RON_FILE_TYPE
+            && !InjectedLanguageManager.getInstance(source.project).isInjectedFragment(source)
+        ) {
             ensurePosixNewline(source)
         }
         return source
@@ -26,7 +30,10 @@ class RonPostFormatProcessor : PostFormatProcessor {
      * adjusting and returning the updated text range based on the modification length.
      */
     override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
-        if (source.fileType == RON_FILE_TYPE && rangeToReformat.endOffset >= source.textLength) {
+        if (source.fileType == RON_FILE_TYPE
+            && !InjectedLanguageManager.getInstance(source.project).isInjectedFragment(source)
+            && rangeToReformat.endOffset >= source.textLength
+        ) {
             val delta = ensurePosixNewline(source)
             if (delta != 0) {
                 val newEndOffset = maxOf(rangeToReformat.startOffset, rangeToReformat.endOffset + delta)
