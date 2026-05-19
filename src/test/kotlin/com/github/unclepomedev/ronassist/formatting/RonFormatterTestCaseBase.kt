@@ -8,12 +8,12 @@ abstract class RonFormatterTestCaseBase : BasePlatformTestCase() {
 
     override fun getTestDataPath(): String = "src/test/testData/formatter"
 
-    protected fun doTest(extension: String = "ron") {
+    protected fun doTest() {
         val testName = getTestName(false)
-        myFixture.configureByFile("$testName/before.$extension")
+        myFixture.configureByFile("$testName/before.ron")
         WriteCommandAction.runWriteCommandAction(project) {
             CodeStyleManager.getInstance(project).reformat(myFixture.file)
         }
-        myFixture.checkResultByFile("$testName/after.$extension")
+        myFixture.checkResultByFile("$testName/after.ron")
     }
 }

@@ -2,10 +2,10 @@
 
 ```ron
 (
-    characters: {
-        "Sakamoto": (name: "坂本", desc: "..."),
-        ...
-    },
-    ...
+characters: {
+"Sakamoto": (name: "坂本", desc: "..."),
+...
+},
+...
 )
 ```
