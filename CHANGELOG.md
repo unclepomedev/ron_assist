@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-05-19
+
+* Disabled formatter for injected RON fragments.
+
 ## [0.1.5] - 2026-05-18
 
 * Removed LSP4IJ plugin dependency.
