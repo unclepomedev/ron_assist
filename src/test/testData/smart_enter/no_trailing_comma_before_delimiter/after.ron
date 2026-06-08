@@ -1,0 +1,10 @@
+(
+    lines: [
+        (
+            segments: [
+                Text(content: "test"),
+                <caret>
+            ]
+        )
+    ]
+)
