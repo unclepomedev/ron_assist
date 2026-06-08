@@ -1,0 +1,12 @@
+(
+    lines: [
+        (
+            segments: [
+                Text(content: "領地から"),
+                Text(content: " {money} 貫 ", style: Emphasis),
+                <caret>
+                Text(content: "の収入が入りました。")
+            ],
+        )
+    ]
+)

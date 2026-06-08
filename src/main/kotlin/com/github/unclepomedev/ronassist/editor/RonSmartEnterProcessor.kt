@@ -1,8 +1,11 @@
 package com.github.unclepomedev.ronassist.editor
 
+import com.github.unclepomedev.ronassist.psi.RonList
 import com.github.unclepomedev.ronassist.psi.RonMapEntry
 import com.github.unclepomedev.ronassist.psi.RonStructEntry
+import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
 import com.github.unclepomedev.ronassist.psi.RonTypes
+import com.github.unclepomedev.ronassist.psi.RonValue
 import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterProcessor
 import com.intellij.openapi.editor.Editor
@@ -32,6 +35,7 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
         val valueElement = when (entry) {
             is RonStructEntry -> RonPsiImplUtil.getValue(entry)
             is RonMapEntry -> RonPsiImplUtil.getValue(entry)
+            is RonValue -> entry
             else -> null
         }
 
@@ -56,29 +60,69 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
     }
 
     /**
-     * Looks for an entry by checking both sides of the caret. When the caret
-     * sits right after a comma, we resolve to the entry preceding that comma
-     * rather than to a containing outer entry.
+     * Locates the target element for Smart Enter completion based on the caret offset.
+     *
+     * If positioned immediately after a comma, this resolves to the preceding entry rather
+     * than the containing parent. Otherwise, it evaluates candidate elements from the
+     * innermost leaf upwards.
+     *
+     * To ensure completion occurs at the correct AST level, it prioritizes the innermost
+     * complete element that lacks a trailing comma before its next sibling (e.g., resolving
+     * to a list element rather than its nested struct field). Falls back to the immediate
+     * innermost candidate if no prioritized element is found.
      */
     private fun findEnclosingEntry(file: PsiFile, offset: Int): PsiElement? {
         val before = file.findElementAt(maxOf(0, offset - 1))
-        entryPrecedingComma(before)?.let { return it }
-        before?.let { entryAncestorOf(it) }?.let { return it }
-        return file.findElementAt(offset)?.let { entryAncestorOf(it) }
+        val start = entryPrecedingComma(before)
+            ?: before?.let { candidateAncestorOf(it) }
+            ?: file.findElementAt(offset)?.let { candidateAncestorOf(it) }
+            ?: return null
+
+        val chain = candidateChain(start)
+        return chain.firstOrNull { isComplete(it) && missingCommaBeforeNext(it) }
+            ?: chain.firstOrNull()
     }
 
-    private fun entryAncestorOf(element: PsiElement): PsiElement? =
-        PsiTreeUtil.getParentOfType(
-            element,
-            RonStructEntry::class.java,
-            RonMapEntry::class.java,
-        )
+    private fun isCandidate(element: PsiElement): Boolean =
+        element is RonStructEntry ||
+                element is RonMapEntry ||
+                (element is RonValue && (element.parent is RonList || element.parent is RonStructOrTuple))
+
+    private fun candidateAncestorOf(element: PsiElement): PsiElement? {
+        var current: PsiElement? = element
+        while (current != null && current !is PsiFile) {
+            if (isCandidate(current)) return current
+            current = current.parent
+        }
+        return null
+    }
+
+    private fun candidateChain(start: PsiElement): List<PsiElement> {
+        val result = mutableListOf<PsiElement>()
+        var current: PsiElement? = start
+        while (current != null && current !is PsiFile) {
+            if (isCandidate(current)) result.add(current)
+            current = current.parent
+        }
+        return result
+    }
+
+    /**
+     * True when the element is directly followed by another sibling element
+     * (entry or value) without a comma in between.
+     */
+    private fun missingCommaBeforeNext(entry: PsiElement): Boolean {
+        var next = entry.nextSibling
+        while (next != null && next.isSkippableSibling()) next = next.nextSibling
+        if (next == null || next.node?.elementType == RonTypes.COMMA) return false
+        return next is RonStructEntry || next is RonMapEntry || next is RonValue
+    }
 
     private fun entryPrecedingComma(element: PsiElement?): PsiElement? {
         if (element?.node?.elementType != RonTypes.COMMA) return null
         var prev: PsiElement? = element.prevSibling
         while (prev != null && prev.isSkippableSibling()) prev = prev.prevSibling
-        return prev?.takeIf { it is RonStructEntry || it is RonMapEntry }
+        return prev?.takeIf { it is RonStructEntry || it is RonMapEntry || (it is RonValue && (it.parent is RonList || it.parent is RonStructOrTuple)) }
     }
 
     private fun trailingCommaOf(entry: PsiElement): PsiElement? {
@@ -97,6 +141,7 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
         return when (entry) {
             is RonStructEntry -> RonPsiImplUtil.getNameIdentifier(entry) != null && RonPsiImplUtil.getValue(entry) != null
             is RonMapEntry -> RonPsiImplUtil.getKey(entry) != null && RonPsiImplUtil.getValue(entry) != null
+            is RonValue -> PsiTreeUtil.findChildOfType(entry, PsiErrorElement::class.java) == null
             else -> false
         }
     }

@@ -7,6 +7,7 @@
 ## [0.1.7] - 2026-06-09
 
 * Enabled Enter-between-braces for all RON parenthesis pairs.
+* Smart Enter now completes list and tuple elements, inserting the missing comma and newline at the element level.
 
 ## [0.1.6] - 2026-05-19
 
