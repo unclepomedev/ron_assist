@@ -52,6 +52,9 @@
         <lang.smartEnterProcessor
                 language="RON"
                 implementationClass="com.github.unclepomedev.ronassist.editor.RonSmartEnterProcessor"/>
+        <enterBetweenBracesDelegate
+                language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.editor.RonEnterBetweenBracesDelegate"/>
 
         <codeFoldingOptionsProvider
                 instance="com.github.unclepomedev.ronassist.editor.folding.RonCodeFoldingOptionsProvider"/>
