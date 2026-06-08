@@ -107,15 +107,26 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
         return result
     }
 
-    /**
-     * True when the element is directly followed by another sibling element
-     * (entry or value) without a comma in between.
-     */
     private fun missingCommaBeforeNext(entry: PsiElement): Boolean {
+        val next = findNextSignificantSibling(entry) ?: return false
+        if (next.node?.elementType == RonTypes.COMMA) return false
+        return isNextElement(next) || isMissingTrailingComma(entry, next)
+    }
+
+    private fun findNextSignificantSibling(entry: PsiElement): PsiElement? {
         var next = entry.nextSibling
         while (next != null && next.isSkippableSibling()) next = next.nextSibling
-        if (next == null || next.node?.elementType == RonTypes.COMMA) return false
+        return next
+    }
+
+    private fun isNextElement(next: PsiElement): Boolean {
         return next is RonStructEntry || next is RonMapEntry || next is RonValue
+    }
+
+    private fun isMissingTrailingComma(entry: PsiElement, next: PsiElement): Boolean {
+        if (entry !is RonValue) return false
+        val nextType = next.node?.elementType
+        return nextType == RonTypes.RBRACK || nextType == RonTypes.RPAREN
     }
 
     private fun entryPrecedingComma(element: PsiElement?): PsiElement? {
