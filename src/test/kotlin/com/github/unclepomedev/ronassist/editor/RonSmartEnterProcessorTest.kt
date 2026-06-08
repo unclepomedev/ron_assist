@@ -19,6 +19,7 @@ class RonSmartEnterProcessorTest : BasePlatformTestCase() {
     fun testIncompleteEntryIsSkipped() = doTest()
     fun testCompletesMapEntryMissingCommaBeforeNextEntry() = doTest()
     fun testListElementCompletion() = doTest()
+    fun testTupleElementCompletion() = doTest()
 
     private fun doTest() {
         val testName = getTestName(true)
