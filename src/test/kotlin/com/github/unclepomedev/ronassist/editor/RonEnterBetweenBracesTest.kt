@@ -12,4 +12,16 @@ class RonEnterBetweenBracesTest : BasePlatformTestCase() {
         myFixture.performEditorAction(IdeActions.ACTION_EDITOR_ENTER)
         myFixture.checkResultByFile("enter_between_brackets/after.ron")
     }
+
+    fun testEnterBetweenParentheses() {
+        myFixture.configureByFile("enter_between_parentheses/before.ron")
+        myFixture.performEditorAction(IdeActions.ACTION_EDITOR_ENTER)
+        myFixture.checkResultByFile("enter_between_parentheses/after.ron")
+    }
+
+    fun testEnterBetweenBraces() {
+        myFixture.configureByFile("enter_between_braces/before.ron")
+        myFixture.performEditorAction(IdeActions.ACTION_EDITOR_ENTER)
+        myFixture.checkResultByFile("enter_between_braces/after.ron")
+    }
 }
