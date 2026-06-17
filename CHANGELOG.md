@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.8] - 2026-06-17
+
+* Compact formatting for empty bracket pairs.
+
 ## [0.1.7] - 2026-06-09
 
 * Enabled Enter-between-braces for all RON parenthesis pairs.

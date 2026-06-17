@@ -23,4 +23,7 @@ class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testBooleanKeyRecovery() = doTest()
     fun testOptionKeyRecovery() = doTest()
     fun testCollectionKeyRecovery() = doTest()
+    fun testEmptyList() = doTest()
+    fun testEmptyMap() = doTest()
+    fun testEmptyTuple() = doTest()
 }

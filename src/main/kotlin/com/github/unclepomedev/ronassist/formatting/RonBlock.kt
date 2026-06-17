@@ -53,9 +53,13 @@ class RonBlock(
 
     /**
      * Determines the required spacing between two child blocks based solely on the
-     * predefined spacing rules, returning null if no rule applies.
+     * predefined spacing rules. Empty bracket pairs are forced to zero spacing;
+     * otherwise the spacing rules are consulted. Returns null if no rule applies.
      */
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
+        if (isEmptyBracketPair(child1, child2)) {
+            return Spacing.createSpacing(0, 0, 0, false, 0)
+        }
         return spacingBuilder.getSpacing(this, child1, child2)
     }
 
@@ -63,6 +67,19 @@ class RonBlock(
      * Returns true if the block has no child nodes, marking it as a leaf in the formatting tree.
      */
     override fun isLeaf(): Boolean = myNode.firstChildNode == null
+
+    private fun isEmptyBracketPair(child1: Block?, child2: Block?): Boolean {
+        if (child1 == null || child2 == null) return false
+        val leftType = (child1 as? RonBlock)?.node?.elementType ?: return false
+        val rightType = (child2 as? RonBlock)?.node?.elementType ?: return false
+
+        return when (leftType) {
+            RonTypes.LBRACK -> rightType == RonTypes.RBRACK
+            RonTypes.LBRACE -> rightType == RonTypes.RBRACE
+            RonTypes.LPAREN -> rightType == RonTypes.RPAREN
+            else -> false
+        }
+    }
 
     companion object {
         /** AST element types whose direct children should be indented. */
