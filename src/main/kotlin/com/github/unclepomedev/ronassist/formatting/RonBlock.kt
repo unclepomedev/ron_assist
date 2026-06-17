@@ -53,7 +53,8 @@ class RonBlock(
 
     /**
      * Determines the required spacing between two child blocks based solely on the
-     * predefined spacing rules, returning null if no rule applies.
+     * predefined spacing rules. Empty bracket pairs are forced to zero spacing;
+     * otherwise the spacing rules are consulted. Returns null if no rule applies.
      */
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
         if (isEmptyBracketPair(child1, child2)) {
