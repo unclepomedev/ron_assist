@@ -3,6 +3,7 @@ package com.github.unclepomedev.ronassist.actions
 import com.github.unclepomedev.ronassist.icons.RonIcons
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 
@@ -10,7 +11,7 @@ class CreateRonFileAction : CreateFileFromTemplateAction(
     "RON File",
     "Create a new RON file",
     RonIcons.FILE,
-) {
+), DumbAware {
     override fun buildDialog(
         project: Project,
         directory: PsiDirectory,
