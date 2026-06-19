@@ -90,7 +90,6 @@
 
     <actions>
         <group id="Ron.NewFileGroup">
-            <separator/>
             <action id="Ron.NewRonFile"
                     class="com.github.unclepomedev.ronassist.actions.CreateRonFileAction"/>
             <add-to-group group-id="NewGroup" anchor="last"/>
