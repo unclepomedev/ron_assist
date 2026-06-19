@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.9] - 2026-06-20
+
+* Improved "New RON File" action availability and menu organization.
+
 ## [0.1.8] - 2026-06-17
 
 * Compact formatting for empty bracket pairs.
