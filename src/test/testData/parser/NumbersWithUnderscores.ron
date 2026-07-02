@@ -1,0 +1,7 @@
+(
+    weight_g: 1_000,
+    volume_mm3: 6_000_000,
+    ratio: 1_000.000_5,
+    mask_hex: 0xFF_FF,
+    mask_bin: 0b1010_1010,
+)
