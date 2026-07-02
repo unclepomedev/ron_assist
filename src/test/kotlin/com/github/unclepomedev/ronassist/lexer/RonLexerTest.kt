@@ -85,6 +85,20 @@ class RonLexerTest : LexerTestCase() {
         )
     }
 
+    fun testMalformedUnderscoreNumbers() {
+        doTest(
+            "1__2 1_ 0x_FF",
+            "RonTokenType.INTEGER ('1')\n" +
+                    "RonTokenType.IDENTIFIER ('__2')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.INTEGER ('1')\n" +
+                    "RonTokenType.IDENTIFIER ('_')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.INTEGER ('0')\n" +
+                    "RonTokenType.IDENTIFIER ('x_FF')"
+        )
+    }
+
     fun testIncompleteString() {
         doTest(
             "\"hello",

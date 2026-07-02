@@ -7,6 +7,7 @@
 ## [0.1.10] - 2026-07-02
 
 * Fixed integer and float literals with `_` digit separators being flagged as syntax errors.
+    * Malformed placements (consecutive, trailing, or right after a base prefix) are not merged into the numeric token.
 
 ## [0.1.9] - 2026-06-20
 
