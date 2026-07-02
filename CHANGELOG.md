@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.10] - 2026-07-02
+
+* Fixed integer and float literals with `_` digit separators being flagged as syntax errors.
+
 ## [0.1.9] - 2026-06-20
 
 * Improved "New RON File" action availability and menu organization.
