@@ -70,6 +70,35 @@ class RonLexerTest : LexerTestCase() {
         )
     }
 
+    fun testNumbersWithUnderscoreSeparators() {
+        doTest(
+            "1_000 6_000_000 1_000.000_5 0xFF_FF 0b1010_1010",
+            "RonTokenType.INTEGER ('1_000')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.INTEGER ('6_000_000')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.FLOAT ('1_000.000_5')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.INTEGER ('0xFF_FF')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.INTEGER ('0b1010_1010')"
+        )
+    }
+
+    fun testMalformedUnderscoreNumbers() {
+        doTest(
+            "1__2 1_ 0x_FF",
+            "RonTokenType.INTEGER ('1')\n" +
+                    "RonTokenType.IDENTIFIER ('__2')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.INTEGER ('1')\n" +
+                    "RonTokenType.IDENTIFIER ('_')\n" +
+                    "WHITE_SPACE (' ')\n" +
+                    "RonTokenType.INTEGER ('0')\n" +
+                    "RonTokenType.IDENTIFIER ('x_FF')"
+        )
+    }
+
     fun testIncompleteString() {
         doTest(
             "\"hello",
