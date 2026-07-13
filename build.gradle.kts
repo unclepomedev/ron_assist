@@ -97,10 +97,4 @@ tasks {
     withType<KotlinCompile> {
         dependsOn("generateLexer", "generateParser")
     }
-
-    // needed due to an upstream bug.
-    // See: https://github.com/JetBrains/intellij-platform-gradle-plugin/issues/2183
-    test {
-        systemProperty("idea.suppressed.plugins.id", "org.jetbrains.plugins.vue")
-    }
 }
