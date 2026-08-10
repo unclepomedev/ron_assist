@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.intellij.platform")
     id("org.jetbrains.changelog")
-    id("org.jetbrains.grammarkit") version "2023.3.0.3"
+    id("org.jetbrains.grammarkit") version "2023.3.0.4"
 }
 
 kotlin {
