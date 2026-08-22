@@ -36,6 +36,8 @@
                 implementation="com.github.unclepomedev.ronassist.formatting.RonPostFormatProcessor"/>
         <langCodeStyleSettingsProvider
                 implementation="com.github.unclepomedev.ronassist.formatting.RonLanguageCodeStyleSettingsProvider"/>
+        <codeStyleSettingsProvider
+                implementation="com.github.unclepomedev.ronassist.formatting.RonCodeStyleSettingsProvider"/>
 
         <lang.braceMatcher
                 language="RON"

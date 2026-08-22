@@ -1,5 +1,6 @@
 package com.github.unclepomedev.ronassist.formatting
 
+import com.intellij.application.options.CodeStyle
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
@@ -15,5 +16,11 @@ abstract class RonFormatterTestCaseBase : BasePlatformTestCase() {
             CodeStyleManager.getInstance(project).reformat(myFixture.file)
         }
         myFixture.checkResultByFile("$testName/after.ron")
+    }
+
+    protected fun doTestWithTrailingComma(enabled: Boolean) {
+        val settings = CodeStyle.createTestSettings(CodeStyle.getSettings(project))
+        settings.getCustomSettings(RonCodeStyleSettings::class.java).ADD_TRAILING_COMMA = enabled
+        CodeStyle.doWithTemporarySettings(project, settings, Runnable { doTest() })
     }
 }

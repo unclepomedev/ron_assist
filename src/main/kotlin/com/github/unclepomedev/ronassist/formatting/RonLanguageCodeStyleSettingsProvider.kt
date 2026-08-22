@@ -3,6 +3,7 @@ package com.github.unclepomedev.ronassist.formatting
 import com.github.unclepomedev.ronassist.lang.RonLanguage
 import com.intellij.application.options.IndentOptionsEditor
 import com.intellij.application.options.SmartIndentOptionsEditor
+import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 
@@ -27,5 +28,16 @@ class RonLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider()
 
     override fun getIndentOptionsEditor(): IndentOptionsEditor {
         return SmartIndentOptionsEditor()
+    }
+
+    override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
+        if (settingsType == SettingsType.WRAPPING_AND_BRACES_SETTINGS) {
+            consumer.showCustomOption(
+                RonCodeStyleSettings::class.java,
+                "ADD_TRAILING_COMMA",
+                "Add trailing comma",
+                "Commas"
+            )
+        }
     }
 }
