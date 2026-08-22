@@ -20,7 +20,7 @@ abstract class RonFormatterTestCaseBase : BasePlatformTestCase() {
 
     protected fun doTestWithTrailingComma(enabled: Boolean) {
         val settings = CodeStyle.createTestSettings(CodeStyle.getSettings(project))
-        settings.getCustomSettings(RonCodeStyleSettings::class.java).ADD_TRAILING_COMMA = enabled
+        settings.getCustomSettings(RonCodeStyleSettings::class.java).addTrailingComma = enabled
         CodeStyle.doWithTemporarySettings(project, settings, Runnable { doTest() })
     }
 }

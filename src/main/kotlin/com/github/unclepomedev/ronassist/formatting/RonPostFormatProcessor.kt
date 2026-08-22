@@ -54,11 +54,11 @@ class RonPostFormatProcessor : PostFormatProcessor {
 
     /**
      * Appends a trailing comma after the last element of every multiline list, map,
-     * struct or tuple when [RonCodeStyleSettings.ADD_TRAILING_COMMA] is enabled,
+     * struct or tuple when [RonCodeStyleSettings.addTrailingComma] is enabled,
      * returning the net change in document length.
      */
     private fun addTrailingCommas(file: PsiFile, settings: CodeStyleSettings): Int {
-        if (!settings.getCustomSettings(RonCodeStyleSettings::class.java).ADD_TRAILING_COMMA) return 0
+        if (!settings.getCustomSettings(RonCodeStyleSettings::class.java).addTrailingComma) return 0
 
         val documentManager = PsiDocumentManager.getInstance(file.project)
         val document = documentManager.getDocument(file) ?: return 0

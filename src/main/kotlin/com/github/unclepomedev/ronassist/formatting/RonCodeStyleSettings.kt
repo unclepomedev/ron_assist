@@ -10,5 +10,5 @@ class RonCodeStyleSettings(settings: CodeStyleSettings) : CustomCodeStyleSetting
      * of multiline lists, maps, structs and tuples. Disabled by default (opt-in).
      */
     @JvmField
-    var ADD_TRAILING_COMMA: Boolean = false
+    var addTrailingComma: Boolean = false
 }
