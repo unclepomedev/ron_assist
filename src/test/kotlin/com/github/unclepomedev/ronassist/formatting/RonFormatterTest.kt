@@ -26,4 +26,8 @@ class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testEmptyList() = doTest()
     fun testEmptyMap() = doTest()
     fun testEmptyTuple() = doTest()
+    fun testTrailingComma() = doTestWithTrailingComma(enabled = true)
+    fun testTrailingCommaDisabled() = doTestWithTrailingComma(enabled = false)
+    fun testPartialRangeFormattingAtEofWithTrailingComma() = doTestWithTrailingComma(enabled = true)
+    fun testPartialRangeFormattingSelectedContainerOnly() = doTestWithTrailingComma(enabled = true)
 }

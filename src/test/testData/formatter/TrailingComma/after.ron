@@ -1,0 +1,18 @@
+AppConfig(
+    window: WindowSettings(
+        width: 1920,
+        height: 1080,
+    ),
+    localization: {
+        "ja": "こんにちは",
+        "en": "Hello",
+    },
+    tags: [
+        "a",
+        "b",
+    ],
+    point: (1, 2),
+    empty_list: [],
+    empty_map: {},
+    empty_tuple: (),
+)

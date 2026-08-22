@@ -35,6 +35,8 @@ dependencies {
 }
 
 intellijPlatform {
+    instrumentCode = false
+
     pluginConfiguration {
         name = "RON Assist"
         version = providers.gradleProperty("version")
