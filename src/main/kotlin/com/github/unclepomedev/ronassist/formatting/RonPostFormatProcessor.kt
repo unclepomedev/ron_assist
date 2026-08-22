@@ -41,8 +41,9 @@ class RonPostFormatProcessor : PostFormatProcessor {
         if (source.fileType == RON_FILE_TYPE
             && !InjectedLanguageManager.getInstance(source.project).isInjectedFragment(source)
         ) {
+            val reachesEof = rangeToReformat.endOffset >= source.textLength
             val commaDelta = addTrailingCommas(source, settings, rangeToReformat)
-            val newlineDelta = if (rangeToReformat.endOffset >= source.textLength) {
+            val newlineDelta = if (reachesEof) {
                 ensurePosixNewline(source)
             } else {
                 0
@@ -83,7 +84,7 @@ class RonPostFormatProcessor : PostFormatProcessor {
             val between = document.charsSequence.subSequence(prev.textRange.endOffset, closer.textRange.startOffset)
             if (!between.contains('\n')) return@mapNotNull null
             val offset = prev.textRange.endOffset
-            if (range != null && (offset < range.startOffset || offset > range.endOffset)) return@mapNotNull null
+            if (range != null && !range.contains(offset)) return@mapNotNull null
             offset
         }
 
