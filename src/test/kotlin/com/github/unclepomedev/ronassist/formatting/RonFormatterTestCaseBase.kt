@@ -12,8 +12,17 @@ abstract class RonFormatterTestCaseBase : BasePlatformTestCase() {
     protected fun doTest() {
         val testName = getTestName(false)
         myFixture.configureByFile("$testName/before.ron")
+        val selectionModel = myFixture.editor.selectionModel
         WriteCommandAction.runWriteCommandAction(project) {
-            CodeStyleManager.getInstance(project).reformat(myFixture.file)
+            if (selectionModel.hasSelection()) {
+                CodeStyleManager.getInstance(project).reformatText(
+                    myFixture.file,
+                    selectionModel.selectionStart,
+                    selectionModel.selectionEnd
+                )
+            } else {
+                CodeStyleManager.getInstance(project).reformat(myFixture.file)
+            }
         }
         myFixture.checkResultByFile("$testName/after.ron")
     }

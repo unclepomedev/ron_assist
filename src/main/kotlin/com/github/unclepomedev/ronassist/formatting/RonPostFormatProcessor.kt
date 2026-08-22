@@ -40,10 +40,14 @@ class RonPostFormatProcessor : PostFormatProcessor {
     override fun processText(source: PsiFile, rangeToReformat: TextRange, settings: CodeStyleSettings): TextRange {
         if (source.fileType == RON_FILE_TYPE
             && !InjectedLanguageManager.getInstance(source.project).isInjectedFragment(source)
-            && rangeToReformat.endOffset >= source.textLength
         ) {
-            val commaDelta = addTrailingCommas(source, settings)
-            val delta = commaDelta + ensurePosixNewline(source)
+            val commaDelta = addTrailingCommas(source, settings, rangeToReformat)
+            val newlineDelta = if (rangeToReformat.endOffset >= source.textLength) {
+                ensurePosixNewline(source)
+            } else {
+                0
+            }
+            val delta = commaDelta + newlineDelta
             if (delta != 0) {
                 val newEndOffset = maxOf(rangeToReformat.startOffset, rangeToReformat.endOffset + delta)
                 return TextRange(rangeToReformat.startOffset, newEndOffset)
@@ -55,9 +59,9 @@ class RonPostFormatProcessor : PostFormatProcessor {
     /**
      * Appends a trailing comma after the last element of every multiline list, map,
      * struct or tuple when [RonCodeStyleSettings.addTrailingComma] is enabled,
-     * returning the net change in document length.
+     * optionally constrained to [range], returning the net change in document length.
      */
-    private fun addTrailingCommas(file: PsiFile, settings: CodeStyleSettings): Int {
+    private fun addTrailingCommas(file: PsiFile, settings: CodeStyleSettings, range: TextRange? = null): Int {
         if (!settings.getCustomSettings(RonCodeStyleSettings::class.java).addTrailingComma) return 0
 
         val documentManager = PsiDocumentManager.getInstance(file.project)
@@ -78,7 +82,9 @@ class RonPostFormatProcessor : PostFormatProcessor {
             // Only add a trailing comma when the closing bracket is on a different line.
             val between = document.charsSequence.subSequence(prev.textRange.endOffset, closer.textRange.startOffset)
             if (!between.contains('\n')) return@mapNotNull null
-            prev.textRange.endOffset
+            val offset = prev.textRange.endOffset
+            if (range != null && (offset < range.startOffset || offset > range.endOffset)) return@mapNotNull null
+            offset
         }
 
         if (insertionOffsets.isEmpty()) return 0

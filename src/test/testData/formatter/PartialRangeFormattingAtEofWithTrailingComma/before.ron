@@ -1,0 +1,11 @@
+(
+    a: [
+        1,
+        2
+    ],
+    <selection>b: [
+        3,
+        4
+    ]
+)
+</selection>
