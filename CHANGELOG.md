@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.1.11] - 2026-08-22
+
 * Added an opt-in "Add trailing comma" formatter option (Settings | Editor | Code Style | RON | Wrapping and Braces) that appends trailing commas to multiline lists, maps, structs and tuples.
 
 ## [0.1.10] - 2026-07-02
