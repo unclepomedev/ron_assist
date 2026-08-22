@@ -9,6 +9,8 @@ class RonCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
 
     override fun getLanguage() = RonLanguage.INSTANCE
 
+    override fun hasSettingsPage() = false
+
     override fun createCustomSettings(settings: CodeStyleSettings): CustomCodeStyleSettings {
         return RonCodeStyleSettings(settings)
     }
