@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+## [0.1.12] - 2026-09-03
+
+* Fixed deprecated DynamicBundle constructor usage (JetBrains API update)
+
 ## [0.1.11] - 2026-08-22
 
 * Added an opt-in "Add trailing comma" formatter option (Settings | Editor | Code Style | RON | Wrapping and Braces) that appends trailing commas to multiline lists, maps, structs and tuples.
