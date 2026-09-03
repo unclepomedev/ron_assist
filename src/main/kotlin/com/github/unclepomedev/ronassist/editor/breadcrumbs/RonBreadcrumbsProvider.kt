@@ -15,17 +15,17 @@ class RonBreadcrumbsProvider : BreadcrumbsProvider {
     override fun getLanguages(): Array<Language> = arrayOf(RonLanguage.INSTANCE)
 
     /**
-     * Surfaces entries and named structs/tuples as breadcrumb segments while
-     * skipping anonymous containers and incomplete entries whose key/name has
-     * not yet been written. Incomplete entries would otherwise display
-     * placeholder labels such as "<key>" or "<entry>".
+     * Surfaces entries and named structs/tuples as breadcrumb segments while skipping anonymous
+     * containers and incomplete entries whose key/name has not yet been written. Incomplete entries
+     * would otherwise display placeholder labels such as "<key>" or "<entry>".
      */
-    override fun acceptElement(element: PsiElement): Boolean = when (element) {
-        is RonMapEntry -> RonPsiImplUtil.getKey(element) != null
-        is RonStructEntry -> RonPsiImplUtil.getNameIdentifier(element) != null
-        is RonStructOrTuple -> RonPsiImplUtil.getNameIdentifier(element) != null
-        else -> false
-    }
+    override fun acceptElement(element: PsiElement): Boolean =
+        when (element) {
+            is RonMapEntry -> RonPsiImplUtil.getKey(element) != null
+            is RonStructEntry -> RonPsiImplUtil.getNameIdentifier(element) != null
+            is RonStructOrTuple -> RonPsiImplUtil.getNameIdentifier(element) != null
+            else -> false
+        }
 
     override fun getElementInfo(element: PsiElement): String =
         RonPsiPresentation.primaryLabel(element)

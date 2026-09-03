@@ -18,17 +18,24 @@ class RonLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider()
 
     override fun createConfigurable(
         baseSettings: CodeStyleSettings,
-        modelSettings: CodeStyleSettings
+        modelSettings: CodeStyleSettings,
     ): CodeStyleConfigurable {
-        return object : CodeStyleAbstractConfigurable(baseSettings, modelSettings, RonLanguage.INSTANCE.displayName) {
+        return object :
+            CodeStyleAbstractConfigurable(
+                baseSettings,
+                modelSettings,
+                RonLanguage.INSTANCE.displayName,
+            ) {
             override fun createPanel(settings: CodeStyleSettings): CodeStyleAbstractPanel {
                 return RonCodeStyleMainPanel(currentSettings, settings)
             }
         }
     }
 
-    private class RonCodeStyleMainPanel(currentSettings: CodeStyleSettings, settings: CodeStyleSettings) :
-        TabbedLanguageCodeStylePanel(RonLanguage.INSTANCE, currentSettings, settings) {
+    private class RonCodeStyleMainPanel(
+        currentSettings: CodeStyleSettings,
+        settings: CodeStyleSettings,
+    ) : TabbedLanguageCodeStylePanel(RonLanguage.INSTANCE, currentSettings, settings) {
 
         override fun initTabs(settings: CodeStyleSettings) {
             addIndentOptionsTab(settings)
@@ -36,17 +43,19 @@ class RonLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider()
         }
     }
 
-    override fun getCodeSample(settingsType: SettingsType): String = """
+    override fun getCodeSample(settingsType: SettingsType): String =
+        """
         (
             key1: "value1",
 
             key2: "value2"
         )
-    """.trimIndent()
+        """
+            .trimIndent()
 
     override fun customizeDefaults(
         commonSettings: CommonCodeStyleSettings,
-        indentOptions: CommonCodeStyleSettings.IndentOptions
+        indentOptions: CommonCodeStyleSettings.IndentOptions,
     ) {
         commonSettings.KEEP_BLANK_LINES_IN_CODE = 1
     }
@@ -55,13 +64,16 @@ class RonLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider()
         return SmartIndentOptionsEditor()
     }
 
-    override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
+    override fun customizeSettings(
+        consumer: CodeStyleSettingsCustomizable,
+        settingsType: SettingsType,
+    ) {
         if (settingsType == SettingsType.WRAPPING_AND_BRACES_SETTINGS) {
             consumer.showCustomOption(
                 RonCodeStyleSettings::class.java,
                 "addTrailingComma",
                 "Add trailing comma",
-                "Commas"
+                "Commas",
             )
         }
     }

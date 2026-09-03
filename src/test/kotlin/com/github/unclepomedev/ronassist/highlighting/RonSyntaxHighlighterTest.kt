@@ -54,11 +54,11 @@ class RonSyntaxHighlighterTest {
     fun testComments() {
         assertArrayEquals(
             arrayOf(RonSyntaxHighlighter.LINE_COMMENT),
-            highlighter.getTokenHighlights(RonTypes.LINE_COMMENT)
+            highlighter.getTokenHighlights(RonTypes.LINE_COMMENT),
         )
         assertArrayEquals(
             arrayOf(RonSyntaxHighlighter.BLOCK_COMMENT),
-            highlighter.getTokenHighlights(RonTypes.BLOCK_COMMENT)
+            highlighter.getTokenHighlights(RonTypes.BLOCK_COMMENT),
         )
     }
 
@@ -70,14 +70,32 @@ class RonSyntaxHighlighterTest {
 
     @Test
     fun testBracesAndBrackets() {
-        assertArrayEquals(arrayOf(RonSyntaxHighlighter.BRACES), highlighter.getTokenHighlights(RonTypes.LBRACE))
-        assertArrayEquals(arrayOf(RonSyntaxHighlighter.BRACES), highlighter.getTokenHighlights(RonTypes.RBRACE))
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.BRACES),
+            highlighter.getTokenHighlights(RonTypes.LBRACE),
+        )
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.BRACES),
+            highlighter.getTokenHighlights(RonTypes.RBRACE),
+        )
 
-        assertArrayEquals(arrayOf(RonSyntaxHighlighter.BRACKETS), highlighter.getTokenHighlights(RonTypes.LBRACK))
-        assertArrayEquals(arrayOf(RonSyntaxHighlighter.BRACKETS), highlighter.getTokenHighlights(RonTypes.RBRACK))
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.BRACKETS),
+            highlighter.getTokenHighlights(RonTypes.LBRACK),
+        )
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.BRACKETS),
+            highlighter.getTokenHighlights(RonTypes.RBRACK),
+        )
 
-        assertArrayEquals(arrayOf(RonSyntaxHighlighter.PARENTHESES), highlighter.getTokenHighlights(RonTypes.LPAREN))
-        assertArrayEquals(arrayOf(RonSyntaxHighlighter.PARENTHESES), highlighter.getTokenHighlights(RonTypes.RPAREN))
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.PARENTHESES),
+            highlighter.getTokenHighlights(RonTypes.LPAREN),
+        )
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.PARENTHESES),
+            highlighter.getTokenHighlights(RonTypes.RPAREN),
+        )
     }
 
     @Test
@@ -96,7 +114,8 @@ class RonSyntaxHighlighterTest {
     fun testUnmappedTokensReturnEmptyArray() {
         val expected = emptyArray<TextAttributesKey>()
 
-        // Ensures that composite nodes (AST branches) that are not to be colored, and undefined symbols (such as colons), will return an empty array without crashing.
+        // Ensures that composite nodes (AST branches) that are not to be colored, and undefined
+        // symbols (such as colons), will return an empty array without crashing.
         assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.COLON))
         assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.VALUE))
         assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.MAP_ENTRY))

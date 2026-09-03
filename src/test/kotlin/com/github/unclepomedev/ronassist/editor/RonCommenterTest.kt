@@ -44,6 +44,7 @@ class RonCommenterTest : BasePlatformTestCase() {
     }
 
     override fun getTestDataPath() = "src/test/testData/commenter"
+
     private fun doTest(actionId: String) {
         val textName = getTestName(false)
         myFixture.configureByFile("$textName/before.ron")

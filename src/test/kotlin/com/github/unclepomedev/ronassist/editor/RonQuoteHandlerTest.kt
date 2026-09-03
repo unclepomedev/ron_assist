@@ -24,43 +24,57 @@ class RonQuoteHandlerTest : BasePlatformTestCase() {
 
     fun testBackspaceDeletesPairedQuote() {
         myFixture.configureByText("test.ron", "(value: \"<caret>\")")
-        myFixture.type('\b')  // Backspace
+        myFixture.type('\b') // Backspace
         myFixture.checkResult("(value: <caret>)")
     }
 
     // TODO: Move to gold files if multi-line test cases grow.
 
     fun testQuoteCompletionBetweenExistingStrings() {
-        myFixture.configureByText("test.ron", """
-        {
-            "name": "Reimu",
-            <caret>
-            "score": 100,
-        }
-    """.trimIndent())
+        myFixture.configureByText(
+            "test.ron",
+            """
+            {
+                "name": "Reimu",
+                <caret>
+                "score": 100,
+            }
+            """
+                .trimIndent(),
+        )
         myFixture.type('"')
-        myFixture.checkResult("""
-        {
-            "name": "Reimu",
-            "<caret>"
-            "score": 100,
-        }
-    """.trimIndent())
+        myFixture.checkResult(
+            """
+            {
+                "name": "Reimu",
+                "<caret>"
+                "score": 100,
+            }
+            """
+                .trimIndent()
+        )
     }
 
     fun testQuoteCompletionAfterIncompleteString() {
-        myFixture.configureByText("test.ron", """
-        (
-            value: "incomplete
-            <caret>
+        myFixture.configureByText(
+            "test.ron",
+            """
+            (
+                value: "incomplete
+                <caret>
+            )
+            """
+                .trimIndent(),
         )
-    """.trimIndent())
         myFixture.type('"')
-        myFixture.checkResult("""
-        (
-            value: "incomplete
-            "<caret>"
+        myFixture.checkResult(
+            """
+            (
+                value: "incomplete
+                "<caret>"
+            )
+            """
+                .trimIndent()
         )
-    """.trimIndent())
     }
 }

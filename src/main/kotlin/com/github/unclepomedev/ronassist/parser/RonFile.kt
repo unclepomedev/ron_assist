@@ -8,5 +8,6 @@ import com.intellij.psi.FileViewProvider
 
 class RonFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, RonLanguage.INSTANCE) {
     override fun getFileType(): FileType = RON_FILE_TYPE
+
     override fun toString(): String = "RON File"
 }

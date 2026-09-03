@@ -22,21 +22,22 @@ class RonAnnotator : Annotator {
     }
 
     /**
-     * Applies semantic highlighting on top of lexer-based syntax coloring.
-     * Identifier tokens that play a structural role (struct name or struct
-     * field name) are recolored using dedicated text attribute keys.
+     * Applies semantic highlighting on top of lexer-based syntax coloring. Identifier tokens that
+     * play a structural role (struct name or struct field name) are recolored using dedicated text
+     * attribute keys.
      */
     private fun annotateIdentifier(element: PsiElement, holder: AnnotationHolder) {
         val attribute = attributeFor(element) ?: return
-        holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+        holder
+            .newSilentAnnotation(HighlightSeverity.INFORMATION)
             .range(element)
             .textAttributes(attribute)
             .create()
     }
 
     /**
-     * Returns the text attribute key for a structural identifier, or null if
-     * the identifier has no special semantic role.
+     * Returns the text attribute key for a structural identifier, or null if the identifier has no
+     * special semantic role.
      */
     private fun attributeFor(element: PsiElement): TextAttributesKey? {
         val parent = element.parent ?: return null
@@ -52,8 +53,8 @@ class RonAnnotator : Annotator {
     }
 
     /**
-     * Validates that elements inside collections (lists, maps, structs, tuples)
-     * are correctly separated by commas. Generates an error annotation if a comma is missing.
+     * Validates that elements inside collections (lists, maps, structs, tuples) are correctly
+     * separated by commas. Generates an error annotation if a comma is missing.
      */
     private fun checkMissingCommas(element: PsiElement, holder: AnnotationHolder) {
         var child = element.firstChild
@@ -65,7 +66,8 @@ class RonAnnotator : Annotator {
 
             if (isItem) {
                 if (expectsComma) {
-                    holder.newAnnotation(HighlightSeverity.ERROR, "Missing comma")
+                    holder
+                        .newAnnotation(HighlightSeverity.ERROR, "Missing comma")
                         .range(child)
                         .create()
                 }

@@ -15,11 +15,12 @@ abstract class RonFormatterTestCaseBase : BasePlatformTestCase() {
         val selectionModel = myFixture.editor.selectionModel
         WriteCommandAction.runWriteCommandAction(project) {
             if (selectionModel.hasSelection()) {
-                CodeStyleManager.getInstance(project).reformatText(
-                    myFixture.file,
-                    selectionModel.selectionStart,
-                    selectionModel.selectionEnd
-                )
+                CodeStyleManager.getInstance(project)
+                    .reformatText(
+                        myFixture.file,
+                        selectionModel.selectionStart,
+                        selectionModel.selectionEnd,
+                    )
             } else {
                 CodeStyleManager.getInstance(project).reformat(myFixture.file)
             }

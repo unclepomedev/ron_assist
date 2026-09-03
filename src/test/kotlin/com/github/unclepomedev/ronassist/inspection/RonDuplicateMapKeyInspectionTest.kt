@@ -12,17 +12,29 @@ class RonDuplicateMapKeyInspectionTest : BasePlatformTestCase() {
     }
 
     fun testBasicDuplicate() = doTest()
+
     fun testThreeDuplicates() = doTest()
+
     fun testNumericKey() = doTest()
+
     fun testNoDuplicate() = doTest()
+
     fun testCaseSensitive() = doTest()
+
     fun testNestedMapsIndependent() = doTest()
+
     fun testEmptyMap() = doTest()
+
     fun testSingleEntry() = doTest()
+
     fun testStructKeyDuplicate() = doTest()
+
     fun testStructKeyDifferentContent() = doTest()
+
     fun testStringAndRawString() = doTest()
+
     fun testStandardStringFollowedByRawString() = doTest()
+
     fun testStringAndNumberAreDistinct() = doTest()
 
     private fun doTest() {

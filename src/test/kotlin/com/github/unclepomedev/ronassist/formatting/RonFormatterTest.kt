@@ -2,32 +2,60 @@ package com.github.unclepomedev.ronassist.formatting
 
 class RonFormatterTest : RonFormatterTestCaseBase() {
     fun testSpacing() = doTest()
+
     fun testIndentation() = doTest()
+
     fun testBlankLinesCompression() = doTest()
+
     fun testPosixNewline() = doTest()
+
     fun testSomeWithStruct() = doTest()
+
     fun testNoneWithStruct() = doTest()
+
     fun testIncompleteStructEntry() = doTest()
+
     fun testIncompleteStructEntryNoColon() = doTest()
+
     fun testIncompleteMapEntry() = doTest()
+
     fun testIncompleteMapEntryNoColon() = doTest()
+
     fun testMultipleIncomplete() = doTest()
+
     fun testMultipleIncompleteNoColon() = doTest()
+
     fun testNestedIncomplete() = doTest()
+
     fun testNestedIncompleteNoColon() = doTest()
+
     fun testMixedComplete() = doTest()
+
     fun testMixedCompleteNoColon() = doTest()
+
     fun testMultipleIncompleteWithCommas() = doTest()
+
     fun testMixedCompleteWithCommas() = doTest()
+
     fun testNumericKeyRecovery() = doTest()
+
     fun testBooleanKeyRecovery() = doTest()
+
     fun testOptionKeyRecovery() = doTest()
+
     fun testCollectionKeyRecovery() = doTest()
+
     fun testEmptyList() = doTest()
+
     fun testEmptyMap() = doTest()
+
     fun testEmptyTuple() = doTest()
+
     fun testTrailingComma() = doTestWithTrailingComma(enabled = true)
+
     fun testTrailingCommaDisabled() = doTestWithTrailingComma(enabled = false)
+
     fun testPartialRangeFormattingAtEofWithTrailingComma() = doTestWithTrailingComma(enabled = true)
+
     fun testPartialRangeFormattingSelectedContainerOnly() = doTestWithTrailingComma(enabled = true)
 }

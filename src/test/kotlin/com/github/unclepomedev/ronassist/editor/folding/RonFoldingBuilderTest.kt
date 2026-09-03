@@ -22,12 +22,13 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
     override fun setUp() {
         super.setUp()
         val s = RonFoldingSettings.instance
-        savedSettings = SettingsSnapshot(
-            s.collapseMaps,
-            s.collapseLists,
-            s.collapseStructs,
-            s.collapseBlockComments,
-        )
+        savedSettings =
+            SettingsSnapshot(
+                s.collapseMaps,
+                s.collapseLists,
+                s.collapseStructs,
+                s.collapseBlockComments,
+            )
         // Start each test from a known neutral state.
         s.collapseMaps = false
         s.collapseLists = false
@@ -48,38 +49,49 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
     }
 
     fun testMapBasic() = doFoldingTest()
+
     fun testListBasic() = doFoldingTest()
+
     fun testStructNamed() = doFoldingTest()
+
     fun testTupleAnonymous() = doFoldingTest()
+
     fun testNestedAllKinds() = doFoldingTest()
+
     fun testSingleLineExcluded() = doFoldingTest()
+
     fun testEmptyCollections() = doFoldingTest()
+
     fun testBlockComment() = doFoldingTest()
+
     fun testCustomRegion() = doFoldingTest()
+
     fun testMixedContent() = doFoldingTest()
+
     fun testErrorRecovery() = doFoldingTest()
 
     /**
      * Verifies default-collapsed behavior by inspecting the FoldingBuilder directly.
      *
-     * We use the builder API instead of myFixture.testFoldingWithCollapseStatus because
-     * the latter is broken on IntelliJ Platform 2026.1 — collapsedByDefault state is not
-     * reflected in test FoldRegions despite being respected at runtime (verified via
-     * runIde). See https://youtrack.jetbrains.com/issue/IJPL-237669.
+     * We use the builder API instead of myFixture.testFoldingWithCollapseStatus because the latter
+     * is broken on IntelliJ Platform 2026.1 — collapsedByDefault state is not reflected in test
+     * FoldRegions despite being respected at runtime (verified via runIde). See
+     * https://youtrack.jetbrains.com/issue/IJPL-237669.
      *
      * When the platform bug is fixed, this helper can be replaced with
-     * myFixture.testFoldingWithCollapseStatus + gold files for consistency with other
-     * folding tests.
+     * myFixture.testFoldingWithCollapseStatus + gold files for consistency with other folding
+     * tests.
      */
     fun testCollapsedByDefaultMaps() {
         RonFoldingSettings.instance.collapseMaps = true
         assertCollapsedByDefault<RonMap>(
             """
-                {
-                    "key1": "value1",
-                    "key2": "value2",
-                }
-            """.trimIndent(),
+            {
+                "key1": "value1",
+                "key2": "value2",
+            }
+            """
+                .trimIndent(),
             expected = true,
         )
     }
@@ -87,10 +99,11 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
     fun testCollapsedByDefaultMapsOff() {
         assertCollapsedByDefault<RonMap>(
             """
-                {
-                    "key": "value",
-                }
-            """.trimIndent(),
+            {
+                "key": "value",
+            }
+            """
+                .trimIndent(),
             expected = false,
         )
     }
@@ -99,11 +112,12 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
         RonFoldingSettings.instance.collapseLists = true
         assertCollapsedByDefault<RonList>(
             """
-                [
-                    1,
-                    2,
-                ]
-            """.trimIndent(),
+            [
+                1,
+                2,
+            ]
+            """
+                .trimIndent(),
             expected = true,
         )
     }
@@ -112,17 +126,18 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
         RonFoldingSettings.instance.collapseStructs = true
         assertCollapsedByDefault<RonStructOrTuple>(
             """
-                Player(
-                    name: "Reimu",
-                )
-            """.trimIndent(),
+            Player(
+                name: "Reimu",
+            )
+            """
+                .trimIndent(),
             expected = true,
         )
     }
 
     /**
-     * Verifies that mutations from prior tests do not leak into this one,
-     * ensuring setUp/tearDown correctly restore singleton state.
+     * Verifies that mutations from prior tests do not leak into this one, ensuring setUp/tearDown
+     * correctly restore singleton state.
      */
     fun testSettingsResetBetweenTests() {
         val s = RonFoldingSettings.instance
@@ -144,8 +159,9 @@ class RonFoldingBuilderTest : BasePlatformTestCase() {
         myFixture.configureByText("test.ron", content)
         val builder = RonFoldingBuilder()
         val descriptors = builder.buildFoldRegions(myFixture.file.node, myFixture.editor.document)
-        val descriptor = descriptors.find { it.element.psi is T }
-            ?: error("${T::class.simpleName} should produce a fold descriptor")
+        val descriptor =
+            descriptors.find { it.element.psi is T }
+                ?: error("${T::class.simpleName} should produce a fold descriptor")
         assertEquals(
             "${T::class.simpleName} collapsedByDefault mismatch",
             expected,

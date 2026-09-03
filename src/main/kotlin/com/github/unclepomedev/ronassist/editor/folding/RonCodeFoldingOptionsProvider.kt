@@ -7,9 +7,7 @@ import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.panel
 
 class RonCodeFoldingOptionsProvider :
-    BoundConfigurable("RON"),
-    CodeFoldingOptionsProvider,
-    SearchableConfigurable {
+    BoundConfigurable("RON"), CodeFoldingOptionsProvider, SearchableConfigurable {
 
     override fun getId(): String = "editor.preferences.folding.ron"
 
@@ -17,20 +15,16 @@ class RonCodeFoldingOptionsProvider :
         val settings = RonFoldingSettings.instance
         group("RON") {
             row {
-                checkBox("Maps")
-                    .bindSelected(settings::collapseMaps)
+                checkBox("Maps").bindSelected(settings::collapseMaps)
             }
             row {
-                checkBox("Lists")
-                    .bindSelected(settings::collapseLists)
+                checkBox("Lists").bindSelected(settings::collapseLists)
             }
             row {
-                checkBox("Structs and tuples")
-                    .bindSelected(settings::collapseStructs)
+                checkBox("Structs and tuples").bindSelected(settings::collapseStructs)
             }
             row {
-                checkBox("Block comments")
-                    .bindSelected(settings::collapseBlockComments)
+                checkBox("Block comments").bindSelected(settings::collapseBlockComments)
             }
         }
     }

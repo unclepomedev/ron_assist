@@ -5,8 +5,7 @@ import org.jetbrains.annotations.Nls
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 
-@NonNls
-private const val BUNDLE = "messages.RonInspectionBundle"
+@NonNls private const val BUNDLE = "messages.RonInspectionBundle"
 
 object RonInspectionBundle {
     private val INSTANCE = DynamicBundle(RonInspectionBundle::class.java, BUNDLE)

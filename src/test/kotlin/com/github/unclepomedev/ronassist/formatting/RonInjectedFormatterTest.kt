@@ -10,6 +10,7 @@ import com.intellij.psi.codeStyle.CodeStyleManager
 
 class RonInjectedFormatterTest : RonFormatterTestCaseBase() {
     fun testRonInMarkdown() = doInjectedTest()
+
     fun testRonInMarkdownIndented() = doInjectedTest()
 
     private fun doInjectedTest() {
@@ -20,7 +21,8 @@ class RonInjectedFormatterTest : RonFormatterTestCaseBase() {
         // environment, this test would silently pass without exercising the injected formatter.
         val injectedRonFilesBefore = collectInjectedRonFiles(myFixture.file)
         assertFalse(
-            "Expected RON to be injected into the Markdown fenced code block.", injectedRonFilesBefore.isEmpty()
+            "Expected RON to be injected into the Markdown fenced code block.",
+            injectedRonFilesBefore.isEmpty(),
         )
         val injectedTextsBefore = injectedRonFilesBefore.map { it.text }
 
@@ -34,23 +36,27 @@ class RonInjectedFormatterTest : RonFormatterTestCaseBase() {
         // is unchanged, so a failure points directly at the injected formatter path.
         val injectedTextsAfter = collectInjectedRonFiles(myFixture.file).map { it.text }
         assertEquals(
-            "Injected RON fragments must not be modified by the formatter.", injectedTextsBefore, injectedTextsAfter
+            "Injected RON fragments must not be modified by the formatter.",
+            injectedTextsBefore,
+            injectedTextsAfter,
         )
     }
 
     private fun collectInjectedRonFiles(host: PsiFile): List<PsiFile> {
         val injectionManager = InjectedLanguageManager.getInstance(host.project)
         val result = mutableListOf<PsiFile>()
-        host.accept(object : PsiRecursiveElementWalkingVisitor() {
-            override fun visitElement(element: PsiElement) {
-                injectionManager.enumerate(element) { injectedPsi, _ ->
-                    if (injectedPsi.language == RonLanguage.INSTANCE) {
-                        result.add(injectedPsi)
+        host.accept(
+            object : PsiRecursiveElementWalkingVisitor() {
+                override fun visitElement(element: PsiElement) {
+                    injectionManager.enumerate(element) { injectedPsi, _ ->
+                        if (injectedPsi.language == RonLanguage.INSTANCE) {
+                            result.add(injectedPsi)
+                        }
                     }
+                    super.visitElement(element)
                 }
-                super.visitElement(element)
             }
-        })
+        )
         return result
     }
 }

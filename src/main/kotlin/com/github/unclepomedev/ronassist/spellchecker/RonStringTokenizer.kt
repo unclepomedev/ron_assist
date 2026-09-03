@@ -7,8 +7,8 @@ import com.intellij.spellchecker.tokenizer.TokenConsumer
 import com.intellij.spellchecker.tokenizer.Tokenizer
 
 /**
- * Spellchecks the inner content of a RON string literal, excluding the
- * surrounding quotes and any raw-string `r`/`#` delimiters.
+ * Spellchecks the inner content of a RON string literal, excluding the surrounding quotes and any
+ * raw-string `r`/`#` delimiters.
  */
 object RonStringTokenizer : Tokenizer<RonStringVal>() {
 

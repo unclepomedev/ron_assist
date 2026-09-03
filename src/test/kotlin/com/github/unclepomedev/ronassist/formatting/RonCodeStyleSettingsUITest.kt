@@ -16,20 +16,24 @@ class RonCodeStyleSettingsUITest : BasePlatformTestCase() {
     }
 
     fun testLanguageProviderIsRegisteredForRon() {
-        val provider = LanguageCodeStyleSettingsProvider.forLanguage(RonLanguage.INSTANCE)
-            ?: error("LanguageCodeStyleSettingsProvider for RON not registered")
+        val provider =
+            LanguageCodeStyleSettingsProvider.forLanguage(RonLanguage.INSTANCE)
+                ?: error("LanguageCodeStyleSettingsProvider for RON not registered")
         assertTrue(provider is RonLanguageCodeStyleSettingsProvider)
         assertFalse(
-            provider.getCodeSample(LanguageCodeStyleSettingsProvider.SettingsType.INDENT_SETTINGS).isNullOrBlank()
+            provider
+                .getCodeSample(LanguageCodeStyleSettingsProvider.SettingsType.INDENT_SETTINGS)
+                .isNullOrBlank()
         )
     }
 
     fun testCodeStyleConfigurableUISmoke() {
         val schemesConfigurable = CodeStyleSchemesConfigurable(project)
         try {
-            val ronConfigurable = schemesConfigurable.configurables
-                .firstOrNull { it.displayName == RonLanguage.INSTANCE.displayName }
-                ?: error("RON Code Style configurable not found")
+            val ronConfigurable =
+                schemesConfigurable.configurables.firstOrNull {
+                    it.displayName == RonLanguage.INSTANCE.displayName
+                } ?: error("RON Code Style configurable not found")
             assertNotNull("RON page must create a UI component", ronConfigurable.createComponent())
             ronConfigurable.reset()
             assertFalse(ronConfigurable.isModified)
@@ -42,6 +46,9 @@ class RonCodeStyleSettingsUITest : BasePlatformTestCase() {
         val settings = CodeStyle.createTestSettings()
         val custom = settings.getCustomSettings(RonCodeStyleSettings::class.java)
         assertNotNull(custom)
-        assertFalse("addTrailingComma must be opt-in (disabled by default)", custom.addTrailingComma)
+        assertFalse(
+            "addTrailingComma must be opt-in (disabled by default)",
+            custom.addTrailingComma,
+        )
     }
 }
