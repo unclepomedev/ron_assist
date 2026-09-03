@@ -9,3 +9,6 @@ c:
 
 r:
     ./gradlew runIde
+
+fmt:
+    ktfmt --kotlinlang-style .

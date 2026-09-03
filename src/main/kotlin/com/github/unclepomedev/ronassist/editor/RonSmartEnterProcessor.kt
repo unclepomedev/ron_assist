@@ -17,8 +17,8 @@ import com.intellij.psi.util.PsiTreeUtil
 class RonSmartEnterProcessor : SmartEnterProcessor() {
 
     /**
-     * Completes the current entry by ensuring it ends with a comma, then
-     * inserts a new line positioned for the next entry.
+     * Completes the current entry by ensuring it ends with a comma, then inserts a new line
+     * positioned for the next entry.
      */
     override fun process(project: Project, editor: Editor, file: PsiFile): Boolean {
         commit(editor)
@@ -32,19 +32,21 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
     }
 
     private fun insertNewLineAfterEntry(project: Project, editor: Editor, entry: PsiElement) {
-        val valueElement = when (entry) {
-            is RonStructEntry -> RonPsiImplUtil.getValue(entry)
-            is RonMapEntry -> RonPsiImplUtil.getValue(entry)
-            is RonValue -> entry
-            else -> null
-        }
+        val valueElement =
+            when (entry) {
+                is RonStructEntry -> RonPsiImplUtil.getValue(entry)
+                is RonMapEntry -> RonPsiImplUtil.getValue(entry)
+                is RonValue -> entry
+                else -> null
+            }
 
         val hasError = PsiTreeUtil.findChildOfType(entry, PsiErrorElement::class.java) != null
         val existingComma = if (hasError) null else trailingCommaOf(entry)
 
-        val offset = existingComma?.textRange?.endOffset
-            ?: valueElement?.textRange?.endOffset
-            ?: endOffsetSkippingTrailingWhitespace(entry)
+        val offset =
+            existingComma?.textRange?.endOffset
+                ?: valueElement?.textRange?.endOffset
+                ?: endOffsetSkippingTrailingWhitespace(entry)
 
         val text = if (existingComma != null) "\n" else ",\n"
 
@@ -54,29 +56,30 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
     }
 
     private fun indentAtCaret(project: Project, editor: Editor, file: PsiFile) {
-        val adjusted = CodeStyleManager.getInstance(project)
-            .adjustLineIndent(file, editor.caretModel.offset)
+        val adjusted =
+            CodeStyleManager.getInstance(project).adjustLineIndent(file, editor.caretModel.offset)
         editor.caretModel.moveToOffset(adjusted)
     }
 
     /**
      * Locates the target element for Smart Enter completion based on the caret offset.
      *
-     * If positioned immediately after a comma, this resolves to the preceding entry rather
-     * than the containing parent. Otherwise, it evaluates candidate elements from the
-     * innermost leaf upwards.
+     * If positioned immediately after a comma, this resolves to the preceding entry rather than the
+     * containing parent. Otherwise, it evaluates candidate elements from the innermost leaf
+     * upwards.
      *
-     * To ensure completion occurs at the correct AST level, it prioritizes the innermost
-     * complete element that lacks a trailing comma before its next sibling (e.g., resolving
-     * to a list element rather than its nested struct field). Falls back to the immediate
-     * innermost candidate if no prioritized element is found.
+     * To ensure completion occurs at the correct AST level, it prioritizes the innermost complete
+     * element that lacks a trailing comma before its next sibling (e.g., resolving to a list
+     * element rather than its nested struct field). Falls back to the immediate innermost candidate
+     * if no prioritized element is found.
      */
     private fun findEnclosingEntry(file: PsiFile, offset: Int): PsiElement? {
         val before = file.findElementAt(maxOf(0, offset - 1))
-        val start = entryPrecedingComma(before)
-            ?: before?.let { candidateAncestorOf(it) }
-            ?: file.findElementAt(offset)?.let { candidateAncestorOf(it) }
-            ?: return null
+        val start =
+            entryPrecedingComma(before)
+                ?: before?.let { candidateAncestorOf(it) }
+                ?: file.findElementAt(offset)?.let { candidateAncestorOf(it) }
+                ?: return null
 
         val chain = candidateChain(start)
         return chain.firstOrNull { isComplete(it) && missingCommaBeforeNext(it) }
@@ -85,8 +88,9 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
 
     private fun isCandidate(element: PsiElement): Boolean =
         element is RonStructEntry ||
-                element is RonMapEntry ||
-                (element is RonValue && (element.parent is RonList || element.parent is RonStructOrTuple))
+            element is RonMapEntry ||
+            (element is RonValue &&
+                (element.parent is RonList || element.parent is RonStructOrTuple))
 
     private fun candidateAncestorOf(element: PsiElement): PsiElement? {
         var current: PsiElement? = element
@@ -133,7 +137,11 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
         if (element?.node?.elementType != RonTypes.COMMA) return null
         var prev: PsiElement? = element.prevSibling
         while (prev != null && prev.isSkippableSibling()) prev = prev.prevSibling
-        return prev?.takeIf { it is RonStructEntry || it is RonMapEntry || (it is RonValue && (it.parent is RonList || it.parent is RonStructOrTuple)) }
+        return prev?.takeIf {
+            it is RonStructEntry ||
+                it is RonMapEntry ||
+                (it is RonValue && (it.parent is RonList || it.parent is RonStructOrTuple))
+        }
     }
 
     private fun trailingCommaOf(entry: PsiElement): PsiElement? {
@@ -150,12 +158,16 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
 
     private fun isComplete(entry: PsiElement): Boolean {
         return when (entry) {
-            is RonStructEntry -> RonPsiImplUtil.getNameIdentifier(entry) != null && RonPsiImplUtil.getValue(entry) != null
-            is RonMapEntry -> RonPsiImplUtil.getKey(entry) != null && RonPsiImplUtil.getValue(entry) != null
+            is RonStructEntry ->
+                RonPsiImplUtil.getNameIdentifier(entry) != null &&
+                    RonPsiImplUtil.getValue(entry) != null
+            is RonMapEntry ->
+                RonPsiImplUtil.getKey(entry) != null && RonPsiImplUtil.getValue(entry) != null
             is RonValue -> PsiTreeUtil.findChildOfType(entry, PsiErrorElement::class.java) == null
             else -> false
         }
     }
 
-    private fun PsiElement.isSkippableSibling(): Boolean = this is PsiWhiteSpace || this is PsiComment
+    private fun PsiElement.isSkippableSibling(): Boolean =
+        this is PsiWhiteSpace || this is PsiComment
 }

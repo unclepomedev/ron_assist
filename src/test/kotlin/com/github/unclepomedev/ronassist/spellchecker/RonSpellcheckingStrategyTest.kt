@@ -16,54 +16,57 @@ class RonSpellcheckingStrategyTest : BasePlatformTestCase() {
 
     fun testStringLiteralIsTokenized() {
         myFixture.configureByText("test.ron", """{"key": "hello world"}""")
-        val string = PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
-            ?: error("RonStringVal not found")
+        val string =
+            PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
+                ?: error("RonStringVal not found")
         assertIsNotEmptyTokenizer(strategy.getTokenizer(string))
     }
 
     fun testStructNameIsTokenized() {
         myFixture.configureByText("test.ron", """Player(name: "Reimu")""")
-        val struct = PsiTreeUtil.findChildOfType(myFixture.file, RonStructOrTuple::class.java)
-            ?: error("struct not found")
-        val identifier = struct.node.findChildByType(RonTypes.IDENTIFIER)?.psi
-            ?: error("identifier not found")
+        val struct =
+            PsiTreeUtil.findChildOfType(myFixture.file, RonStructOrTuple::class.java)
+                ?: error("struct not found")
+        val identifier =
+            struct.node.findChildByType(RonTypes.IDENTIFIER)?.psi ?: error("identifier not found")
         assertIsNotEmptyTokenizer(strategy.getTokenizer(identifier))
     }
 
     fun testStructEntryNameIsTokenized() {
         myFixture.configureByText("test.ron", """Player(name: "Reimu")""")
-        val entry = PsiTreeUtil.findChildOfType(myFixture.file, RonStructEntry::class.java)
-            ?: error("entry not found")
-        val identifier = entry.node.findChildByType(RonTypes.IDENTIFIER)?.psi
-            ?: error("identifier not found")
+        val entry =
+            PsiTreeUtil.findChildOfType(myFixture.file, RonStructEntry::class.java)
+                ?: error("entry not found")
+        val identifier =
+            entry.node.findChildByType(RonTypes.IDENTIFIER)?.psi ?: error("identifier not found")
         assertIsNotEmptyTokenizer(strategy.getTokenizer(identifier))
     }
 
     fun testCommentIsTokenized() {
         myFixture.configureByText("test.ron", "// hello world\n42")
-        val comment = PsiTreeUtil.findChildOfType(myFixture.file, PsiComment::class.java)
-            ?: error("comment not found")
+        val comment =
+            PsiTreeUtil.findChildOfType(myFixture.file, PsiComment::class.java)
+                ?: error("comment not found")
         assertIsNotEmptyTokenizer(strategy.getTokenizer(comment))
     }
 
     fun testNumberIsNotTokenized() {
         myFixture.configureByText("test.ron", "42")
-        val numberLeaf = myFixture.file.findElementAt(0)
-            ?: error("number not found")
+        val numberLeaf = myFixture.file.findElementAt(0) ?: error("number not found")
         assertEquals(SpellcheckingStrategy.EMPTY_TOKENIZER, strategy.getTokenizer(numberLeaf))
     }
 
     fun testKeywordIsNotTokenized() {
         myFixture.configureByText("test.ron", "true")
-        val keyword = myFixture.file.findElementAt(0)
-            ?: error("keyword not found")
+        val keyword = myFixture.file.findElementAt(0) ?: error("keyword not found")
         assertEquals(SpellcheckingStrategy.EMPTY_TOKENIZER, strategy.getTokenizer(keyword))
     }
 
     fun testRawStringIsTokenized() {
         myFixture.configureByText("test.ron", """{"key": r#"hello world"#}""")
-        val string = PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
-            ?: error("RonStringVal not found")
+        val string =
+            PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
+                ?: error("RonStringVal not found")
         val tokenizer = strategy.getTokenizer(string)
         assertIsNotEmptyTokenizer(tokenizer)
         assertEquals(RonStringTokenizer, tokenizer)
@@ -71,8 +74,9 @@ class RonSpellcheckingStrategyTest : BasePlatformTestCase() {
 
     fun testStandardStringIsTokenized() {
         myFixture.configureByText("test.ron", """{"key": "hello world"}""")
-        val string = PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
-            ?: error("RonStringVal not found")
+        val string =
+            PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
+                ?: error("RonStringVal not found")
         assertEquals(RonStringTokenizer, strategy.getTokenizer(string))
     }
 

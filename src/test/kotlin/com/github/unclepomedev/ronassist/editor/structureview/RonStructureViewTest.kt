@@ -9,16 +9,27 @@ class RonStructureViewTest : BasePlatformTestCase() {
     override fun getTestDataPath() = "src/test/testData/structureview"
 
     fun testMapEntries() = doTest()
+
     fun testNamedStruct() = doTest()
+
     fun testList() = doTest()
+
     fun testAnonymousTupleAllPrimitives() = doTest()
+
     fun testPrimitiveRoot() = doTest()
+
     fun testEmptyMap() = doTest()
+
     fun testNestedMap() = doTest()
+
     fun testMixedNesting() = doTest()
+
     fun testListOfMaps() = doTest()
+
     fun testAnonymousTupleWithContainer() = doTest()
+
     fun testLeadingComment() = doTest()
+
     fun testMapEntryWithSpacesInKey() = doTest()
 
     private fun doTest() {

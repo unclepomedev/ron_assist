@@ -5,20 +5,21 @@ import com.intellij.testFramework.LexerTestCase
 
 class RonLexerTest : LexerTestCase() {
     override fun createLexer(): Lexer = RonLexerAdapter()
+
     override fun getDirPath(): String = "src/test/testData/lexer"
 
     fun testBasicKeywords() {
         doTest(
             "Struct( field: 42i32 )",
             "RonTokenType.IDENTIFIER ('Struct')\n" +
-                    "RonTokenType.( ('(')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.IDENTIFIER ('field')\n" +
-                    "RonTokenType.: (':')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('42i32')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.) (')')"
+                "RonTokenType.( ('(')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.IDENTIFIER ('field')\n" +
+                "RonTokenType.: (':')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('42i32')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.) (')')",
         )
     }
 
@@ -26,12 +27,12 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "// line\n/* block */ /**/ /***/",
             "RonTokenType.LINE_COMMENT ('// line')\n" +
-                    "WHITE_SPACE ('\\n')\n" +
-                    "RonTokenType.BLOCK_COMMENT ('/* block */')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.BLOCK_COMMENT ('/**/')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.BLOCK_COMMENT ('/***/')"
+                "WHITE_SPACE ('\\n')\n" +
+                "RonTokenType.BLOCK_COMMENT ('/* block */')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.BLOCK_COMMENT ('/**/')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.BLOCK_COMMENT ('/***/')",
         )
     }
 
@@ -39,10 +40,10 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "\"text\" r#\"raw\"# 'a'",
             "RonTokenType.STRING ('\"text\"')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.RAW_STRING ('r#\"raw\"#')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.CHAR (''a'')"
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.RAW_STRING ('r#\"raw\"#')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.CHAR (''a'')",
         )
     }
 
@@ -50,12 +51,12 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "true false Some None",
             "RonTokenType.true ('true')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.false ('false')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.Some ('Some')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.None ('None')"
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.false ('false')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.Some ('Some')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.None ('None')",
         )
     }
 
@@ -63,10 +64,10 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "3.14f32 -0xFF 0b1010",
             "RonTokenType.FLOAT ('3.14f32')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('-0xFF')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('0b1010')"
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('-0xFF')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('0b1010')",
         )
     }
 
@@ -74,14 +75,14 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "1_000 6_000_000 1_000.000_5 0xFF_FF 0b1010_1010",
             "RonTokenType.INTEGER ('1_000')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('6_000_000')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.FLOAT ('1_000.000_5')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('0xFF_FF')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('0b1010_1010')"
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('6_000_000')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.FLOAT ('1_000.000_5')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('0xFF_FF')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('0b1010_1010')",
         )
     }
 
@@ -89,13 +90,13 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "1__2 1_ 0x_FF",
             "RonTokenType.INTEGER ('1')\n" +
-                    "RonTokenType.IDENTIFIER ('__2')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('1')\n" +
-                    "RonTokenType.IDENTIFIER ('_')\n" +
-                    "WHITE_SPACE (' ')\n" +
-                    "RonTokenType.INTEGER ('0')\n" +
-                    "RonTokenType.IDENTIFIER ('x_FF')"
+                "RonTokenType.IDENTIFIER ('__2')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('1')\n" +
+                "RonTokenType.IDENTIFIER ('_')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('0')\n" +
+                "RonTokenType.IDENTIFIER ('x_FF')",
         )
     }
 
@@ -124,19 +125,20 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "r\"simple\" r#\"hash\"# r##\"double_hash\"##",
             """
-                RonTokenType.RAW_STRING ('r"simple"')
-                WHITE_SPACE (' ')
-                RonTokenType.RAW_STRING ('r#"hash"#')
-                WHITE_SPACE (' ')
-                RonTokenType.RAW_STRING ('r##"double_hash"##')
-            """.trimIndent()
+            RonTokenType.RAW_STRING ('r"simple"')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_STRING ('r#"hash"#')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_STRING ('r##"double_hash"##')
+            """
+                .trimIndent(),
         )
     }
 
     fun testRawStringWithNewline() {
         doTest(
             "r#\"line1\nline2\"#",
-            "RonTokenType.RAW_STRING ('r#\"line1\\nline2\"#')"
+            "RonTokenType.RAW_STRING ('r#\"line1\\nline2\"#')",
         )
     }
 
@@ -165,8 +167,8 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "\"foo\n\"bar\"",
             "RonTokenType.STRING ('\"foo')\n" +
-                    "WHITE_SPACE ('\\n')\n" +
-                    "RonTokenType.STRING ('\"bar\"')",
+                "WHITE_SPACE ('\\n')\n" +
+                "RonTokenType.STRING ('\"bar\"')",
         )
     }
 
@@ -174,8 +176,8 @@ class RonLexerTest : LexerTestCase() {
         doTest(
             "\"unclosed\n42",
             "RonTokenType.STRING ('\"unclosed')\n" +
-                    "WHITE_SPACE ('\\n')\n" +
-                    "RonTokenType.INTEGER ('42')",
+                "WHITE_SPACE ('\\n')\n" +
+                "RonTokenType.INTEGER ('42')",
         )
     }
 
@@ -184,9 +186,7 @@ class RonLexerTest : LexerTestCase() {
         // CHAR token by the permissive lexer, which is intentional.
         doTest(
             "'a\n'",
-            "RonTokenType.CHAR (''a')\n" +
-                    "WHITE_SPACE ('\\n')\n" +
-                    "RonTokenType.CHAR (''')",
+            "RonTokenType.CHAR (''a')\n" + "WHITE_SPACE ('\\n')\n" + "RonTokenType.CHAR (''')",
         )
     }
 }

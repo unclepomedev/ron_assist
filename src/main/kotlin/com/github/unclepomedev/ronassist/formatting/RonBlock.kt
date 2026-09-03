@@ -10,11 +10,12 @@ class RonBlock(
     node: ASTNode,
     wrap: Wrap?,
     alignment: Alignment?,
-    private val spacingBuilder: SpacingBuilder
+    private val spacingBuilder: SpacingBuilder,
 ) : AbstractBlock(node, wrap, alignment) {
 
     /**
-     * Builds child formatting blocks for the current AST node, filtering out whitespaces and empty nodes.
+     * Builds child formatting blocks for the current AST node, filtering out whitespaces and empty
+     * nodes.
      */
     override fun buildChildren(): List<Block> {
         val blocks = mutableListOf<Block>()
@@ -29,8 +30,8 @@ class RonBlock(
     }
 
     /**
-     * Calculates the block's indentation, applying normal indents inside maps, lists,
-     * and structs while keeping enclosing brackets and identifiers unindented.
+     * Calculates the block's indentation, applying normal indents inside maps, lists, and structs
+     * while keeping enclosing brackets and identifiers unindented.
      */
     override fun getIndent(): Indent? {
         val parentType = myNode.treeParent?.elementType ?: return Indent.getNoneIndent()
@@ -40,8 +41,8 @@ class RonBlock(
     }
 
     /**
-     * Defines indentation attributes for newly inserted child blocks, ensuring standard
-     * indents when adding items inside maps, lists, or structs.
+     * Defines indentation attributes for newly inserted child blocks, ensuring standard indents
+     * when adding items inside maps, lists, or structs.
      */
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
         return if (myNode.elementType in INDENT_CONTAINERS) {
@@ -52,9 +53,9 @@ class RonBlock(
     }
 
     /**
-     * Determines the required spacing between two child blocks based solely on the
-     * predefined spacing rules. Empty bracket pairs are forced to zero spacing;
-     * otherwise the spacing rules are consulted. Returns null if no rule applies.
+     * Determines the required spacing between two child blocks based solely on the predefined
+     * spacing rules. Empty bracket pairs are forced to zero spacing; otherwise the spacing rules
+     * are consulted. Returns null if no rule applies.
      */
     override fun getSpacing(child1: Block?, child2: Block): Spacing? {
         if (isEmptyBracketPair(child1, child2)) {
@@ -83,21 +84,26 @@ class RonBlock(
 
     companion object {
         /** AST element types whose direct children should be indented. */
-        private val INDENT_CONTAINERS = setOf(
-            RonTypes.MAP,
-            RonTypes.LIST,
-            RonTypes.STRUCT_OR_TUPLE,
-            RonTypes.OPTION,
-        )
+        private val INDENT_CONTAINERS =
+            setOf(
+                RonTypes.MAP,
+                RonTypes.LIST,
+                RonTypes.STRUCT_OR_TUPLE,
+                RonTypes.OPTION,
+            )
 
         /** Token types that should not be indented even when inside an indent container. */
-        private val NO_INDENT_TOKENS = setOf(
-            RonTypes.LBRACE, RonTypes.RBRACE,
-            RonTypes.LBRACK, RonTypes.RBRACK,
-            RonTypes.LPAREN, RonTypes.RPAREN,
-            RonTypes.IDENTIFIER,
-            RonTypes.SOME,
-            RonTypes.NONE,
-        )
+        private val NO_INDENT_TOKENS =
+            setOf(
+                RonTypes.LBRACE,
+                RonTypes.RBRACE,
+                RonTypes.LBRACK,
+                RonTypes.RBRACK,
+                RonTypes.LPAREN,
+                RonTypes.RPAREN,
+                RonTypes.IDENTIFIER,
+                RonTypes.SOME,
+                RonTypes.NONE,
+            )
     }
 }

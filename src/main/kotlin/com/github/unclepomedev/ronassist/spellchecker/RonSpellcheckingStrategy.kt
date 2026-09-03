@@ -12,9 +12,9 @@ import com.intellij.spellchecker.tokenizer.Tokenizer
 class RonSpellcheckingStrategy : SpellcheckingStrategy() {
 
     /**
-     * Routes RON elements to appropriate tokenizers: string literals and
-     * identifiers (struct names, field names) go through text-based
-     * spellchecking; comments use the platform's comment tokenizer.
+     * Routes RON elements to appropriate tokenizers: string literals and identifiers (struct names,
+     * field names) go through text-based spellchecking; comments use the platform's comment
+     * tokenizer.
      */
     override fun getTokenizer(element: PsiElement): Tokenizer<*> {
         if (element is PsiComment) return myCommentTokenizer

@@ -11,29 +11,34 @@ import javax.swing.Icon
 
 class RonColorSettingsPage : ColorSettingsPage {
 
-    private val descriptors = arrayOf(
-        AttributesDescriptor("Keyword", RonSyntaxHighlighter.KEYWORD),
-        AttributesDescriptor("Number", RonSyntaxHighlighter.NUMBER),
-        AttributesDescriptor("String//Standard", RonSyntaxHighlighter.STRING),
-        AttributesDescriptor("String//Raw", RonSyntaxHighlighter.RAW_STRING),
-        AttributesDescriptor("String//Char", RonSyntaxHighlighter.CHAR),
-        AttributesDescriptor("Comment//Line comment", RonSyntaxHighlighter.LINE_COMMENT),
-        AttributesDescriptor("Comment//Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
-        AttributesDescriptor("Identifier//Other", RonSyntaxHighlighter.IDENTIFIER),
-        AttributesDescriptor("Identifier//Struct name", RonSyntaxHighlighter.STRUCT_NAME),
-        AttributesDescriptor("Identifier//Field name", RonSyntaxHighlighter.FIELD_NAME),
-        AttributesDescriptor("Braces and operators//Braces", RonSyntaxHighlighter.BRACES),
-        AttributesDescriptor("Braces and operators//Brackets", RonSyntaxHighlighter.BRACKETS),
-        AttributesDescriptor("Braces and operators//Parentheses", RonSyntaxHighlighter.PARENTHESES),
-        AttributesDescriptor("Braces and operators//Comma", RonSyntaxHighlighter.COMMA),
-        AttributesDescriptor("Bad character", RonSyntaxHighlighter.BAD_CHARACTER),
-    )
+    private val descriptors =
+        arrayOf(
+            AttributesDescriptor("Keyword", RonSyntaxHighlighter.KEYWORD),
+            AttributesDescriptor("Number", RonSyntaxHighlighter.NUMBER),
+            AttributesDescriptor("String//Standard", RonSyntaxHighlighter.STRING),
+            AttributesDescriptor("String//Raw", RonSyntaxHighlighter.RAW_STRING),
+            AttributesDescriptor("String//Char", RonSyntaxHighlighter.CHAR),
+            AttributesDescriptor("Comment//Line comment", RonSyntaxHighlighter.LINE_COMMENT),
+            AttributesDescriptor("Comment//Block comment", RonSyntaxHighlighter.BLOCK_COMMENT),
+            AttributesDescriptor("Identifier//Other", RonSyntaxHighlighter.IDENTIFIER),
+            AttributesDescriptor("Identifier//Struct name", RonSyntaxHighlighter.STRUCT_NAME),
+            AttributesDescriptor("Identifier//Field name", RonSyntaxHighlighter.FIELD_NAME),
+            AttributesDescriptor("Braces and operators//Braces", RonSyntaxHighlighter.BRACES),
+            AttributesDescriptor("Braces and operators//Brackets", RonSyntaxHighlighter.BRACKETS),
+            AttributesDescriptor(
+                "Braces and operators//Parentheses",
+                RonSyntaxHighlighter.PARENTHESES,
+            ),
+            AttributesDescriptor("Braces and operators//Comma", RonSyntaxHighlighter.COMMA),
+            AttributesDescriptor("Bad character", RonSyntaxHighlighter.BAD_CHARACTER),
+        )
 
     override fun getIcon(): Icon = RonIcons.FILE
 
     override fun getHighlighter(): SyntaxHighlighter = RonSyntaxHighlighter()
 
-    override fun getDemoText(): String = """
+    override fun getDemoText(): String =
+        """
         // Example RON file
         /*
            Block comment
@@ -65,12 +70,14 @@ class RonColorSettingsPage : ColorSettingsPage {
                 ),
             ],
         )
-    """.trimIndent()
+        """
+            .trimIndent()
 
-    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> = mapOf(
-        "structName" to RonSyntaxHighlighter.STRUCT_NAME,
-        "fieldName" to RonSyntaxHighlighter.FIELD_NAME,
-    )
+    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> =
+        mapOf(
+            "structName" to RonSyntaxHighlighter.STRUCT_NAME,
+            "fieldName" to RonSyntaxHighlighter.FIELD_NAME,
+        )
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> = descriptors
 

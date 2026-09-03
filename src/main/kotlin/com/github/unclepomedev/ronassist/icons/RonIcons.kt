@@ -5,8 +5,7 @@ import com.intellij.openapi.util.IconLoader
 import javax.swing.Icon
 
 object RonIcons {
-    @JvmField
-    val FILE: Icon = IconLoader.getIcon("/icons/ron.svg", RonIcons::class.java)
+    @JvmField val FILE: Icon = IconLoader.getIcon("/icons/ron.svg", RonIcons::class.java)
 
     /** Structure view icons (reusing platform icons for now). */
     val MAP: Icon = AllIcons.Json.Object

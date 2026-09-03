@@ -16,5 +16,6 @@ class RonStructureViewModel(editor: Editor?, file: RonFile) :
     }
 
     override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean = false
+
     override fun isAlwaysShowsPlus(element: StructureViewTreeElement): Boolean = false
 }

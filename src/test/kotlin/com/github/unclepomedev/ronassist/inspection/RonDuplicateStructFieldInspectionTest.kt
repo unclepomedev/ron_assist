@@ -12,13 +12,21 @@ class RonDuplicateStructFieldInspectionTest : BasePlatformTestCase() {
     }
 
     fun testBasicDuplicate() = doTest()
+
     fun testThreeDuplicates() = doTest()
+
     fun testAnonymousTupleSkipped() = doTest()
+
     fun testAnonymousStructWithFields() = doTest()
+
     fun testNoDuplicate() = doTest()
+
     fun testNestedStructsIndependent() = doTest()
+
     fun testEmptyStruct() = doTest()
+
     fun testSingleField() = doTest()
+
     fun testEmptyTuple() = doTest()
 
     private fun doTest() {

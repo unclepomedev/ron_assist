@@ -15,34 +15,35 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
     override fun buildVisitor(
         holder: ProblemsHolder,
         isOnTheFly: Boolean,
-    ): PsiElementVisitor = object : PsiElementVisitor() {
+    ): PsiElementVisitor =
+        object : PsiElementVisitor() {
 
-        /**
-         * Inspects each RonMap in the file and reports map entries whose key has
-         * already been seen in the same map, leaving the first occurrence untouched.
-         */
-        override fun visitElement(element: PsiElement) {
-            if (element !is RonMap) return
+            /**
+             * Inspects each RonMap in the file and reports map entries whose key has already been
+             * seen in the same map, leaving the first occurrence untouched.
+             */
+            override fun visitElement(element: PsiElement) {
+                if (element !is RonMap) return
 
-            val seen = HashSet<String>()
-            for (entry in RonPsiImplUtil.getEntries(element)) {
-                val key = RonPsiImplUtil.getKey(entry) ?: continue
-                val canonical = canonicalKey(key)
-                if (!seen.add(canonical)) {
-                    holder.registerProblem(
-                        key,
-                        RonInspectionBundle.message("inspection.map.duplicate.key.problem"),
-                        ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
-                    )
+                val seen = HashSet<String>()
+                for (entry in RonPsiImplUtil.getEntries(element)) {
+                    val key = RonPsiImplUtil.getKey(entry) ?: continue
+                    val canonical = canonicalKey(key)
+                    if (!seen.add(canonical)) {
+                        holder.registerProblem(
+                            key,
+                            RonInspectionBundle.message("inspection.map.duplicate.key.problem"),
+                            ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
+                        )
+                    }
                 }
             }
         }
-    }
 
     /**
-     * Computes a canonical key string so that equivalent literals collapse to
-     * the same form. Currently normalizes standard and raw strings; escape
-     * sequences and numeric bases are intentionally not normalized.
+     * Computes a canonical key string so that equivalent literals collapse to the same form.
+     * Currently normalizes standard and raw strings; escape sequences and numeric bases are
+     * intentionally not normalized.
      */
     private fun canonicalKey(key: RonValue): String {
         return when (val child = key.firstChild) {

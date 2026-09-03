@@ -44,10 +44,9 @@ object RonPsiImplUtil {
         PsiTreeUtil.getChildOfType(entry, RonValue::class.java)
 
     /**
-     * Returns the offsets (inside the element text) of the inner content of a
-     * string literal, excluding surrounding quotes and any raw-string
-     * `r`/`#` markers. Returns null when the text is not a recognizable
-     * string form.
+     * Returns the offsets (inside the element text) of the inner content of a string literal,
+     * excluding surrounding quotes and any raw-string `r`/`#` markers. Returns null when the text
+     * is not a recognizable string form.
      */
     fun stringContentRange(text: String): TextRange? {
         if (text.isEmpty()) return null

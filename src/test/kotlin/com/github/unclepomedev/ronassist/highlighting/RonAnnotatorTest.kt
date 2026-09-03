@@ -46,37 +46,43 @@ class RonAnnotatorTest : BasePlatformTestCase() {
 
     fun testMissingCommaInList() {
         myFixture.configureByText(
-            "test.ron", """
+            "test.ron",
+            """
             [
                 1
                 <error descr="Missing comma">2</error>
                 <error descr="Missing comma">3</error>
             ]
-        """.trimIndent()
+            """
+                .trimIndent(),
         )
         myFixture.testHighlighting(false, false, false)
     }
 
     fun testMissingCommaInMap() {
         myFixture.configureByText(
-            "test.ron", """
+            "test.ron",
+            """
             {
                 "a": 1
                 <error descr="Missing comma">"b": 2</error>
             }
-        """.trimIndent()
+            """
+                .trimIndent(),
         )
         myFixture.testHighlighting(false, false, false)
     }
 
     fun testMissingCommaInStruct() {
         myFixture.configureByText(
-            "test.ron", """
+            "test.ron",
+            """
             Player(
                 hp: 100
                 <error descr="Missing comma">mp: 50</error>
             )
-        """.trimIndent()
+            """
+                .trimIndent(),
         )
         myFixture.testHighlighting(false, false, false)
     }
@@ -94,23 +100,29 @@ class RonAnnotatorTest : BasePlatformTestCase() {
 
     fun testTrailingCommaIsAllowed() {
         myFixture.configureByText(
-            "test.ron", """
+            "test.ron",
+            """
             [
                 1,
                 2,
             ]
-        """.trimIndent()
+            """
+                .trimIndent(),
         )
         myFixture.testHighlighting(false, false, false)
     }
 
     fun testMissingCommaInTuple() {
-        myFixture.configureByText("test_tuple.ron", """
+        myFixture.configureByText(
+            "test_tuple.ron",
+            """
             (
                 1
                 <error descr="Missing comma">2</error>
             )
-        """.trimIndent())
+            """
+                .trimIndent(),
+        )
         myFixture.testHighlighting(false, false, false)
     }
 
