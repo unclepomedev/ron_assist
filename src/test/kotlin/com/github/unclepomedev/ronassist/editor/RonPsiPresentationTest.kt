@@ -141,6 +141,49 @@ line" """,
         assertNull(RonPsiPresentation.tooltipFor(struct))
     }
 
+    fun testTooltipEmptyNamedStruct() {
+        myFixture.configureByText("test.ron", """Empty()""")
+        val file = myFixture.file as RonFile
+        val struct =
+            PsiTreeUtil.findChildOfType(file, RonStructOrTuple::class.java)
+                ?: error("struct not found")
+        assertEquals("Empty (empty)", RonPsiPresentation.tooltipFor(struct))
+    }
+
+    fun testTooltipNamedTuple() {
+        myFixture.configureByText("test.ron", """Point(10, 20)""")
+        val file = myFixture.file as RonFile
+        val struct =
+            PsiTreeUtil.findChildOfType(file, RonStructOrTuple::class.java)
+                ?: error("struct not found")
+        assertEquals("Point with 2 values", RonPsiPresentation.tooltipFor(struct))
+    }
+
+    fun testTooltipNamedTupleSingleValue() {
+        myFixture.configureByText("test.ron", """Point(10)""")
+        val file = myFixture.file as RonFile
+        val struct =
+            PsiTreeUtil.findChildOfType(file, RonStructOrTuple::class.java)
+                ?: error("struct not found")
+        assertEquals("Point with 1 value", RonPsiPresentation.tooltipFor(struct))
+    }
+
+    fun testPreviewChar() =
+        assertPreview(
+            """{"char": 'a'}""",
+            primaryExpected = "\"char\"",
+            previewExpected = "= 'a'",
+        )
+
+    fun testTooltipStructEntry() {
+        myFixture.configureByText("test.ron", """Player(name: "Reimu")""")
+        val file = myFixture.file as RonFile
+        val entry =
+            PsiTreeUtil.findChildOfType(file, RonStructEntry::class.java)
+                ?: error("entry not found")
+        assertEquals("name = \"Reimu\"", RonPsiPresentation.tooltipFor(entry))
+    }
+
     private fun assertPreview(
         content: String,
         primaryExpected: String,

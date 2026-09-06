@@ -1,0 +1,4 @@
+{
+    None: 1,
+    <warning descr="Duplicate map key">None</warning>: 2,
+}

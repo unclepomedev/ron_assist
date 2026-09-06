@@ -189,4 +189,28 @@ class RonLexerTest : LexerTestCase() {
             "RonTokenType.CHAR (''a')\n" + "WHITE_SPACE ('\\n')\n" + "RonTokenType.CHAR (''')",
         )
     }
+
+    fun testExponentFloatsAndOctalNumbers() {
+        doTest(
+            "1.5e-3 -2.0e5 0o77_77 128u128 64i64 10usize",
+            "RonTokenType.FLOAT ('1.5e-3')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.FLOAT ('-2.0e5')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('0o77_77')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('128u128')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('64i64')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.INTEGER ('10usize')",
+        )
+    }
+
+    fun testRawStringWithInnerQuotes() {
+        doTest(
+            "r#\"He said \"hello\"\"#",
+            "RonTokenType.RAW_STRING ('r#\"He said \"hello\"\"#')",
+        )
+    }
 }
