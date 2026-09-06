@@ -1,5 +1,6 @@
 package com.github.unclepomedev.ronassist.spellchecker
 
+import com.github.unclepomedev.ronassist.psi.RonCharVal
 import com.github.unclepomedev.ronassist.psi.RonStringVal
 import com.github.unclepomedev.ronassist.psi.RonStructEntry
 import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
@@ -78,6 +79,16 @@ class RonSpellcheckingStrategyTest : BasePlatformTestCase() {
             PsiTreeUtil.findChildOfType(myFixture.file, RonStringVal::class.java)
                 ?: error("RonStringVal not found")
         assertEquals(RonStringTokenizer, strategy.getTokenizer(string))
+    }
+
+    fun testCharLiteralIsNotTokenized() {
+        myFixture.configureByText("test.ron", "'a'")
+        val charVal =
+            PsiTreeUtil.findChildOfType(
+                myFixture.file,
+                RonCharVal::class.java,
+            ) ?: error("RonCharVal not found")
+        assertEquals(SpellcheckingStrategy.EMPTY_TOKENIZER, strategy.getTokenizer(charVal))
     }
 
     private fun assertIsNotEmptyTokenizer(tokenizer: Tokenizer<*>) {

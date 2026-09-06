@@ -1,15 +1,15 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
-import org.jetbrains.grammarkit.tasks.GenerateLexerTask
-import org.jetbrains.grammarkit.tasks.GenerateParserTask
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.tasks.GenerateLexerTask
+import org.jetbrains.intellij.platform.gradle.tasks.GenerateParserTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.intellij.platform")
     id("org.jetbrains.changelog")
-    id("org.jetbrains.grammarkit") version "2023.3.0.4"
+    id("org.jetbrains.intellij.platform.grammarkit")
 }
 
 kotlin {
@@ -92,7 +92,8 @@ sourceSets {
 tasks {
     named<GenerateLexerTask>("generateLexer") {
         sourceFile.set(file("src/main/grammar/Ron.flex"))
-        targetOutputDir.set(file("src/main/gen/com/github/unclepomedev/ronassist/lexer"))
+        targetRootOutputDir.set(file("src/main/gen"))
+        pathToClass.set("com/github/unclepomedev/ronassist/lexer/RonLexer.java")
         purgeOldFiles.set(true)
     }
 

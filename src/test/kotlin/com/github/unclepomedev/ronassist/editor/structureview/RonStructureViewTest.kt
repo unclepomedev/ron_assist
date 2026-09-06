@@ -1,5 +1,7 @@
 package com.github.unclepomedev.ronassist.editor.structureview
 
+import com.github.unclepomedev.ronassist.psi.RonMapEntry
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.PlatformTestUtil
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import java.io.File
@@ -31,6 +33,22 @@ class RonStructureViewTest : BasePlatformTestCase() {
     fun testLeadingComment() = doTest()
 
     fun testMapEntryWithSpacesInKey() = doTest()
+
+    fun testAlphaSortKeyRemovesSurroundingQuotes() {
+        myFixture.configureByText("test.ron", """{"Alpha": 1, "beta": 2}""")
+        val file = myFixture.file
+        val entries =
+            PsiTreeUtil.findChildrenOfType(
+                    file,
+                    RonMapEntry::class.java,
+                )
+                .toList()
+        assertEquals(2, entries.size)
+        val alphaElement = RonStructureViewElement(entries[0])
+        val betaElement = RonStructureViewElement(entries[1])
+        assertEquals("alpha", alphaElement.alphaSortKey)
+        assertEquals("beta", betaElement.alphaSortKey)
+    }
 
     private fun doTest() {
         val testName = snakeCase(getTestName(true))
