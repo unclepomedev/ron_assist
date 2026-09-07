@@ -113,8 +113,8 @@ class RonSmartEnterProcessor : SmartEnterProcessor() {
 
     private fun missingCommaBeforeNext(entry: PsiElement): Boolean {
         val next = findNextSignificantSibling(entry) ?: return false
-        if (next.node?.elementType == RonTypes.COMMA) return false
-        return isNextElement(next) || isMissingTrailingComma(entry, next)
+        return next.node?.elementType != RonTypes.COMMA &&
+            (isNextElement(next) || isMissingTrailingComma(entry, next))
     }
 
     private fun findNextSignificantSibling(entry: PsiElement): PsiElement? {

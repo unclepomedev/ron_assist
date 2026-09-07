@@ -22,8 +22,7 @@ class RonBraceMatcher : PairedBraceMatcher {
         lbraceType: IElementType,
         contextType: IElementType?,
     ): Boolean {
-        if (contextType == null) return true
-        return contextType !in DISALLOWED_CONTEXTS
+        return contextType == null || contextType !in DISALLOWED_CONTEXTS
     }
 
     /** Pair lookups start from the brace token itself, so no offset adjustment. */
