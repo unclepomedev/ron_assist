@@ -29,7 +29,7 @@ RON (Rust Object Notation) assist plugin for JetBrains IDEs (RustRover, IntelliJ
 * Spell checker
 
 ### Formatting
-* Formatter (indent and spacing rules)
+* Formatter (indent and spacing rules, optional trailing comma on multiline collections)
 * Code style settings page
 
 source code, quick usage and issue tracker: https://github.com/unclepomedev/ron_assist
@@ -59,6 +59,10 @@ that benefit from explicit pointers:
   warnings. Standard and raw strings (`"foo"` and `r"foo"`) count as
   equivalent for duplicate detection. Configure under
   `Settings → Editor → Inspections → RON`.
+
+- **Trailing Comma**: an opt-in formatter option to append trailing commas
+  to multiline lists, maps, structs, and tuples. Configure under
+  `Settings → Editor → Code Style → RON → Wrapping and Braces`.
 
 ## LICENSE
 
