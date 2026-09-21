@@ -1,0 +1,15 @@
+(
+    struct: (
+        r#type: 1,
+        target: 2,
+        r#zoo: 3,
+        apple: 4,
+    ),
+    map: {
+        r#"zebra"#: 1,
+        b"cherry": 2,
+        "date": 3,
+        r#banana: 4,
+        br#"apple"#: 5,
+    },
+)

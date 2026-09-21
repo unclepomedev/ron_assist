@@ -1,0 +1,15 @@
+-RON File
+ -(...)
+  -map
+   -{5}
+    br#"apple"#
+    r#banana
+    b"cherry"
+    "date"
+    r#"zebra"#
+  -struct
+   -(...)
+    apple
+    target
+    r#type
+    r#zoo

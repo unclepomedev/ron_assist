@@ -27,7 +27,7 @@ class RonDuplicateStructFieldInspection : LocalInspectionTool() {
                 val seen = HashSet<String>()
                 for (entry in RonPsiImplUtil.getStructEntries(element)) {
                     val nameIdentifier = RonPsiImplUtil.getNameIdentifier(entry) ?: continue
-                    val name = nameIdentifier.text.removePrefix("r#")
+                    val name = RonPsiImplUtil.normalizedIdentifier(nameIdentifier)
                     if (!seen.add(name)) {
                         holder.registerProblem(
                             nameIdentifier,
