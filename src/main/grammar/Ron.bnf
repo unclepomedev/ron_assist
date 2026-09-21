@@ -20,6 +20,8 @@
     RBRACK="]"
     COLON=":"
     COMMA=","
+    ATTRIBUTE_START="#!["
+    EQUALS="="
     TRUE="true"
     FALSE="false"
     SOME="Some"
@@ -39,7 +41,8 @@
   ]
 }
 
-ronFile ::= value
+ronFile ::= attribute* value
+attribute ::= ATTRIBUTE_START IDENTIFIER EQUALS string_val RBRACK { pin=1 }
 
 value ::= option
         | boolean

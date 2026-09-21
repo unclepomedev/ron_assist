@@ -14,6 +14,7 @@ RON (Rust Object Notation) assist plugin for JetBrains IDEs (RustRover, IntelliJ
 * Commenter (line and block comments)
 * Smart Enter processor (`Cmd+Shift+Enter` / `Ctrl+Shift+Enter`)
 * Live templates
+* Schema-based top-level field name completion for self-described RON files
 * Create File from Template
 
 ### Highlighting & display
@@ -63,6 +64,14 @@ that benefit from explicit pointers:
 - **Trailing Comma**: an opt-in formatter option to append trailing commas
   to multiline lists, maps, structs, and tuples. Configure under
   `Settings → Editor → Code Style → RON → Wrapping and Braces`.
+
+- **Self-described RON files**: add `#![type = "my_crate::config::Config"]` at
+  the top of a file to enable field name completion inside the top-level
+  struct. Place a schema describing the type at
+  `<schema dir>/my_crate/config/Config.schema.ron` (see [schema format](docs/schema.md#schema-format)).
+
+  Schema directory: `$RON_SCHEMA_DIR` if set, otherwise the OS-standard data
+  directory (see [details](docs/schema.md#schema-directory-resolution)).
 
 ## LICENSE
 
