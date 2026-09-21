@@ -48,6 +48,8 @@ INTEGER=-?(0x[0-9a-fA-F]+(_[0-9a-fA-F]+)*|0b[01]+(_[01]+)*|0o[0-7]+(_[0-7]+)*|[0
   "]"                 { return RonTypes.RBRACK; }
   ":"                 { return RonTypes.COLON; }
   ","                 { return RonTypes.COMMA; }
+  "#!["               { return RonTypes.ATTRIBUTE_START; }
+  "="                 { return RonTypes.EQUALS; }
 
   "true"              { return RonTypes.TRUE; }
   "false"             { return RonTypes.FALSE; }

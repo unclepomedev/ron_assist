@@ -6,6 +6,8 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor language="RON"
+                implementationClass="com.github.unclepomedev.ronassist.completion.RonSchemaCompletionContributor"/>
         <fileType
                 name="RON"
                 language="RON"
