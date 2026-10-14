@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+* Added support for parsing RON file header extension attributes (e.g. `#![enable(...)]`).
+
 ## [0.1.12] - 2026-09-03
 
 * Fixed deprecated DynamicBundle constructor usage (JetBrains API update)

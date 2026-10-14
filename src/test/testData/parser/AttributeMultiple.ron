@@ -1,0 +1,5 @@
+#![enable(implicit_some)]
+#![enable(unwrap_newtypes)]
+(
+    foo: 42,
+)

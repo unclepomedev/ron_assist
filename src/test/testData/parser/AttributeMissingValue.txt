@@ -1,0 +1,11 @@
+RON File
+  PsiElement(RonTokenType.#)('#')
+  PsiElement(RonTokenType.!)('!')
+  PsiElement(RonTokenType.[)('[')
+  PsiElement(RonTokenType.IDENTIFIER)('enable')
+  PsiElement(RonTokenType.()('(')
+  PsiElement(RonTokenType.IDENTIFIER)('implicit_some')
+  PsiElement(RonTokenType.))(')')
+  PsiElement(RonTokenType.])(']')
+  PsiErrorElement:<value> or RonTokenType.# expected
+    <empty list>

@@ -1,0 +1,5 @@
+#![broken(
+#![enable(implicit_some)]
+(
+    valid: true,
+)

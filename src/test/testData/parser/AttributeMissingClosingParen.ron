@@ -1,0 +1,4 @@
+#![enable(implicit_some]
+(
+    foo: 42,
+)
