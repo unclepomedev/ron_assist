@@ -50,6 +50,18 @@ class RonStructureViewTest : BasePlatformTestCase() {
         assertEquals("beta", betaElement.alphaSortKey)
     }
 
+    fun testValidElementPresentationAndProperties() {
+        myFixture.configureByText("test.ron", """{"key": 42}""")
+        val file = myFixture.file
+        val entry = PsiTreeUtil.findChildrenOfType(file, RonMapEntry::class.java).first()
+        val viewElement = RonStructureViewElement(entry)
+        assertEquals(entry, viewElement.element)
+        assertEquals("key", viewElement.alphaSortKey)
+        assertEquals("\"key\"", viewElement.presentableText)
+        assertEquals("= 42", viewElement.locationString)
+        assertNotNull(viewElement.getIcon(false))
+    }
+
     private fun doTest() {
         val testName = snakeCase(getTestName(true))
         myFixture.configureByFile("$testName.ron")

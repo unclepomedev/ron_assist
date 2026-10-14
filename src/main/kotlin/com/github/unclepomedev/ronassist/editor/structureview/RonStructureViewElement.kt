@@ -3,58 +3,44 @@ package com.github.unclepomedev.ronassist.editor.structureview
 import com.github.unclepomedev.ronassist.editor.RonPsiPresentation
 import com.github.unclepomedev.ronassist.icons.RonIcons
 import com.github.unclepomedev.ronassist.parser.RonFile
-import com.github.unclepomedev.ronassist.psi.RonList
-import com.github.unclepomedev.ronassist.psi.RonMap
-import com.github.unclepomedev.ronassist.psi.RonMapEntry
-import com.github.unclepomedev.ronassist.psi.RonStructEntry
-import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
-import com.github.unclepomedev.ronassist.psi.RonValue
+import com.github.unclepomedev.ronassist.psi.*
 import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
-import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
+import com.intellij.ide.structureView.impl.common.PsiTreeElementBase
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
-import com.intellij.ide.util.treeView.smartTree.TreeElement
-import com.intellij.navigation.ItemPresentation
-import com.intellij.pom.Navigatable
-import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import java.util.Locale
+import java.util.*
 import javax.swing.Icon
 
-class RonStructureViewElement(private val element: PsiElement) :
-    StructureViewTreeElement, SortableTreeElement, Navigatable {
-
-    override fun getValue(): Any = element
-
-    override fun navigate(requestFocus: Boolean) {
-        (element as? NavigatablePsiElement)?.navigate(requestFocus)
-    }
-
-    override fun canNavigate(): Boolean = (element as? NavigatablePsiElement)?.canNavigate() == true
-
-    override fun canNavigateToSource(): Boolean =
-        (element as? NavigatablePsiElement)?.canNavigateToSource() == true
-
+class RonStructureViewElement(psi: PsiElement) :
+    PsiTreeElementBase<PsiElement>(psi), SortableTreeElement {
     /**
      * Returns the key used by the alphabetical sorter. We strip surrounding quotes from string map
      * keys so that "alpha" sorts naturally next to a bare identifier alpha rather than under the
      * quote character.
      */
     override fun getAlphaSortKey(): String {
-        val label = RonPsiPresentation.primaryLabel(element)
+        val psi = element ?: return ""
+        val label = RonPsiPresentation.primaryLabel(psi)
         return label.removeSurrounding("\"").lowercase(Locale.ROOT)
     }
 
-    override fun getPresentation(): ItemPresentation {
-        val label =
-            if (element is RonFile) element.toString() else RonPsiPresentation.primaryLabel(element)
-        val location = RonPsiPresentation.locationPreview(element)
-        return PresentationData(label, location, iconFor(element), null)
+    override fun getPresentableText(): String {
+        val psi = element ?: return ""
+        return if (psi is RonFile) psi.toString() else RonPsiPresentation.primaryLabel(psi)
     }
 
-    override fun getChildren(): Array<TreeElement> =
-        collectChildren(element).map { RonStructureViewElement(it) }.toTypedArray()
+    override fun getLocationString(): String? = element?.let {
+        RonPsiPresentation.locationPreview(it)
+    }
+
+    override fun getIcon(open: Boolean): Icon? = element?.let { iconFor(it) }
+
+    override fun getChildrenBase(): Collection<StructureViewTreeElement> {
+        val psi = element ?: return emptyList()
+        return collectChildren(psi).map { RonStructureViewElement(it) }
+    }
 
     /**
      * Returns the displayable children of a node, recursing into nested containers while skipping

@@ -13,7 +13,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }
 
 repositories {
@@ -27,8 +27,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
 
     intellijPlatform {
-        intellijIdea("2026.1")
+        intellijIdea("2026.2")
         bundledPlugin("org.intellij.plugins.markdown")
+        bundledPlugin("intellij.structureView.plugin")
         bundledModule("intellij.spellchecker")
         testFramework(TestFrameworkType.Platform)
     }
