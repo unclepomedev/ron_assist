@@ -13,7 +13,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import java.util.*
 import javax.swing.Icon
 
-class RonStructureViewElement(private val psi: PsiElement) :
+class RonStructureViewElement(psi: PsiElement) :
     PsiTreeElementBase<PsiElement>(psi), SortableTreeElement {
     /**
      * Returns the key used by the alphabetical sorter. We strip surrounding quotes from string map
@@ -21,19 +21,26 @@ class RonStructureViewElement(private val psi: PsiElement) :
      * quote character.
      */
     override fun getAlphaSortKey(): String {
+        val psi = element ?: return ""
         val label = RonPsiPresentation.primaryLabel(psi)
         return label.removeSurrounding("\"").lowercase(Locale.ROOT)
     }
 
-    override fun getPresentableText(): String =
-        if (psi is RonFile) psi.toString() else RonPsiPresentation.primaryLabel(psi)
+    override fun getPresentableText(): String {
+        val psi = element ?: return ""
+        return if (psi is RonFile) psi.toString() else RonPsiPresentation.primaryLabel(psi)
+    }
 
-    override fun getLocationString(): String? = RonPsiPresentation.locationPreview(psi)
+    override fun getLocationString(): String? = element?.let {
+        RonPsiPresentation.locationPreview(it)
+    }
 
-    override fun getIcon(open: Boolean): Icon? = iconFor(psi)
+    override fun getIcon(open: Boolean): Icon? = element?.let { iconFor(it) }
 
-    override fun getChildrenBase(): Collection<StructureViewTreeElement> =
-        collectChildren(psi).map { RonStructureViewElement(it) }
+    override fun getChildrenBase(): Collection<StructureViewTreeElement> {
+        val psi = element ?: return emptyList()
+        return collectChildren(psi).map { RonStructureViewElement(it) }
+    }
 
     /**
      * Returns the displayable children of a node, recursing into nested containers while skipping
