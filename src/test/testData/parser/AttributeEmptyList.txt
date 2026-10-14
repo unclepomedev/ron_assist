@@ -1,0 +1,13 @@
+RON File
+  RonAttributeImpl(ATTRIBUTE)
+    PsiElement(RonTokenType.#)('#')
+    PsiElement(RonTokenType.!)('!')
+    PsiElement(RonTokenType.[)('[')
+    RonAttributeNameImpl(ATTRIBUTE_NAME)
+      PsiElement(RonTokenType.IDENTIFIER)('enable')
+    PsiElement(RonTokenType.()('(')
+    PsiElement(RonTokenType.))(')')
+    PsiElement(RonTokenType.])(']')
+  RonValueImpl(VALUE)
+    RonNumericImpl(NUMERIC)
+      PsiElement(RonTokenType.INTEGER)('42')

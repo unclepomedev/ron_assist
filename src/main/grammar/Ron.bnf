@@ -20,6 +20,8 @@
     RBRACK="]"
     COLON=":"
     COMMA=","
+    HASH="#"
+    EXCL="!"
     TRUE="true"
     FALSE="false"
     SOME="Some"
@@ -39,7 +41,14 @@
   ]
 }
 
-ronFile ::= value
+ronFile ::= attribute* value
+
+attribute ::= HASH EXCL LBRACK attribute_name LPAREN extension_list? RPAREN RBRACK
+              { pin=2 recoverWhile=attribute_recover }
+private attribute_recover ::= !(HASH | value_first)
+attribute_name ::= IDENTIFIER
+extension_list ::= extension_name (COMMA extension_name)* COMMA?
+extension_name ::= IDENTIFIER
 
 value ::= option
         | boolean

@@ -100,6 +100,27 @@ class RonLexerTest : LexerTestCase() {
         )
     }
 
+    fun testAttributeTokens() {
+        doTest(
+            "# ! [ enable ( implicit_some ) ]",
+            "RonTokenType.# ('#')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.! ('!')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.[ ('[')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.IDENTIFIER ('enable')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.( ('(')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.IDENTIFIER ('implicit_some')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.) (')')\n" +
+                "WHITE_SPACE (' ')\n" +
+                "RonTokenType.] (']')",
+        )
+    }
+
     fun testIncompleteString() {
         doTest(
             "\"hello",

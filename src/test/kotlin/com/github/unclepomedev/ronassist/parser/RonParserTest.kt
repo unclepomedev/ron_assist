@@ -24,4 +24,22 @@ class RonParserTest : RonParsingTestCaseBase() {
     fun testIncompleteMapEntry() = doTest(true)
 
     fun testIncompleteEntriesWithCommas() = doTest(true)
+
+    fun testExtensions() = doTest(true)
+
+    fun testAttributeMultiple() = doTest(true)
+
+    fun testAttributeMultipleExtensions() = doTest(true)
+
+    fun testAttributeTrailingComma() = doTest(true)
+
+    fun testAttributeEmptyList() = doTest(true)
+
+    fun testAttributeComments() = doTest(true)
+
+    fun testAttributeMissingClosingParen() = doTest(true)
+
+    fun testAttributeMissingValue() = doTest(true)
+
+    fun testAttributeRecovery() = doTest(true)
 }
