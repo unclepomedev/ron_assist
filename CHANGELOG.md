@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 * Added support for parsing RON file header extension attributes (e.g. `#![enable(...)]`).
+* Added support for additional floating-point literal forms.
 
 ## [0.1.12] - 2026-09-03
 
