@@ -46,4 +46,8 @@ class RonParserTest : RonParsingTestCaseBase() {
     fun testExtendedFloats() = doTest(true)
 
     fun testIncompleteFloats() = doTest(true)
+
+    fun testByteStrings() = doTest(true)
+
+    fun testIncompleteByteStrings() = doTest(true)
 }

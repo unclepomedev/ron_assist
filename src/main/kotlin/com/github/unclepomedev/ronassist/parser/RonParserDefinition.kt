@@ -28,7 +28,12 @@ class RonParserDefinition : ParserDefinition {
         TokenSet.create(RonTypes.LINE_COMMENT, RonTypes.BLOCK_COMMENT)
 
     override fun getStringLiteralElements(): TokenSet =
-        TokenSet.create(RonTypes.STRING, RonTypes.RAW_STRING)
+        TokenSet.create(
+            RonTypes.STRING,
+            RonTypes.BYTE_STRING,
+            RonTypes.RAW_STRING,
+            RonTypes.RAW_BYTE_STRING,
+        )
 
     override fun createElement(node: ASTNode?): PsiElement = RonTypes.Factory.createElement(node)
 

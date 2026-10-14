@@ -319,4 +319,51 @@ class RonLexerTest : LexerTestCase() {
                 .trimIndent(),
         )
     }
+
+    fun testByteStrings() {
+        doTest(
+            "b\"abc\" b\"\" b\"\\x00\" br\"raw\" br#\"x\"# br##\"x\"##",
+            """
+            RonTokenType.BYTE_STRING ('b"abc"')
+            WHITE_SPACE (' ')
+            RonTokenType.BYTE_STRING ('b""')
+            WHITE_SPACE (' ')
+            RonTokenType.BYTE_STRING ('b"\x00"')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_BYTE_STRING ('br"raw"')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_BYTE_STRING ('br#"x"#')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_BYTE_STRING ('br##"x"##')
+            """
+                .trimIndent(),
+        )
+    }
+
+    fun testByteStringPrefixIdentifiers() {
+        doTest(
+            "b br bar bytes",
+            """
+            RonTokenType.IDENTIFIER ('b')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('br')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('bar')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('bytes')
+            """
+                .trimIndent(),
+        )
+    }
+
+    fun testIncompleteByteStrings() {
+        doTest(
+            "b\"abc",
+            "RonTokenType.BYTE_STRING ('b\"abc')",
+        )
+        doTest(
+            "br#\"abc",
+            "RonTokenType.RAW_BYTE_STRING ('br#\"abc')",
+        )
+    }
 }
