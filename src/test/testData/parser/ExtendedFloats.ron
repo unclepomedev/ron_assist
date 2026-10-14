@@ -1,0 +1,21 @@
+(
+    struct_field: 1e3,
+    struct_field_exp_upper: 1E3,
+    struct_field_exp_neg: 1e-3,
+    struct_field_exp_sep: 1_0e3,
+    struct_field_dot_prefix: .5,
+    struct_field_dot_suffix: 1.,
+    struct_field_neg_inf: -inf,
+    struct_field_suffix: 1e3f32,
+    struct_field_hex: 0x1e3,
+    struct_field_ident_inf: inf,
+    struct_field_ident_nan: NaN,
+    list_val: [1e3, 1E3, 1e-3, 1_0e3, .5, 1., -inf, 1e3f32, 0x1e3, inf, NaN],
+    map_val: {
+        "a": 1e3,
+        "b": .5,
+        "c": 1.,
+        "d": -inf,
+        "e": 1e3f32,
+    },
+)

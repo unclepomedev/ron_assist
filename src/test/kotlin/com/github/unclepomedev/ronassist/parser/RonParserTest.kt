@@ -42,4 +42,8 @@ class RonParserTest : RonParsingTestCaseBase() {
     fun testAttributeMissingValue() = doTest(true)
 
     fun testAttributeRecovery() = doTest(true)
+
+    fun testExtendedFloats() = doTest(true)
+
+    fun testIncompleteFloats() = doTest(true)
 }

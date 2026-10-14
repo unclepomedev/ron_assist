@@ -234,4 +234,52 @@ class RonLexerTest : LexerTestCase() {
             "RonTokenType.RAW_STRING ('r#\"He said \"hello\"\"#')",
         )
     }
+
+    fun testExtendedFloatLiterals() {
+        doTest(
+            "1e3 1E3 1e-3 1_0e3 .5 1. -inf 1e3f32 0x1e3 inf NaN",
+            """
+            RonTokenType.FLOAT ('1e3')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('1E3')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('1e-3')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('1_0e3')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('.5')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('1.')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('-inf')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('1e3f32')
+            WHITE_SPACE (' ')
+            RonTokenType.INTEGER ('0x1e3')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('inf')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('NaN')
+            """
+                .trimIndent(),
+        )
+    }
+
+    fun testIncompleteFloatLiterals() {
+        doTest(
+            "1e 1e+ -in",
+            """
+            RonTokenType.INTEGER ('1')
+            RonTokenType.IDENTIFIER ('e')
+            WHITE_SPACE (' ')
+            RonTokenType.INTEGER ('1')
+            RonTokenType.IDENTIFIER ('e')
+            BAD_CHARACTER ('+')
+            WHITE_SPACE (' ')
+            BAD_CHARACTER ('-')
+            RonTokenType.IDENTIFIER ('in')
+            """
+                .trimIndent(),
+        )
+    }
 }
