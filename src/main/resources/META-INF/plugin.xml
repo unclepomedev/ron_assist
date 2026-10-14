@@ -4,6 +4,7 @@
     <vendor>unclepomedev</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>intellij.structureView.plugin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
