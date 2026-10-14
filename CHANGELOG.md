@@ -7,6 +7,7 @@
 * Dropped support for IntelliJ Platform 2026.1; the minimum supported version is now 2026.2 due to JetBrains platform API changes.
 * Added support for parsing RON file header extension attributes (e.g. `#![enable(...)]`).
 * Added support for additional floating-point literal forms.
+* Added support for byte string and raw byte string literals.
 
 ## [0.1.12] - 2026-09-03
 
