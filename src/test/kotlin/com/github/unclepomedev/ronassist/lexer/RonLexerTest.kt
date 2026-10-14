@@ -237,8 +237,14 @@ class RonLexerTest : LexerTestCase() {
 
     fun testExtendedFloatLiterals() {
         doTest(
-            "1e3 1E3 1e-3 1_0e3 .5 1. -inf 1e3f32 0x1e3 inf NaN",
+            "1.5E3 .5E3 1.5e3 1e3 1E3 1e-3 1_0e3 .5 1. -inf 1e3f32 0x1e3 inf NaN",
             """
+            RonTokenType.FLOAT ('1.5E3')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('.5E3')
+            WHITE_SPACE (' ')
+            RonTokenType.FLOAT ('1.5e3')
+            WHITE_SPACE (' ')
             RonTokenType.FLOAT ('1e3')
             WHITE_SPACE (' ')
             RonTokenType.FLOAT ('1E3')
@@ -265,6 +271,18 @@ class RonLexerTest : LexerTestCase() {
         )
     }
 
+    fun testNegativeInfinitySuffixSeparation() {
+        doTest(
+            "-inff32",
+            """
+            RonTokenType.FLOAT ('-inf')
+            RonTokenType.IDENTIFIER ('f32')
+            """
+                .trimIndent(),
+        )
+    }
+
+    // Characterization test: These are not a spec.
     fun testIncompleteFloatLiterals() {
         doTest(
             "1e 1e+ -in",
@@ -278,6 +296,25 @@ class RonLexerTest : LexerTestCase() {
             WHITE_SPACE (' ')
             BAD_CHARACTER ('-')
             RonTokenType.IDENTIFIER ('in')
+            """
+                .trimIndent(),
+        )
+    }
+
+    fun testIncompleteSimpleRawString() {
+        doTest(
+            "r\"unclosed",
+            "RonTokenType.RAW_STRING ('r\"unclosed')",
+        )
+    }
+
+    fun testIncompleteIntegerSignOnly() {
+        doTest(
+            "- 42",
+            """
+            BAD_CHARACTER ('-')
+            WHITE_SPACE (' ')
+            RonTokenType.INTEGER ('42')
             """
                 .trimIndent(),
         )
