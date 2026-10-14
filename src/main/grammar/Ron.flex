@@ -26,12 +26,41 @@ IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 // Required by SimpleTokenSetQuoteHandler auto-pairing, brace-matcher context detection, and parser error recovery.
 // STRING and CHAR are kept single-line to prevent the lexer from greedily merging with quotes on later lines.
 // Validation of malformed literals belongs in inspections, not here.
-STRING=\"([^\"\\\n\r]|\\.)*\"?
-RAW_STRING=r#+\"([^\"]|\"[^#])*(\"#+)? | r\"[^\"]*\"?
-CHAR='([^'\\\n\r]|\\.)?'?
+STRING_CONTENT=([^\"\\\n\r]|\\.)*
+STRING=\"{STRING_CONTENT}\"?
 
-FLOAT=-?[0-9]+(_[0-9]+)*\.([0-9]+(_[0-9]+)*)?(e[+-]?[0-9]+(_[0-9]+)*)?(f32|f64)?
-INTEGER=-?(0x[0-9a-fA-F]+(_[0-9a-fA-F]+)*|0b[01]+(_[01]+)*|0o[0-7]+(_[0-7]+)*|[0-9]+(_[0-9]+)*)(u8|u16|u32|u64|u128|i8|i16|i32|i64|i128|usize|isize)?
+RAW_STRING_HASHED=r#+\"([^\"]|\"[^#])*(\"#+)?
+RAW_STRING_SIMPLE=r\"[^\"]*\"?
+RAW_STRING=({RAW_STRING_HASHED}|{RAW_STRING_SIMPLE})
+
+CHAR_CONTENT=([^'\\\n\r]|\\.)
+CHAR='({CHAR_CONTENT})?'?
+
+DIGIT=[0-9]
+HEX_DIGIT=[0-9a-fA-F]
+OCT_DIGIT=[0-7]
+BIN_DIGIT=[01]
+
+DEC_DIGITS={DIGIT}+(_{DIGIT}+)*
+HEX_DIGITS={HEX_DIGIT}+(_{HEX_DIGIT}+)*
+OCT_DIGITS={OCT_DIGIT}+(_{OCT_DIGIT}+)*
+BIN_DIGITS={BIN_DIGIT}+(_{BIN_DIGIT}+)*
+
+EXPONENT_ANY=[eE][+-]?{DEC_DIGITS}
+FLOAT_SUFFIX=f32|f64
+INT_SUFFIX=u8|u16|u32|u64|u128|i8|i16|i32|i64|i128|usize|isize
+
+FLOAT_WITH_DOT=-?{DEC_DIGITS}\.({DEC_DIGITS})?({EXPONENT_ANY})?
+FLOAT_EXP_ONLY=-?{DEC_DIGITS}{EXPONENT_ANY}
+FLOAT_LEADING_DOT=-?\.{DEC_DIGITS}({EXPONENT_ANY})?
+FLOAT_NEG_INF=-inf
+FLOAT=({FLOAT_WITH_DOT}|{FLOAT_EXP_ONLY}|{FLOAT_LEADING_DOT})({FLOAT_SUFFIX})?
+
+INT_HEX=0x{HEX_DIGITS}
+INT_BIN=0b{BIN_DIGITS}
+INT_OCT=0o{OCT_DIGITS}
+INT_DEC={DEC_DIGITS}
+INTEGER=-?({INT_HEX}|{INT_BIN}|{INT_OCT}|{INT_DEC})({INT_SUFFIX})?
 
 %%
 
@@ -56,6 +85,7 @@ INTEGER=-?(0x[0-9a-fA-F]+(_[0-9a-fA-F]+)*|0b[01]+(_[01]+)*|0o[0-7]+(_[0-7]+)*|[0
   "Some"              { return RonTypes.SOME; }
   "None"              { return RonTypes.NONE; }
 
+  {FLOAT_NEG_INF}     { return RonTypes.FLOAT; }
   {FLOAT}             { return RonTypes.FLOAT; }
   {INTEGER}           { return RonTypes.INTEGER; }
   {STRING}            { return RonTypes.STRING; }

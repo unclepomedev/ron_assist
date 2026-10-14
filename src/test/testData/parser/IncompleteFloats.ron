@@ -1,0 +1,8 @@
+(
+    incomplete_exp: 1e,
+    trailing_val: 42,
+    incomplete_exp_plus: 1e+,
+    trailing_val2: 43,
+    incomplete_neg_ident: -in,
+    trailing_val3: 44,
+)
