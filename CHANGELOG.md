@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-15
+
 * Dropped support for IntelliJ Platform 2026.1; the minimum supported version is now 2026.2 due to JetBrains platform API changes.
 * Added support for parsing RON file header extension attributes (e.g. `#![enable(...)]`).
 * Added support for additional floating-point literal forms.
