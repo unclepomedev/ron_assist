@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 * Added support for byte strings in duplicate map key inspection and spell check.
+* Normalized element keys containing 'r' or 'b' to improve sorting and duplicate detection.
 
 ## [0.2.0] - 2026-10-15
 
