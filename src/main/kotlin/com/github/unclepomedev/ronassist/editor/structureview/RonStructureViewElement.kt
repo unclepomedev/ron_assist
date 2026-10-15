@@ -10,20 +10,18 @@ import com.intellij.ide.structureView.impl.common.PsiTreeElementBase
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import java.util.*
 import javax.swing.Icon
 
 class RonStructureViewElement(psi: PsiElement) :
     PsiTreeElementBase<PsiElement>(psi), SortableTreeElement {
     /**
-     * Returns the key used by the alphabetical sorter. We strip surrounding quotes from string map
-     * keys so that "alpha" sorts naturally next to a bare identifier alpha rather than under the
-     * quote character.
+     * Returns the key used by the alphabetical sorter. Strips surrounding quotes or string markers
+     * from string map keys and any `r#` prefix from raw identifiers so that they sort naturally
+     * next to their bare equivalents rather than under quote characters or prefixes.
      */
     override fun getAlphaSortKey(): String {
         val psi = element ?: return ""
-        val label = RonPsiPresentation.primaryLabel(psi)
-        return label.removeSurrounding("\"").lowercase(Locale.ROOT)
+        return RonPsiPresentation.sortKey(psi)
     }
 
     override fun getPresentableText(): String {

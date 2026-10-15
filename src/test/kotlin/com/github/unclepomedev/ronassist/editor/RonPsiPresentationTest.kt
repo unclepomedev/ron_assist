@@ -184,6 +184,102 @@ line" """,
         assertEquals("name = \"Reimu\"", RonPsiPresentation.tooltipFor(entry))
     }
 
+    fun testSortKeyMapEntries() {
+        myFixture.configureByText(
+            "test.ron",
+            """{
+                "Regular": 1,
+                r#"Raw"#: 2,
+                b"Byte": 3,
+                br#"RawByte"#: 4,
+                r#RawIdent: 5,
+                NormalIdent: 6,
+                42: 7,
+                true: 8,
+                "plain": 9,
+            }""",
+        )
+        val file = myFixture.file as RonFile
+        val entries = PsiTreeUtil.findChildrenOfType(file, RonMapEntry::class.java).toList()
+        assertEquals(9, entries.size)
+
+        assertEquals("regular", RonPsiPresentation.sortKey(entries[0]))
+        assertEquals("raw", RonPsiPresentation.sortKey(entries[1]))
+        assertEquals("byte", RonPsiPresentation.sortKey(entries[2]))
+        assertEquals("rawbyte", RonPsiPresentation.sortKey(entries[3]))
+        assertEquals("rawident", RonPsiPresentation.sortKey(entries[4]))
+        assertEquals("normalident", RonPsiPresentation.sortKey(entries[5]))
+        assertEquals("42", RonPsiPresentation.sortKey(entries[6]))
+        assertEquals("true", RonPsiPresentation.sortKey(entries[7]))
+        assertEquals("plain", RonPsiPresentation.sortKey(entries[8]))
+    }
+
+    fun testSortKeyStructAsMapKey() {
+        myFixture.configureByText(
+            "test.ron",
+            "{Foo(x: 1): 1}",
+        )
+        val file = myFixture.file as RonFile
+        val entry =
+            PsiTreeUtil.findChildOfType(file, RonMapEntry::class.java) ?: error("entry not found")
+        assertEquals("foo(...)", RonPsiPresentation.sortKey(entry))
+    }
+
+    fun testSortKeyMultilineStructAsMapKey() {
+        myFixture.configureByText(
+            "test.ron",
+            """{
+                Foo(
+                    x: 1,
+                    y: 2,
+                ): 1
+            }""",
+        )
+        val file = myFixture.file as RonFile
+        val entry =
+            PsiTreeUtil.findChildOfType(file, RonMapEntry::class.java) ?: error("entry not found")
+        val sortKey = RonPsiPresentation.sortKey(entry)
+        assertEquals("foo(...)", sortKey)
+        assertFalse(sortKey.contains('\n'))
+    }
+
+    fun testSortKeyIncompleteStringMapEntry() {
+        myFixture.configureByText(
+            "test.ron",
+            "{\n\"unclosed\n: 1\n}",
+        )
+        val file = myFixture.file as RonFile
+        val entry =
+            PsiTreeUtil.findChildOfType(file, RonMapEntry::class.java) ?: error("entry not found")
+        // stringContentRange returns null for unclosed string like "unclosed,
+        // so raw text is kept as-is and lowercased
+        assertEquals("\"unclosed", RonPsiPresentation.sortKey(entry))
+    }
+
+    fun testSortKeyStructEntriesAndNames() {
+        myFixture.configureByText(
+            "test.ron",
+            """(
+                r#MyStruct(r#my_field: 1, normal_field: 2),
+                (anon_field: 3),
+            )""",
+        )
+        val file = myFixture.file as RonFile
+        val structs = PsiTreeUtil.findChildrenOfType(file, RonStructOrTuple::class.java).toList()
+        // structs[0] is root anonymous tuple, structs[1] is r#MyStruct, structs[2] is anonymous
+        // tuple (anon_field: 3)
+        val namedStruct = structs[1]
+        val anonTuple = structs[2]
+
+        assertEquals("mystruct(...)", RonPsiPresentation.sortKey(namedStruct))
+        assertEquals("(...)", RonPsiPresentation.sortKey(anonTuple))
+
+        val entries = PsiTreeUtil.findChildrenOfType(file, RonStructEntry::class.java).toList()
+        assertEquals("my_field", RonPsiPresentation.sortKey(entries[0]))
+        assertEquals("normal_field", RonPsiPresentation.sortKey(entries[1]))
+        assertEquals("anon_field", RonPsiPresentation.sortKey(entries[2]))
+    }
+
     private fun assertPreview(
         content: String,
         primaryExpected: String,

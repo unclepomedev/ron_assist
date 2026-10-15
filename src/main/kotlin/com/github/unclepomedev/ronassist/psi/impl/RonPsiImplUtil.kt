@@ -75,4 +75,16 @@ object RonPsiImplUtil {
 
         return null
     }
+
+    /**
+     * Returns the normalized identifier name for a PSI element, stripping the `r#` prefix if the
+     * element's token type is [RonTypes.RAW_IDENTIFIER].
+     */
+    fun normalizedIdentifier(element: PsiElement): String {
+        return if (element.node.elementType == RonTypes.RAW_IDENTIFIER) {
+            element.text.removePrefix("r#")
+        } else {
+            element.text
+        }
+    }
 }

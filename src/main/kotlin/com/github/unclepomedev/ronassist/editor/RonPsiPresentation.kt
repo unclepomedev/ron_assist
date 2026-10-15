@@ -10,9 +10,11 @@ import com.github.unclepomedev.ronassist.psi.RonOption
 import com.github.unclepomedev.ronassist.psi.RonStringVal
 import com.github.unclepomedev.ronassist.psi.RonStructEntry
 import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
+import com.github.unclepomedev.ronassist.psi.RonTypes
 import com.github.unclepomedev.ronassist.psi.RonValue
 import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.psi.PsiElement
+import java.util.Locale
 
 /**
  * Shared presentation helpers for displaying RON PSI elements in trees, breadcrumbs, and other UI
@@ -49,6 +51,56 @@ object RonPsiPresentation {
             is RonStructEntry -> RonPsiImplUtil.getValue(element)?.let { "= ${previewValue(it)}" }
             else -> null
         }
+
+    /**
+     * Returns the key used by the alphabetical sorter. Strips surrounding quotes or string markers
+     * from string map keys and any `r#` prefix from raw identifiers so that they sort naturally
+     * next to their bare equivalents. Case folding is applied at the end.
+     */
+    fun sortKey(element: PsiElement): String {
+        val rawKey =
+            when (element) {
+                is RonMapEntry -> sortKeyForMapEntry(element)
+                is RonStructEntry -> sortKeyForStructEntry(element)
+                is RonStructOrTuple -> sortKeyForStructOrTuple(element)
+                else -> primaryLabel(element)
+            }
+        return rawKey.lowercase(Locale.ROOT)
+    }
+
+    private fun sortKeyForMapEntry(entry: RonMapEntry): String {
+        val key = RonPsiImplUtil.getKey(entry)
+        val keyVal = key?.firstChild
+        return if (keyVal is RonStringVal) {
+            val range = RonPsiImplUtil.stringContentRange(keyVal.text)
+            range?.substring(keyVal.text) ?: keyVal.text
+        } else {
+            val elementType = keyVal?.node?.elementType
+            if (elementType == RonTypes.IDENTIFIER || elementType == RonTypes.RAW_IDENTIFIER) {
+                RonPsiImplUtil.normalizedIdentifier(keyVal)
+            } else {
+                primaryLabel(entry)
+            }
+        }
+    }
+
+    private fun sortKeyForStructEntry(entry: RonStructEntry): String {
+        val nameIdentifier = RonPsiImplUtil.getNameIdentifier(entry)
+        return if (nameIdentifier != null) {
+            RonPsiImplUtil.normalizedIdentifier(nameIdentifier)
+        } else {
+            primaryLabel(entry)
+        }
+    }
+
+    private fun sortKeyForStructOrTuple(element: RonStructOrTuple): String {
+        val nameIdentifier = RonPsiImplUtil.getNameIdentifier(element)
+        return if (nameIdentifier != null) {
+            "${RonPsiImplUtil.normalizedIdentifier(nameIdentifier)}(...)"
+        } else {
+            "(...)"
+        }
+    }
 
     /** Renders a map entry's key, preferring a literal preview over raw text. */
     private fun renderMapKey(entry: RonMapEntry): String {

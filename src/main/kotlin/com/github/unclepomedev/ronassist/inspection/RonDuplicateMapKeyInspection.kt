@@ -2,7 +2,6 @@ package com.github.unclepomedev.ronassist.inspection
 
 import com.github.unclepomedev.ronassist.psi.RonMap
 import com.github.unclepomedev.ronassist.psi.RonStringVal
-import com.github.unclepomedev.ronassist.psi.RonTypes
 import com.github.unclepomedev.ronassist.psi.RonValue
 import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.codeInspection.LocalInspectionTool
@@ -55,12 +54,8 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
                 "$prefix${stripStringQuotes(child.text)}"
             }
             else -> {
-                val elementType = child?.node?.elementType
-                if (elementType == RonTypes.RAW_IDENTIFIER) {
-                    "raw:${key.text.removePrefix("r#")}"
-                } else {
-                    "raw:${key.text}"
-                }
+                val normalized = child?.let { RonPsiImplUtil.normalizedIdentifier(it) } ?: key.text
+                "raw:$normalized"
             }
         }
     }
