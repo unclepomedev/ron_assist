@@ -10,6 +10,7 @@
 * Added support for parsing RON file header extension attributes (e.g. `#![enable(...)]`).
 * Added support for additional floating-point literal forms.
 * Added support for byte string and raw byte string literals.
+* Added support for raw identifiers (`r#...`).
 
 ## [0.1.12] - 2026-09-03
 
