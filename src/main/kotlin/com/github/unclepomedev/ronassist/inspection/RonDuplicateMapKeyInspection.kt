@@ -43,12 +43,17 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
 
     /**
      * Computes a canonical key string so that equivalent literals collapse to the same form.
-     * Currently normalizes standard and raw strings, as well as raw identifiers; escape sequences
-     * and numeric bases are intentionally not normalized.
+     * Normalizes standard and raw strings, byte and raw byte strings, as well as raw identifiers;
+     * escape sequences and numeric bases are intentionally not normalized.
      */
     private fun canonicalKey(key: RonValue): String {
         return when (val child = key.firstChild) {
-            is RonStringVal -> "str:${stripStringQuotes(child.text)}"
+            is RonStringVal -> {
+                val prefix =
+                    if (child.byteString != null || child.rawByteString != null) "bytes:"
+                    else "str:"
+                "$prefix${stripStringQuotes(child.text)}"
+            }
             else -> {
                 val elementType = child?.node?.elementType
                 if (elementType == RonTypes.RAW_IDENTIFIER) {
