@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+* Added support for byte strings in duplicate map key inspection and spell check.
+
 ## [0.2.0] - 2026-10-15
 
 * Dropped support for IntelliJ Platform 2026.1; the minimum supported version is now 2026.2 due to JetBrains platform API changes.
