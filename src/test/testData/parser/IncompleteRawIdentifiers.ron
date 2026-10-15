@@ -1,0 +1,6 @@
+(
+    incomplete_hash: r#,
+    trailing_val: 42,
+    incomplete_hash2: r#,
+    trailing_val2: "ok",
+)

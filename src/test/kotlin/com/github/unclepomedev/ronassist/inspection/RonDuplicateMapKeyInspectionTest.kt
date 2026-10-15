@@ -41,6 +41,8 @@ class RonDuplicateMapKeyInspectionTest : BasePlatformTestCase() {
 
     fun testOptionKeyDuplicate() = doTest()
 
+    fun testRawIdentifierKeyDuplicate() = doTest()
+
     private fun doTest() {
         val name = getTestName(true)
         val snakeName = name.replace(Regex("([a-z])([A-Z])"), "$1_$2").lowercase()

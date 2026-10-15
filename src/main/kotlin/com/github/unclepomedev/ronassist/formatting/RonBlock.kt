@@ -102,6 +102,7 @@ class RonBlock(
                 RonTypes.LPAREN,
                 RonTypes.RPAREN,
                 RonTypes.IDENTIFIER,
+                RonTypes.RAW_IDENTIFIER,
                 RonTypes.SOME,
                 RonTypes.NONE,
             )

@@ -1,0 +1,6 @@
+(
+    r#type: 1,
+    <warning descr="Duplicate struct field">type</warning>: 2,
+    r#a.b: 1,
+    <warning descr="Duplicate struct field">r#a.b</warning>: 2,
+)

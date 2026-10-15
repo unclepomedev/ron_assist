@@ -13,6 +13,16 @@ class RonAnnotatorTest : BasePlatformTestCase() {
         assertEquals("Player", textOf(infos[0]))
     }
 
+    fun testRawIdentifierStructAndFieldNameHighlighted() {
+        myFixture.configureByText("test.ron", "r#Player(r#type: 1)")
+        val structInfos = highlightInfosWithKey(RonSyntaxHighlighter.STRUCT_NAME)
+        val fieldInfos = highlightInfosWithKey(RonSyntaxHighlighter.FIELD_NAME)
+        assertEquals(1, structInfos.size)
+        assertEquals("r#Player", textOf(structInfos[0]))
+        assertEquals(1, fieldInfos.size)
+        assertEquals("r#type", textOf(fieldInfos[0]))
+    }
+
     fun testFieldNameHighlighted() {
         myFixture.configureByText("test.ron", "Player(name: \"Reimu\", hp: 100)")
         val infos = highlightInfosWithKey(RonSyntaxHighlighter.FIELD_NAME)

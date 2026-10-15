@@ -81,7 +81,8 @@ class RonSyntaxHighlighter : SyntaxHighlighterBase() {
             RonTypes.CHAR -> CHAR_KEYS
             RonTypes.LINE_COMMENT -> LINE_COMMENT_KEYS
             RonTypes.BLOCK_COMMENT -> BLOCK_COMMENT_KEYS
-            RonTypes.IDENTIFIER -> IDENTIFIER_KEYS
+            RonTypes.IDENTIFIER,
+            RonTypes.RAW_IDENTIFIER -> IDENTIFIER_KEYS
             RonTypes.LBRACE,
             RonTypes.RBRACE -> BRACES_KEYS
             RonTypes.LBRACK,

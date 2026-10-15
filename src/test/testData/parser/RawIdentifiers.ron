@@ -1,0 +1,14 @@
+#![r#enable(r#implicit_some)]
+r#Foo(
+    r#type: 1,
+    r#a.b: 2,
+    normal_field: r#val,
+    map_field: {
+        r#key: r#map_val,
+        r#a.b: 3,
+    },
+    list_field: [
+        r#elem,
+        r#1,
+    ],
+)

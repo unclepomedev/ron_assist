@@ -1,6 +1,8 @@
 package com.github.unclepomedev.ronassist.editor.structureview
 
 import com.github.unclepomedev.ronassist.psi.RonMapEntry
+import com.github.unclepomedev.ronassist.psi.RonStructEntry
+import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.PlatformTestUtil
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
@@ -60,6 +62,21 @@ class RonStructureViewTest : BasePlatformTestCase() {
         assertEquals("\"key\"", viewElement.presentableText)
         assertEquals("= 42", viewElement.locationString)
         assertNotNull(viewElement.getIcon(false))
+    }
+
+    fun testRawIdentifierPresentationAndProperties() {
+        myFixture.configureByText("test.ron", """r#Player(r#type: 42)""")
+        val file = myFixture.file
+        val struct = PsiTreeUtil.findChildrenOfType(file, RonStructOrTuple::class.java).first()
+        val structElement = RonStructureViewElement(struct)
+        assertEquals("r#player(...)", structElement.alphaSortKey)
+        assertEquals("r#Player(...)", structElement.presentableText)
+
+        val entry = PsiTreeUtil.findChildrenOfType(file, RonStructEntry::class.java).first()
+        val entryElement = RonStructureViewElement(entry)
+        assertEquals("r#type", entryElement.alphaSortKey)
+        assertEquals("r#type", entryElement.presentableText)
+        assertEquals("= 42", entryElement.locationString)
     }
 
     private fun doTest() {

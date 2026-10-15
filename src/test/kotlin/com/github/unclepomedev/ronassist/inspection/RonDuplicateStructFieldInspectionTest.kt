@@ -29,6 +29,8 @@ class RonDuplicateStructFieldInspectionTest : BasePlatformTestCase() {
 
     fun testEmptyTuple() = doTest()
 
+    fun testRawIdentifierDuplicate() = doTest()
+
     private fun doTest() {
         val name = getTestName(true)
         val snakeName = name.replace(Regex("([a-z])([A-Z])"), "$1_$2").lowercase()

@@ -2,6 +2,7 @@ package com.github.unclepomedev.ronassist.inspection
 
 import com.github.unclepomedev.ronassist.psi.RonMap
 import com.github.unclepomedev.ronassist.psi.RonStringVal
+import com.github.unclepomedev.ronassist.psi.RonTypes
 import com.github.unclepomedev.ronassist.psi.RonValue
 import com.github.unclepomedev.ronassist.psi.impl.RonPsiImplUtil
 import com.intellij.codeInspection.LocalInspectionTool
@@ -42,13 +43,20 @@ class RonDuplicateMapKeyInspection : LocalInspectionTool() {
 
     /**
      * Computes a canonical key string so that equivalent literals collapse to the same form.
-     * Currently normalizes standard and raw strings; escape sequences and numeric bases are
-     * intentionally not normalized.
+     * Currently normalizes standard and raw strings, as well as raw identifiers; escape sequences
+     * and numeric bases are intentionally not normalized.
      */
     private fun canonicalKey(key: RonValue): String {
         return when (val child = key.firstChild) {
             is RonStringVal -> "str:${stripStringQuotes(child.text)}"
-            else -> "raw:${key.text}"
+            else -> {
+                val elementType = child?.node?.elementType
+                if (elementType == RonTypes.RAW_IDENTIFIER) {
+                    "raw:${key.text.removePrefix("r#")}"
+                } else {
+                    "raw:${key.text}"
+                }
+            }
         }
     }
 

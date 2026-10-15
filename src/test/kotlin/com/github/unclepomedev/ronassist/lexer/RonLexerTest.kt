@@ -366,4 +366,61 @@ class RonLexerTest : LexerTestCase() {
             "RonTokenType.RAW_BYTE_STRING ('br#\"abc')",
         )
     }
+
+    fun testRawIdentifiers() {
+        doTest(
+            "r#type r#_x1 r#a r#b r#a.b r#a+b r#a-b r#1x r#1",
+            """
+            RonTokenType.RAW_IDENTIFIER ('r#type')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#_x1')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#a')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#b')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#a.b')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#a+b')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#a-b')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#1x')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_IDENTIFIER ('r#1')
+            """
+                .trimIndent(),
+        )
+    }
+
+    fun testRawIdentifierPrefixAndSeparations() {
+        doTest(
+            "r r# raw rb",
+            """
+            RonTokenType.IDENTIFIER ('r')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('r')
+            RonTokenType.# ('#')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('raw')
+            WHITE_SPACE (' ')
+            RonTokenType.IDENTIFIER ('rb')
+            """
+                .trimIndent(),
+        )
+    }
+
+    fun testRawIdentifierDoesNotConflictWithRawStrings() {
+        doTest(
+            "r#\"x\"# r\"x\" br#\"x\"#",
+            """
+            RonTokenType.RAW_STRING ('r#"x"#')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_STRING ('r"x"')
+            WHITE_SPACE (' ')
+            RonTokenType.RAW_BYTE_STRING ('br#"x"#')
+            """
+                .trimIndent(),
+        )
+    }
 }
