@@ -5,9 +5,13 @@ import com.github.unclepomedev.ronassist.psi.RonStringVal
 import com.github.unclepomedev.ronassist.psi.RonStructEntry
 import com.github.unclepomedev.ronassist.psi.RonStructOrTuple
 import com.github.unclepomedev.ronassist.psi.RonTypes
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.spellchecker.inspections.Splitter
 import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy
+import com.intellij.spellchecker.tokenizer.TokenConsumer
 import com.intellij.spellchecker.tokenizer.Tokenizer
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
@@ -89,6 +93,43 @@ class RonSpellcheckingStrategyTest : BasePlatformTestCase() {
                 RonCharVal::class.java,
             ) ?: error("RonCharVal not found")
         assertEquals(SpellcheckingStrategy.EMPTY_TOKENIZER, strategy.getTokenizer(charVal))
+    }
+
+    fun testByteStringsTokenizerBehavior() {
+        myFixture.configureByText("test.ron", """{"b": b"hello world", "br": br#"hello world"#}""")
+        val strings =
+            PsiTreeUtil.findChildrenOfType(myFixture.file, RonStringVal::class.java).toList()
+        assertEquals(4, strings.size)
+
+        val byteString = strings[1]
+        val rawByteString = strings[3]
+
+        assertEquals(RonStringTokenizer, strategy.getTokenizer(byteString))
+        assertEquals(RonStringTokenizer, strategy.getTokenizer(rawByteString))
+
+        val consumedRanges = mutableListOf<TextRange>()
+        val consumer =
+            object : TokenConsumer() {
+                override fun consumeToken(
+                    element: PsiElement,
+                    text: String,
+                    useRename: Boolean,
+                    offset: Int,
+                    rangeToCheck: TextRange,
+                    splitter: Splitter,
+                ) {
+                    consumedRanges.add(rangeToCheck)
+                }
+            }
+
+        RonStringTokenizer.tokenize(byteString, consumer)
+        assertEquals(1, consumedRanges.size)
+        assertEquals(TextRange(2, 13), consumedRanges[0]) // b"hello world"
+
+        consumedRanges.clear()
+        RonStringTokenizer.tokenize(rawByteString, consumer)
+        assertEquals(1, consumedRanges.size)
+        assertEquals(TextRange(4, 15), consumedRanges[0]) // br#"hello world"#
     }
 
     private fun assertIsNotEmptyTokenizer(tokenizer: Tokenizer<*>) {

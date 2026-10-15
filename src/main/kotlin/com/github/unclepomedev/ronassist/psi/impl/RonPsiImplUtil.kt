@@ -48,23 +48,29 @@ object RonPsiImplUtil {
 
     /**
      * Returns the offsets (inside the element text) of the inner content of a string literal,
-     * excluding surrounding quotes and any raw-string `r`/`#` markers. Returns null when the text
-     * is not a recognizable string form.
+     * excluding surrounding quotes and any raw/byte-string `b`/`r`/`#` markers. Returns null when
+     * the text is not a recognizable string form.
      */
     fun stringContentRange(text: String): TextRange? {
         if (text.isEmpty()) return null
 
-        if (text.startsWith("r")) {
-            val firstQuote = text.indexOf('"')
-            val lastQuote = text.lastIndexOf('"')
+        var offset = 0
+        if (text.startsWith("b") && text.length > 1 && (text[1] == '"' || text[1] == 'r')) {
+            offset = 1
+        }
+
+        val sub = text.substring(offset)
+        if (sub.startsWith("r")) {
+            val firstQuote = sub.indexOf('"')
+            val lastQuote = sub.lastIndexOf('"')
             if (firstQuote in 1 until lastQuote) {
-                return TextRange(firstQuote + 1, lastQuote)
+                return TextRange(offset + firstQuote + 1, offset + lastQuote)
             }
             return null
         }
 
-        if (text.length >= 2 && text.first() == '"' && text.last() == '"') {
-            return TextRange(1, text.length - 1)
+        if (sub.length >= 2 && sub.first() == '"' && sub.last() == '"') {
+            return TextRange(offset + 1, offset + sub.length - 1)
         }
 
         return null
