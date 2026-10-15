@@ -74,6 +74,7 @@ class RonSyntaxHighlighterTest {
     fun testIdentifiers() {
         val expected = arrayOf(RonSyntaxHighlighter.IDENTIFIER)
         assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.IDENTIFIER))
+        assertArrayEquals(expected, highlighter.getTokenHighlights(RonTypes.RAW_IDENTIFIER))
     }
 
     @Test

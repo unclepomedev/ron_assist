@@ -50,4 +50,8 @@ class RonParserTest : RonParsingTestCaseBase() {
     fun testByteStrings() = doTest(true)
 
     fun testIncompleteByteStrings() = doTest(true)
+
+    fun testRawIdentifiers() = doTest(true)
+
+    fun testIncompleteRawIdentifiers() = doTest(true)
 }

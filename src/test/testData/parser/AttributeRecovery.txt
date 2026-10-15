@@ -6,7 +6,7 @@ RON File
     RonAttributeNameImpl(ATTRIBUTE_NAME)
       PsiElement(RonTokenType.IDENTIFIER)('broken')
     PsiElement(RonTokenType.()('(')
-    PsiErrorElement:RonTokenType.) or RonTokenType.IDENTIFIER expected, got '#'
+    PsiErrorElement:<extension list> or RonTokenType.) expected, got '#'
       <empty list>
   RonAttributeImpl(ATTRIBUTE)
     PsiElement(RonTokenType.#)('#')

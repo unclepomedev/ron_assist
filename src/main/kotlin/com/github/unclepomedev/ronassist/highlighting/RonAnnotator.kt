@@ -11,8 +11,9 @@ import com.intellij.psi.PsiElement
 class RonAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+        val elementType = element.node?.elementType
         when {
-            element.node?.elementType == RonTypes.IDENTIFIER -> {
+            elementType == RonTypes.IDENTIFIER || elementType == RonTypes.RAW_IDENTIFIER -> {
                 annotateIdentifier(element, holder)
             }
             element is RonList || element is RonMap || element is RonStructOrTuple -> {

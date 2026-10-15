@@ -3,9 +3,12 @@ package com.github.unclepomedev.ronassist.psi.impl
 import com.github.unclepomedev.ronassist.psi.*
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.PsiTreeUtil
 
 object RonPsiImplUtil {
+
+    private val IDENTIFIER_TOKENS = TokenSet.create(RonTypes.IDENTIFIER, RonTypes.RAW_IDENTIFIER)
 
     /** Returns all map entries inside a RonMap, preserving source order. */
     fun getEntries(map: RonMap): List<RonMapEntry> =
@@ -17,7 +20,7 @@ object RonPsiImplUtil {
 
     /** Returns the leading identifier of a struct/tuple, or null for anonymous tuples. */
     fun getNameIdentifier(element: RonStructOrTuple): PsiElement? =
-        element.node.findChildByType(RonTypes.IDENTIFIER)?.psi
+        element.node.findChildByType(IDENTIFIER_TOKENS)?.psi
 
     /** Returns all struct entries inside a RonStructOrTuple (empty for anonymous tuples). */
     fun getStructEntries(element: RonStructOrTuple): List<RonStructEntry> =
@@ -37,7 +40,7 @@ object RonPsiImplUtil {
 
     /** Returns the identifier of a struct entry (the name before the colon). */
     fun getNameIdentifier(entry: RonStructEntry): PsiElement? =
-        entry.node.findChildByType(RonTypes.IDENTIFIER)?.psi
+        entry.node.findChildByType(IDENTIFIER_TOKENS)?.psi
 
     /** Returns the value of a struct entry (the value after the colon). */
     fun getValue(entry: RonStructEntry): RonValue? =

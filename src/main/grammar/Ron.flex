@@ -21,6 +21,7 @@ LINE_COMMENT="//"[^\r\n]*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*\*+"/"
 
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
+RAW_IDENTIFIER=r#[a-zA-Z0-9_.+-]+
 
 // Intentionally permissive: closing delimiters are optional so the lexer produces a token while the user is still typing the literal.
 // Required by SimpleTokenSetQuoteHandler auto-pairing, brace-matcher context detection, and parser error recovery.
@@ -98,6 +99,7 @@ INTEGER=-?({INT_HEX}|{INT_BIN}|{INT_OCT}|{INT_DEC})({INT_SUFFIX})?
   {RAW_STRING}        { return RonTypes.RAW_STRING; }
   {RAW_BYTE_STRING}   { return RonTypes.RAW_BYTE_STRING; }
   {CHAR}              { return RonTypes.CHAR; }
+  {RAW_IDENTIFIER}    { return RonTypes.RAW_IDENTIFIER; }
   {IDENTIFIER}        { return RonTypes.IDENTIFIER; }
 
   [^]                 { return TokenType.BAD_CHARACTER; }

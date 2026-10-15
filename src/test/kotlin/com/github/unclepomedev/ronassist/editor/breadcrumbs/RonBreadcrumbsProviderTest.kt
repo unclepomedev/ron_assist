@@ -63,4 +63,19 @@ class RonBreadcrumbsProviderTest : BasePlatformTestCase() {
         assertEquals("name", provider.getElementInfo(entry))
         assertEquals("name = \"Reimu\"", provider.getElementTooltip(entry))
     }
+
+    fun testGetElementInfoAndTooltipWithRawIdentifier() {
+        myFixture.configureByText("test.ron", """r#Player(r#type: "Reimu")""")
+        val struct =
+            PsiTreeUtil.findChildOfType(myFixture.file, RonStructOrTuple::class.java)
+                ?: error("RonStructOrTuple not found")
+        assertEquals("r#Player(...)", provider.getElementInfo(struct))
+        assertEquals("r#Player with 1 field", provider.getElementTooltip(struct))
+
+        val entry =
+            PsiTreeUtil.findChildOfType(myFixture.file, RonStructEntry::class.java)
+                ?: error("RonStructEntry not found")
+        assertEquals("r#type", provider.getElementInfo(entry))
+        assertEquals("r#type = \"Reimu\"", provider.getElementTooltip(entry))
+    }
 }

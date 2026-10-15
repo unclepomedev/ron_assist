@@ -1,0 +1,6 @@
+{
+    r#type: 1,
+    <warning descr="Duplicate map key">type</warning>: 2,
+    r#a.b: 1,
+    <warning descr="Duplicate map key">r#a.b</warning>: 2,
+}

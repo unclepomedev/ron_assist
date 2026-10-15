@@ -35,6 +35,7 @@
     FLOAT
     INTEGER
     IDENTIFIER
+    RAW_IDENTIFIER
     LINE_COMMENT="regexp://.*"
     BLOCK_COMMENT="regexp:/\*([^*]|\*+[^*/])*\*+/"
   ]
@@ -45,9 +46,9 @@ ronFile ::= attribute* value
 attribute ::= HASH EXCL LBRACK attribute_name LPAREN extension_list? RPAREN RBRACK
               { pin=2 recoverWhile=attribute_recover }
 private attribute_recover ::= !(HASH | value_first)
-attribute_name ::= IDENTIFIER
+attribute_name ::= IDENTIFIER | RAW_IDENTIFIER
 extension_list ::= extension_name (COMMA extension_name)* COMMA?
-extension_name ::= IDENTIFIER
+extension_name ::= IDENTIFIER | RAW_IDENTIFIER
 
 value ::= option
         | boolean
@@ -58,6 +59,7 @@ value ::= option
         | map
         | struct_or_tuple
         | IDENTIFIER
+        | RAW_IDENTIFIER
 
 boolean ::= TRUE | FALSE
 option ::= SOME LPAREN value RPAREN | NONE
@@ -68,7 +70,7 @@ char_val ::= CHAR
 list ::= LBRACK value_list? RBRACK
 private value_list ::= value (COMMA? value)* COMMA?
 
-private value_first ::= IDENTIFIER | STRING | BYTE_STRING | RAW_STRING | RAW_BYTE_STRING | CHAR | FLOAT | INTEGER | TRUE | FALSE | SOME | NONE | LBRACK | LBRACE | LPAREN
+private value_first ::= IDENTIFIER | RAW_IDENTIFIER | STRING | BYTE_STRING | RAW_STRING | RAW_BYTE_STRING | CHAR | FLOAT | INTEGER | TRUE | FALSE | SOME | NONE | LBRACK | LBRACE | LPAREN
 
 map ::= LBRACE map_entry_list? RBRACE
 private map_entry_list ::= map_entry (COMMA? map_entry)* COMMA?
@@ -78,13 +80,13 @@ private map_entry_list ::= map_entry (COMMA? map_entry)* COMMA?
 map_entry ::= value COLON value { pin=1 recoverWhile=map_entry_recover }
 private map_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK | value_first)
 
-struct_or_tuple ::= IDENTIFIER? LPAREN entries? RPAREN
+struct_or_tuple ::= (IDENTIFIER | RAW_IDENTIFIER)? LPAREN entries? RPAREN
 private entries ::= struct_entries | tuple_entries
 private struct_entries ::= struct_entry_first (COMMA? struct_entry)* COMMA?
 
 // The first entry uses pin=2 to differentiate structs from tuples.
 // Subsequent entries use pin=1 to preserve AST structure even if colons or commas are missing.
-struct_entry_first ::= IDENTIFIER COLON value { elementType=struct_entry pin=2 recoverWhile=struct_entry_recover }
-struct_entry ::= IDENTIFIER COLON value { pin=1 recoverWhile=struct_entry_recover }
-private struct_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK | IDENTIFIER)
+struct_entry_first ::= (IDENTIFIER | RAW_IDENTIFIER) COLON value { elementType=struct_entry pin=2 recoverWhile=struct_entry_recover }
+struct_entry ::= (IDENTIFIER | RAW_IDENTIFIER) COLON value { pin=1 recoverWhile=struct_entry_recover }
+private struct_entry_recover ::= !(COMMA | RPAREN | RBRACE | RBRACK | IDENTIFIER | RAW_IDENTIFIER)
 private tuple_entries ::= value (COMMA? value)* COMMA?
