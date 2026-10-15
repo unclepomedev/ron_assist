@@ -28,7 +28,9 @@
     NONE="None"
 
     STRING
+    BYTE_STRING
     RAW_STRING
+    RAW_BYTE_STRING
     CHAR
     FLOAT
     INTEGER
@@ -60,13 +62,13 @@ value ::= option
 boolean ::= TRUE | FALSE
 option ::= SOME LPAREN value RPAREN | NONE
 numeric ::= FLOAT | INTEGER
-string_val ::= STRING | RAW_STRING
+string_val ::= STRING | BYTE_STRING | RAW_STRING | RAW_BYTE_STRING
 char_val ::= CHAR
 
 list ::= LBRACK value_list? RBRACK
 private value_list ::= value (COMMA? value)* COMMA?
 
-private value_first ::= IDENTIFIER | STRING | RAW_STRING | CHAR | FLOAT | INTEGER | TRUE | FALSE | SOME | NONE | LBRACK | LBRACE | LPAREN
+private value_first ::= IDENTIFIER | STRING | BYTE_STRING | RAW_STRING | RAW_BYTE_STRING | CHAR | FLOAT | INTEGER | TRUE | FALSE | SOME | NONE | LBRACK | LBRACE | LPAREN
 
 map ::= LBRACE map_entry_list? RBRACE
 private map_entry_list ::= map_entry (COMMA? map_entry)* COMMA?

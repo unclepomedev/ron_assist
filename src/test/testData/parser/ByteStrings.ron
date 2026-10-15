@@ -1,0 +1,14 @@
+(
+    struct_field: b"hello",
+    struct_field_raw: br#"raw bytes"#,
+    struct_field_raw_simple: br"simple raw bytes",
+    list_val: [
+        b"first",
+        br#"second"#,
+        b"\x00\x01",
+    ],
+    map_val: {
+        b"key1": b"val1",
+        br#"key2"#: br#"val2"#,
+    },
+)

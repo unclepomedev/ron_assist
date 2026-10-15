@@ -40,7 +40,9 @@ private val PAIRS =
 private val DISALLOWED_CONTEXTS =
     setOf(
         RonTypes.STRING,
+        RonTypes.BYTE_STRING,
         RonTypes.RAW_STRING,
+        RonTypes.RAW_BYTE_STRING,
         RonTypes.CHAR,
         RonTypes.LINE_COMMENT,
         RonTypes.BLOCK_COMMENT,

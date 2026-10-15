@@ -28,10 +28,15 @@ IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 // Validation of malformed literals belongs in inspections, not here.
 STRING_CONTENT=([^\"\\\n\r]|\\.)*
 STRING=\"{STRING_CONTENT}\"?
+BYTE_STRING=b\"{STRING_CONTENT}\"?
 
 RAW_STRING_HASHED=r#+\"([^\"]|\"[^#])*(\"#+)?
 RAW_STRING_SIMPLE=r\"[^\"]*\"?
 RAW_STRING=({RAW_STRING_HASHED}|{RAW_STRING_SIMPLE})
+
+RAW_BYTE_STRING_HASHED=b{RAW_STRING_HASHED}
+RAW_BYTE_STRING_SIMPLE=b{RAW_STRING_SIMPLE}
+RAW_BYTE_STRING=({RAW_BYTE_STRING_HASHED}|{RAW_BYTE_STRING_SIMPLE})
 
 CHAR_CONTENT=([^'\\\n\r]|\\.)
 CHAR='({CHAR_CONTENT})?'?
@@ -89,7 +94,9 @@ INTEGER=-?({INT_HEX}|{INT_BIN}|{INT_OCT}|{INT_DEC})({INT_SUFFIX})?
   {FLOAT}             { return RonTypes.FLOAT; }
   {INTEGER}           { return RonTypes.INTEGER; }
   {STRING}            { return RonTypes.STRING; }
+  {BYTE_STRING}       { return RonTypes.BYTE_STRING; }
   {RAW_STRING}        { return RonTypes.RAW_STRING; }
+  {RAW_BYTE_STRING}   { return RonTypes.RAW_BYTE_STRING; }
   {CHAR}              { return RonTypes.CHAR; }
   {IDENTIFIER}        { return RonTypes.IDENTIFIER; }
 

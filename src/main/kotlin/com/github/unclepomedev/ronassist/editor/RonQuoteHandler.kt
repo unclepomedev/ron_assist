@@ -8,7 +8,9 @@ class RonQuoteHandler :
     SimpleTokenSetQuoteHandler(
         TokenSet.create(
             RonTypes.STRING,
+            RonTypes.BYTE_STRING,
             RonTypes.RAW_STRING,
+            RonTypes.RAW_BYTE_STRING,
             RonTypes.CHAR,
         )
     )

@@ -74,8 +74,10 @@ class RonSyntaxHighlighter : SyntaxHighlighterBase() {
             RonTypes.NONE -> KEYWORD_KEYS
             RonTypes.FLOAT,
             RonTypes.INTEGER -> NUMBER_KEYS
-            RonTypes.STRING -> STRING_KEYS
-            RonTypes.RAW_STRING -> RAW_STRING_KEYS
+            RonTypes.STRING,
+            RonTypes.BYTE_STRING -> STRING_KEYS
+            RonTypes.RAW_STRING,
+            RonTypes.RAW_BYTE_STRING -> RAW_STRING_KEYS
             RonTypes.CHAR -> CHAR_KEYS
             RonTypes.LINE_COMMENT -> LINE_COMMENT_KEYS
             RonTypes.BLOCK_COMMENT -> BLOCK_COMMENT_KEYS

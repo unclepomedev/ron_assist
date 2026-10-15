@@ -32,6 +32,10 @@ class RonSyntaxHighlighterTest {
             arrayOf(RonSyntaxHighlighter.STRING),
             highlighter.getTokenHighlights(RonTypes.STRING),
         )
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.STRING),
+            highlighter.getTokenHighlights(RonTypes.BYTE_STRING),
+        )
     }
 
     @Test
@@ -39,6 +43,10 @@ class RonSyntaxHighlighterTest {
         assertArrayEquals(
             arrayOf(RonSyntaxHighlighter.RAW_STRING),
             highlighter.getTokenHighlights(RonTypes.RAW_STRING),
+        )
+        assertArrayEquals(
+            arrayOf(RonSyntaxHighlighter.RAW_STRING),
+            highlighter.getTokenHighlights(RonTypes.RAW_BYTE_STRING),
         )
     }
 

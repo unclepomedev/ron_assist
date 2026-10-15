@@ -1,0 +1,12 @@
+RON File
+  RonValueImpl(VALUE)
+    RonListImpl(LIST)
+      PsiElement(RonTokenType.[)('[')
+      RonValueImpl(VALUE)
+        RonStringValImpl(STRING_VAL)
+          PsiElement(RonTokenType.BYTE_STRING)('b"unclosed,')
+      RonValueImpl(VALUE)
+        RonNumericImpl(NUMERIC)
+          PsiElement(RonTokenType.INTEGER)('42')
+      PsiElement(RonTokenType.,)(',')
+      PsiElement(RonTokenType.])(']')
